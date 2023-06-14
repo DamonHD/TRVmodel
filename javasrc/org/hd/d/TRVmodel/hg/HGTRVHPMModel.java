@@ -1,5 +1,7 @@
+package org.hd.d.TRVmodel.hg;
+
 /**
- * Recreating and generalising the heat-pump / TRV / energy interactions from Heat Geek's page:
+ * Recreation of the heat-pump / TRV / energy interactions from Heat Geek's page:
  * <a href="https://www.heatgeek.com/why-not-to-zone-heat-pumps-or-boilers/">https://www.heatgeek.com/why-not-to-zone-heat-pumps-or-boilers/</a>
  * as of ~2023-06.
  * <p>
@@ -8,4 +10,10 @@
  * <p>
  * This is a simple model, mirroring the page above.
  */
-package org.hd.d.TRVmodel.hg;
+public final class HGTRVHPMModel
+ 	{
+	/**Prevent creation of an instance. */
+    private HGTRVHPMModel() { }
+
+
+ 	}
