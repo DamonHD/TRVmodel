@@ -8,6 +8,8 @@ package org.hd.d.TRVmodel.hg;
  * This is examining if turning down TRVs in unused rooms saves energy or not,
  * as is commonly assumed eg with gas-fired heating.
  * <p>
+ * Many thanks to Heat Geek for making this analysis and explanation available.
+ * <p>
  * This is a simple model, mirroring the page above.
  * <p>
  * This model is steady-state, ie in temperature equilibrium.
@@ -36,6 +38,10 @@ package org.hd.d.TRVmodel.hg;
  * to a heat pump to maintain the specified steady state,
  * taking into account implied flow water temperatures
  * and the heat-pump CoP to reach those flow temperatures.
+ * <p>
+ * <blockquote>
+ * To keep the maths simple, each room has a 500 W heat loss at design outside temperature of -3&deg;C or 2 kW in total with a room temperature of 21&deg;C. They are also each fitted with a mean water-to-air temperature DT25 radiator, meaning that each radiator will output 500 W, when its average surface temperature is 25&deg;C above the room temperature.
+ * </blockquote>
  */
 public final class HGTRVHPMModel
  	{
