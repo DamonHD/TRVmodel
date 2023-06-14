@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+
+<!--
+Copyright (c) 2023, Damon Hart-Davis
+
+Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+
+<!-- ======================================================================= -->
+<!-- Stand-alone 'daemon' app.                                               -->
+<!-- ======================================================================= -->
+
+<!-- Use Ant 1.6 or newer. -->
+
+<!-- All code runs under JDK 18. -->
+
+<!--
+
+    Expects JUnit 3.8.1 or newer.
+  -->
+
+<project name="TRVmodel" default="init" basedir=".">
+
+    <property name="app.name" value="TRVmodel"/>
+    <property name="app.version.major" value="0"/>
+    <property name="app.version.minor" value="0"/>
+    <property name="app.version.micro" value="0"/>
+    <property name="app.version" value="${app.version.major}.${app.version.minor}.${app.version.micro}"/>
+    <!-- Version excluding the "micro" portion, thus reflecting only significant API/functionality changes. -->
+    <property name="app.version.notmicro" value="${app.version.major}.${app.version.minor}"/>
+
+    <property name="dist.jar" value="${app.name}-${app.version}.jar"/>
+
+    <!-- Target/minimum JDK/JSE version for build and run. -->
+    <property name="JDKVER" value="18"/>
+
+    <!-- Stub names, used in source and output dirs and package names. -->
+    <!-- This is core code. -->
+    <property name="core" value="core"/>
+
+    <!-- The base dir of the Java source. -->
+    <property name="jsrc.base.dir" value="javasrc"/>
+    <property name="core.src.dir" value="${jsrc.base.dir}"/>
+	<!-- The base dir of the Java unit tests. -->
+    <property name="test.src.dir" value="test/javasrc/localtest"/>
+
+
+    <property name="dirsuffix.dbg" value="_D"/>
+    <property name="dirsuffix.opt" value="_O"/>
+    <property name="build.dir.base" value="out"/>
+    <property name="build.dir.dbg" value="../${build.dir.base}${dirsuffix.dbg}"/>
+    <property name="build.dir.opt" value="../${build.dir.base}${dirsuffix.opt}"/>
+    <!-- Build dir for common (non-opt, non-dbg) items. -->
+    <property name="build.dir.cmn" value="../${build.dir.base}_C"/>
+
+    <!-- General temporary work directory. -->
+    <property name="tmp.workdir" value="work.tmp"/>
+
+    <!-- Basic class path we compile against; includes any external libs. -->
+    <!-- <property name="cp.common.basic" value="lib/example.jar"/> -->
+    <property name="cp.common.basic" value=""/>
+    <!-- Provided in debug/non-debug versions. -->
+    <!-- Expects cp.J2EEAPI to contain a classpath fragment for the J2EE API. -->
+    <property name="cp.dbg.basic" value="${cp.common.basic}"/>
+    <property name="cp.opt.basic" value="${cp.common.basic}"/>
+
+    <!-- Class path for libs that may run against; includes any external (non-test) libs. -->
+    <!-- <property name="cp.common.rt" value="lib/rtexample1.jar:lib/rtexample2.jar"/> -->
+    <property name="cp.common.rt" value=""/>
+	
+	<!-- Test-only library area. -->
+    <property name="test.lib.dir" value="test/lib"/>
+	<!-- JUnit JAR name -->
+    <property name="test.junit.jar" value="junit-4.13.2.jar"/>
+
+
+
+    <!--Place where javadoc is built. -->
+    <property name="javadoc.dir" value="${build.dir.cmn}/javadoc"/>
+	
+	<!-- ProGuard static optimiser/shrunker.  -->
+	<property name="pg.dir" value="../proguard/" />
+	<taskdef resource="proguard/ant/task.properties"
+	         classpath="${pg.dir}/lib/proguard-ant.jar" />
+	
+
+    <!-- General initialisation target. -->
+    <target name="init">
+        <tstamp/>
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- Prepares the core build directories, debug and optimised            -->
+    <!-- =================================================================== -->
+    <!-- DBG -->
+    <target name="core.prepare.dbg.testuptodate">
+        <!-- Claim that the JAR target is up-to-date if its source files are. -->
+        <uptodate property="core.jar.dbg.uptodate"
+            targetfile="${build.dir.dbg}/${core.jar}">
+            <srcfiles dir="${core.src.dir}" includes="**/*.java"/>
+            <!-- <srcfiles dir="${ai.src.dir}" includes="**/*.java"/> -->
+            <!-- <srcfiles dir="${tp.src.dir}" includes="**/*.java"/> -->
+        </uptodate>
+    </target>
+    <target name="core.prepare.dbg"
+        depends="init,core.prepare.dbg.testuptodate"
+        unless="core.jar.dbg.uptodate">
+        <delete file="${build.dir.dbg}/${core.jar}" quiet="true"/>
+        <mkdir dir="${build.dir.dbg}/${tmp.workdir}/${core}"/>
+        <delete file="${build.dir.dbg}/.tmp.${core.jar}" quiet="true"/>
+    </target>
+
+    <!-- OPT -->
+    <!-- This is extra strict and cleans everything out before starting. -->
+    <target name="core.prepare.opt"
+        depends="init">
+        <!-- Make sure that the working dir is clear of cached state. -->
+        <delete dir="${build.dir.opt}" quiet="true"/>
+        <mkdir dir="${build.dir.opt}/${tmp.workdir}/${core}"/>
+        <delete file="${build.dir.opt}/.tmp.${core.jar}" quiet="true"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Compiles the core source code, debug and optimised                  -->
+    <!-- =================================================================== -->
+    <!-- DBG -->
+    <target name="core.compile.dbg"
+        depends="core.prepare.dbg"
+        unless="core.jar.dbg.uptodate">
+        <javac srcdir="${core.src.dir}"
+            destdir="${build.dir.dbg}/${tmp.workdir}/${core}"
+            classpath="${cp.dbg.basic}"
+        	includeantruntime="false"
+            debug="on"
+            deprecation="on"
+            optimize="off">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- OPT -->
+    <target name="core.compile.opt"
+        depends="core.prepare.opt">
+        <javac srcdir="${core.src.dir}"
+            destdir="${build.dir.opt}/${tmp.workdir}/${core}"
+            classpath="${cp.opt.basic}"
+        	includeantruntime="false"
+            debug="on"
+            deprecation="on"
+            optimize="on">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- JARs the core source code, debug and optimised                      -->
+    <!-- =================================================================== -->
+    <!-- DBG -->
+    <target name="core.jar.dbg"
+        depends="core.compile.dbg"
+        unless="core.jar.dbg.uptodate"
+        description="builds the debug core classes JAR shared by all other app components">
+        <jar jarfile="${build.dir.dbg}/${core.jar}"
+            basedir="${build.dir.dbg}/${tmp.workdir}/${core}">
+            <include name="org/hd/**/*.class"/>
+            <manifest>
+                <attribute name="Main-Class" value="org.hd.d.TRVmodel.Main"/>
+                <!-- <attribute name="Class-Path" value="${cp.common.basic}"/> -->
+            </manifest>   
+        </jar>
+    </target>
+
+    <!-- OPT -->
+    <target name="core.jar.opt"
+        depends="core.compile.opt"
+        description="builds the optimised/release core classes JAR shared by all other app components">
+        <jar jarfile="${build.dir.opt}/${dist.jar}"
+            basedir="${build.dir.opt}/${tmp.workdir}/${core}">
+            <!-- <zipgroupfileset dir="libs" includes="*.jar" excludes=""/> -->
+            <include name="org/hd/**/*.class"/>   
+            <manifest>
+                <attribute name="Main-Class" value="org.hd.d.TRVmodel.Main"/>
+                <!-- <attribute name="Class-Path" value="${cp.common.basic}"/> -->
+            </manifest>
+        </jar>
+     <echo message="Release JAR now at ${build.dir.opt}/${dist.jar} ..." />   
+    </target>
+
+	
+    <!-- =================================================================== -->
+    <!-- Tests the core source code, debug and optimised                     -->
+    <!-- =================================================================== -->
+    <!-- OPT -->
+    <target name="core.test.opt"
+        depends="core.compile.opt">
+    	
+    	<!-- Compile the test cases -->
+        <mkdir dir="${build.dir.opt}/${tmp.workdir}/test"/>
+        <javac srcdir="${test.src.dir}"
+            destdir="${build.dir.opt}/${tmp.workdir}/test"
+            classpath="${build.dir.opt}/${tmp.workdir}/core;${cp.opt.basic};${test.lib.dir}/${test.junit.jar}"
+        	includeantruntime="false"
+            debug="on"
+            deprecation="on"
+            optimize="on">
+            <include name="**/*.java"/>
+        </javac>
+
+        <mkdir dir="${build.dir.opt}/testResults"/>
+    	<junit printsummary="yes" haltonfailure="yes">
+    	    <classpath>
+    	        <pathelement path="${test.lib.dir}/${test.junit.jar}"/>
+    	        <pathelement location="${build.dir.opt}/${tmp.workdir}/core"/>
+    	        <pathelement location="${build.dir.opt}/${tmp.workdir}/test"/>
+    	    </classpath>
+
+    	    <formatter type="plain"/>
+
+    		<!--
+    	    <test name="localtest.TestMisc" haltonfailure="yes" outfile="${build.dir.opt}/junit_result">
+    	        <formatter type="plain"/>
+    	    </test>
+    	    -->
+
+    	    <batchtest fork="yes" todir="${build.dir.opt}/testResults">
+    	        <fileset dir="${build.dir.opt}/${tmp.workdir}/test">
+    	            <include name="localtest/*.class"/>
+    	        </fileset>
+    	    </batchtest>
+    		
+    	</junit>  	
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- Prepares the javadoc snapshot; dbg/opt-independent...               -->
+    <!-- =================================================================== -->
+    <target name="jar.javadoc.testuptodate">
+        <!-- Claim that the JAR target is up-to-date if its source files/JARs are. -->
+        <uptodate property="jar.javadoc.uptodate"
+            targetfile="${javadoc.dir}/index.html">
+            <srcfiles dir="${jsrc.base.dir}"/>
+        </uptodate>
+    </target>
+    <!--Build javadoc, identically for debug and optimised; rebuild only if source changes so as to save time. -->
+    <target name="jar.javadoc"
+        depends="jar.javadoc.testuptodate"
+        description="builds a javadoc JAR"
+        unless="jar.javadoc.uptodate">
+        <delete dir="${javadoc.dir}" quiet="true"/>
+        <mkdir dir="${javadoc.dir}"/>
+        <javadoc
+            destdir="${javadoc.dir}"
+            classpath="${cp.opt.basic}"
+            access="private"
+            verbose="false"
+            windowtitle="TRVmodel V${app.version} Javadoc"
+            overview="${jsrc.base.dir}/javadoc-overview.html"
+            linksource="true"
+            >
+            <fileset dir="${core.src.dir}"/>
+
+            <header><![CDATA[
+<a href="http://d.hd.org/" target="_top">TRVmodel</a> V${app.version}<br />
+                            ]]></header>
+            <footer>TRVmodel V${app.version}</footer>
+            <bottom>Copyright (c) 2023, Damon Hart-Davis.</bottom>
+        </javadoc>
+    </target>
+
+
+
+
+
+
+
+    <!-- =================================================================== -->
+    <!-- Builds debug and optimised code from scratch, and tests it.         -->
+    <!-- =================================================================== -->
+    <target name="all"
+    	depends="clean,core.test.opt,core.jar.opt"
+        description="cleans, then does optimised/release build and test">
+        <echo message="Builds and tests complete."/>
+    </target>
+    <!-- depends="clean,core.jar.opt,src.snapshot" -->
+    <!-- depends="clean,core.jar.opt,core.jar.edhMainsuperopt,src.snapshot" -->
+
+    <!-- =================================================================== -->
+    <!-- Cleans up generated intermediate stuff                              -->
+    <!-- =================================================================== -->
+    <target name="clean"
+        description="cleans up all generated files and cached state">
+        <echo message="Doing cleanup of all build dirs..."/>
+    	<parallel>
+	        <delete dir="${test.install.cache.dir}" quiet="true"/> <!-- Slowest job first. -->
+            <delete dir="${build.dir.dbg}" quiet="true"/>
+	        <delete dir="${build.dir.cmn}" quiet="true"/>
+	        <delete dir="${build.dir.opt}" quiet="true"/>
+        </parallel>
+    </target>
+
+
+</project>
+
