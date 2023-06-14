@@ -28,6 +28,7 @@ package org.hd.d.TRVmodel.hg;
  * <p>
  * The external walls are of different construction to
  * the internal walls between the A and B rooms.
+ * Heat flow through these walls is modelled.
  * <p>
  * Heat loss through ceilings and floors and all other routes is ignored.
  * <p>
