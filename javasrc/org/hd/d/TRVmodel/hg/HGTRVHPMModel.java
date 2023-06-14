@@ -40,7 +40,7 @@ package org.hd.d.TRVmodel.hg;
  * and the heat-pump CoP to reach those flow temperatures.
  * <p>
  * <blockquote>
- * To keep the maths simple, each room has a 500 W heat loss at design outside temperature of -3&deg;C or 2 kW in total with a room temperature of 21&deg;C. They are also each fitted with a mean water-to-air temperature DT25 radiator, meaning that each radiator will output 500 W, when its average surface temperature is 25&deg;C above the room temperature.
+ * To keep the maths simple, each room has a 500 W heat loss at design outside temperature of -3&deg;C or 2 kW in total with a room temperature of 21&deg;C. They are also each fitted with a mean water-to-air temperature DT25 [MW-AT DT25] radiator, meaning that each radiator will output 500 W, when its average surface temperature is 25&deg;C above the room temperature.
  * </blockquote>
  */
 public final class HGTRVHPMModel
@@ -48,5 +48,6 @@ public final class HGTRVHPMModel
 	/**Prevent creation of an instance. */
     private HGTRVHPMModel() { }
 
-
+    /**External air temperature, ie design temperature on cold winter day, (degrees C); */
+    public static final float EXTERNAL_AIR_TEMPERATURE_C = -3f;
  	}
