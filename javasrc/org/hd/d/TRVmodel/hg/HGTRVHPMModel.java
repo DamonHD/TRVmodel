@@ -48,11 +48,11 @@ public final class HGTRVHPMModel
 	/**Prevent creation of an instance. */
     private HGTRVHPMModel() { }
 
-    /**External air temperature, ie design temperature on cold winter day, (Celsius). */
+    /**tExt - external air temperature, ie design temperature on cold winter day, (Celsius). */
     public static final double EXTERNAL_AIR_TEMPERATURE_C = -3;
-    /**'Normal' room temperature (Celsius). */
+    /**tInt - 'normal' room temperature (Celsius). */
     public static final double NORMAL_ROOM_TEMPERATURE_C = 21;
-    /**Setback/unused room temperature (Celsius). */
+    /**tIntSetback - setback/unused room temperature (Celsius). */
     public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
 
 
