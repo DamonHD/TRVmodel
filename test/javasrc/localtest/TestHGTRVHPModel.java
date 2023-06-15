@@ -32,4 +32,10 @@ public final class TestHGTRVHPModel extends TestCase
 	    {
 	    assertEquals(83.3, HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK, 0.05);
         }
+
+    /**Verify computed mean home temperature when B rooms set back (step 2). */
+    public static void testTMeanWhenSetback()
+	    {
+	    assertEquals(19.5, HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C, 0.05);
+        }
     }

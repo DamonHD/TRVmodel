@@ -45,6 +45,11 @@ package org.hd.d.TRVmodel.hg;
  * <blockquote>
  * To keep the maths simple, each room has a 500 W heat loss at design outside temperature of -3&deg;C or 2 kW in total with a room temperature of 21&deg;C. They are also each fitted with a mean water-to-air temperature DT25 [MW-AT DT25] radiator, meaning that each radiator will output 500 W, when its average surface temperature is 25&deg;C above the room temperature.
  * </blockquote>
+ * <p>
+ * For step 1 the home heat loss is verified to be 83.3W/K as stated, with testHLWpK().
+ * <p>
+ * For step 2 the B rooms are lowered to the setback temperature (18&deg;C).
+ * The mean home temperature is verified to be 19.5&deg;C as stated, with testTMeanWhenSetback().
  */
 public final class HGTRVHPMModel
  	{
@@ -67,6 +72,8 @@ public final class HGTRVHPMModel
 
     /**tIntSetback: setback/unused room temperature (Celsius). */
     public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
-
+    /**tMeanWhenSetback: (step 2) mean home temperature when B rooms setback (Celcius). */
+    public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =
+		(NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;
 
  	}
