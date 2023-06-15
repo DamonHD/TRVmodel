@@ -27,7 +27,7 @@ public final class TestHGTRVHPModel extends TestCase
     /**Verify that test harness is sane... */
     public static void testSanity() { }
 
-    /**Verify computed home heat loss per K. */
+    /**Verify computed home heat loss per K (step 1). */
     public static void testHLWpK()
 	    {
 	    assertEquals(83.3, HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK, 0.05);
