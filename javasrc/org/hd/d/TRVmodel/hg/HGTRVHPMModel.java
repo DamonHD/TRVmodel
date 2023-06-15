@@ -25,8 +25,8 @@ package org.hd.d.TRVmodel.hg;
  * These temperatures (especially those in the B rooms) are regulated by TRVs
  * controlling the radiator heat emitters in each room.
  * <p>
- * (Note that this arrangement maximises internal heat movements between rooms
- * when Bs are at setback temperatures; swap any horizontal or vertical pair to minimise.)
+ * (Note that this arrangement maximises internal heat transfers between rooms
+ * when Bs are at setback temperature; swap any horizontal or vertical pair to minimise instead.)
  * <p>
  * The rooms can be considered to be in a horizontal plane,
  * with the area outside the rooms being at exterior temperature.
