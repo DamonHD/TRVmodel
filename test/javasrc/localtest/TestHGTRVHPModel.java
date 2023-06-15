@@ -20,7 +20,7 @@ import org.hd.d.TRVmodel.hg.HGTRVHPMModel;
 
 import junit.framework.TestCase;
 
-/**Test the Heat Geek TRV with HP model.
+/**Test the Heat Geek TRV-with-HP model.
  */
 public final class TestHGTRVHPModel extends TestCase
     {
