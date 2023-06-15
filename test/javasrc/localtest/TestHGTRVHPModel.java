@@ -31,5 +31,5 @@ public final class TestHGTRVHPModel extends TestCase
     public static void testHLWpK()
 	    {
 	    assertEquals(83.3, HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK, 0.05);
-	    }
+        }
     }
