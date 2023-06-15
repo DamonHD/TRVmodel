@@ -52,8 +52,11 @@ public final class HGTRVHPMModel
     public static final double EXTERNAL_AIR_TEMPERATURE_C = -3;
     /**tInt - 'normal' room temperature (Celsius). */
     public static final double NORMAL_ROOM_TEMPERATURE_C = 21;
+    /**Design temperature (cold winter day) for heat loss calculations (Celsius). */
+    public static final double HOME_HEAT_LOSS_DESIGN_TEMPERATURE =
+		(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
     /**Heat loss with all rooms at normal internal temperature (W). */
-    public static final double HOME_HEAT_LOSS_NORMAL_ROOM_TEMPERATURE_W = 2000;
+    public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
     /**tIntSetback - setback/unused room temperature (Celsius). */
     public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
 
