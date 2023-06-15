@@ -51,17 +51,17 @@ public final class HGTRVHPMModel
 	/**Prevent creation of an instance. */
     private HGTRVHPMModel() { }
 
-    /**tExt - external air temperature, ie design temperature on cold winter day, (Celsius). */
+    /**tExt: external air temperature, ie design temperature on cold winter day, (Celsius). */
     public static final double EXTERNAL_AIR_TEMPERATURE_C = -3;
-    /**tInt - 'normal' room temperature (Celsius). */
+    /**tInt: 'normal' room temperature (Celsius). */
     public static final double NORMAL_ROOM_TEMPERATURE_C = 21;
-    /**HLDT - design temperature (cold winter day) for heat loss calculations (Kelvin). */
+    /**HLDT: design temperature (cold winter day) for heat loss calculations (Kelvin). */
     public static final double HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K =
 		(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
-    /**HLW - eat loss with all rooms at normal internal temperature (W). */
+    /**HLW: heat loss with all rooms at normal internal temperature (W). */
     public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
 
-    /**tIntSetback - setback/unused room temperature (Celsius). */
+    /**tIntSetback: setback/unused room temperature (Celsius). */
     public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
 
 
