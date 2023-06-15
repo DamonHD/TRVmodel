@@ -16,6 +16,8 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package localtest;
 
+import org.hd.d.TRVmodel.hg.HGTRVHPMModel;
+
 import junit.framework.TestCase;
 
 /**Test the Heat Geek TRV with HP model.
@@ -24,4 +26,10 @@ public final class TestHGTRVHPModel extends TestCase
     {
     /**Verify that test harness is sane... */
     public static void testSanity() { }
+
+    /**Verify computed home heat loss per K. */
+    public static void testHLWpK()
+	    {
+	    assertEquals(83.3, HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK, 0.05);
+	    }
     }
