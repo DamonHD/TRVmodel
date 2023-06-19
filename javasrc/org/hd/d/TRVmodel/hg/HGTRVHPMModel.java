@@ -58,6 +58,9 @@ package org.hd.d.TRVmodel.hg;
  * <p>
  * ...
  * <p>
+ * (Not clear why only one door is allowed for in each pair of walls:
+ * having one door per wall would increase the effect being described here.)
+ * <p>
  */
 public final class HGTRVHPMModel
  	{
@@ -101,6 +104,9 @@ public final class HGTRVHPMModel
     public static final double INTERNAL_DOOR_U_WpM2K = 8;
     /**IWAab: (heat loss 1.1) internal wall area between each A and adjoining B rooms (m^2). */
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 = 2 * INTERNAL_WALL_AREA_PER_WALL_M2;
+    /**IWAabmd: (heat loss 1.1) internal wall area between each A and adjoining B rooms minus one door (m^2). */
+    public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 =
+    		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 - INTERNAL_DOOR_AREA_PER_WALL_M2;
 
 
 
