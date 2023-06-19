@@ -62,6 +62,6 @@ public final class TestHGTRVHPModel extends TestCase
 	    {
 	    assertEquals(98.4, HGTRVHPMModel.INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W, 0.05);
 	    assertEquals(48, HGTRVHPMModel.INTERNAL_DOOR_HEAT_LOSS_W, 0.05);
+	    assertEquals(146.4, HGTRVHPMModel.INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W, 0.05);
 	    }
-
     }

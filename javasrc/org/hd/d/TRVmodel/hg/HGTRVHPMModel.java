@@ -119,14 +119,16 @@ public final class HGTRVHPMModel
     public static final double INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W =
 		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK *
     		(NORMAL_ROOM_TEMPERATURE_C - SETBACK_ROOM_TEMPERATURE_C);
-    /**IDAabHL: (heat load 1.5) internal door heat (minus door) loss per door per Kelvin (W/K). */
+    /**IDAabHL: (heat load 1.5) internal door heat loss per door per Kelvin (W/K). */
     public static final double INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK =
 		INTERNAL_DOOR_AREA_PER_WALL_M2 * INTERNAL_DOOR_U_WpM2K;
-    /**IDAabHLW: (heat load 1.6) internal door heat (minus door) loss per door (W). */
+    /**IDAabHLW: (heat load 1.6) internal door heat loss per door (W). */
     public static final double INTERNAL_DOOR_HEAT_LOSS_W =
 		INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK *
 			(NORMAL_ROOM_TEMPERATURE_C - SETBACK_ROOM_TEMPERATURE_C);
-
+    /**IDWAabHLW: (heat load 1.6) internal wall and door heat loss per A room (W). */
+    public static final double INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W =
+    		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W + INTERNAL_DOOR_HEAT_LOSS_W;
 
 
  	}
