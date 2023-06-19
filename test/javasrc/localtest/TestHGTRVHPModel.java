@@ -64,4 +64,11 @@ public final class TestHGTRVHPModel extends TestCase
 	    assertEquals(48, HGTRVHPMModel.INTERNAL_DOOR_HEAT_LOSS_W, 0.05);
 	    assertEquals(146.4, HGTRVHPMModel.INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W, 0.05);
 	    }
+
+    /**Verify radiator output power in each room when B rooms are setback. */
+    public static void testRadPowerSetback()
+    	{
+	    assertEquals(646, HGTRVHPMModel.RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W, 0.5);
+	    assertEquals(291, HGTRVHPMModel.RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W, 0.5);
+    	}
     }

@@ -77,7 +77,7 @@ public final class HGTRVHPMModel
 		(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
     /**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
     public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
-    /**radW: (Heat Loss 2.0) pre-setback radiator output (W). */
+    /**radW: pre-setback radiator output (W). */
     public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
 
 
@@ -130,6 +130,13 @@ public final class HGTRVHPMModel
     /**IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W). */
     public static final double INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W =
     		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W + INTERNAL_DOOR_HEAT_LOSS_W;
+
+    /**radWAbs: (Heat Loss 2.0) radiator output in each A room with B setback (W). */
+    public static final double RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W =
+		RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W;
+    /**radWBbs: (Heat Loss 2.0) radiator output in each B room with B setback (W). */
+    public static final double RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W =
+		(HOME_HEAT_LOSS_B_SETBACK_W - 2*RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W) / 2;
 
 
  	}
