@@ -55,7 +55,8 @@ public final class TestHGTRVHPModel extends TestCase
 	    assertEquals(0.063, HGTRVHPMModel.HOME_HEAT_LOSS_FALL_B_SETBACK, 0.05);
         }
 
-    /**Verify internal heat loss through walls and doors per A room.
+    /**Verify internal heat loss through walls and door per A room.
+     * Note: text is inconsistent about whether one door per wall or per pair of walls.
      */
     public static void testIWLoss()
 	    {
