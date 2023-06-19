@@ -62,6 +62,15 @@ package org.hd.d.TRVmodel.hg;
  * having one door per wall would increase the effect being described here,
  * and is not consistent with the other text.)
  * <p>
+ * ...
+ * <p>
+ * TO DO - alternatives to test in parameterised version of model:
+ * <ul>
+ * <li>Setback of 19&deg;C.</li>
+ * <li>Swap A rooms to be adjacent and reduce internal heat losses.</li>
+ * <li>Use one door per internal wall, not per pair.</li>
+ * <li>Different internal and external wall U-values.</li>
+ * </ul>
  */
 public final class HGTRVHPMModel
  	{
