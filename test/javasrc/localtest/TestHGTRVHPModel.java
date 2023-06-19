@@ -46,4 +46,12 @@ public final class TestHGTRVHPModel extends TestCase
 	    {
 	    assertEquals(1874, HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W, 1);
         }
+
+    /**Verify heat loss fall/reduction when B rooms set back (flow temperature, step 3).
+     * Note: published value in page is 6.3%, computed value is 6.25%W.
+     */
+    public static void testHLFallWhenSetback()
+	    {
+	    assertEquals(0.063, HGTRVHPMModel.HOME_HEAT_LOSS_FALL_B_SETBACK, 0.05);
+        }
     }

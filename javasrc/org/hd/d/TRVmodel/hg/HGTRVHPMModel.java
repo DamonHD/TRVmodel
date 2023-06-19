@@ -75,8 +75,12 @@ public final class HGTRVHPMModel
     /**tMeanWhenSetback: (flow temperature, step 2) mean home temperature when B rooms setback (Celcius). */
     public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =
 		(NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;
-    /**HLsbW: (flow temperature, step 2) heat loss with B rooms setback (W). */
+    /**HLsbW: (flow temperature, step 3) heat loss with B rooms setback (W). */
     public static final double HOME_HEAT_LOSS_B_SETBACK_W = HOME_HEAT_LOSS_PER_KELVIN_WpK *
     		(MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - EXTERNAL_AIR_TEMPERATURE_C);
+    /**HLfall: (flow temperature, step 3) reduction in home heat loss with B set back. */
+    public static final double HOME_HEAT_LOSS_FALL_B_SETBACK =
+		(HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W - HOME_HEAT_LOSS_B_SETBACK_W) /
+			HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W;
 
  	}
