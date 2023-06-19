@@ -42,7 +42,7 @@ public final class TestHGTRVHPModel extends TestCase
     /**Verify heat loss when B rooms set back (flow temperature, step 3).
      * Note: published value in page is 1874W, computed value is 1875.0W.
      */
-    public static void testHLeanWhenSetback()
+    public static void testHLWhenSetback()
 	    {
 	    assertEquals(1874, HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W, 1);
         }
