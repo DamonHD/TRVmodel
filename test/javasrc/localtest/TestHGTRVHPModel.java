@@ -27,15 +27,23 @@ public final class TestHGTRVHPModel extends TestCase
     /**Verify that test harness is sane... */
     public static void testSanity() { }
 
-    /**Verify computed home heat loss per K (step 1). */
+    /**Verify computed home heat loss per K (flow temperature, step 1). */
     public static void testHLWpK()
 	    {
 	    assertEquals(83.3, HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK, 0.05);
         }
 
-    /**Verify computed mean home temperature when B rooms set back (step 2). */
+    /**Verify computed mean home temperature when B rooms set back (flow temperature, step 2). */
     public static void testTMeanWhenSetback()
 	    {
 	    assertEquals(19.5, HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C, 0.05);
+        }
+
+    /**Verify heat loss when B rooms set back (flow temperature, step 3).
+     * Note: published value in page is 1874W, computed value is 1875.0W.
+     */
+    public static void testHLeanWhenSetback()
+	    {
+	    assertEquals(1874, HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W, 1);
         }
     }
