@@ -106,10 +106,14 @@ public final class HGTRVHPMModel
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 = 2 * INTERNAL_WALL_AREA_PER_WALL_M2;
     /**IWAabmd: (heat loss 1.2) internal wall area between each A and adjoining B rooms minus one door (m^2). */
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 =
-    		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 - INTERNAL_DOOR_AREA_PER_WALL_M2;
-    /**IWAabHLw: (heat load 1.3) internal wall heat (minus door) loss per Kelvin (W/K). */
+		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 - INTERNAL_DOOR_AREA_PER_WALL_M2;
+    /**IWAabHL: (heat load 1.3) internal wall heat (minus door) loss per Kelvin (W/K). */
     public static final double INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK =
-    		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 * INTERNAL_WALL_U_WpM2K;
+		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 * INTERNAL_WALL_U_WpM2K;
+    /**IWAabHLW: (heat load 1.4) internal wall heat (minus door) loss (WK). */
+    public static final double INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W =
+		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK *
+    		(NORMAL_ROOM_TEMPERATURE_C - SETBACK_ROOM_TEMPERATURE_C);
 
 
 
