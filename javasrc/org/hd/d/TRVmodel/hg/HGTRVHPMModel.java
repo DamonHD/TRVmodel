@@ -75,56 +75,59 @@ public final class HGTRVHPMModel
     /**HLDT: design temperature (cold winter day) for heat loss calculations (Kelvin). */
     public static final double HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K =
 		(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
-    /**HLW: (flow temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
+    /**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
     public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
+    /**radW: (Heat Loss 2.0) pre-setback radiator output (W). */
+    public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
 
-    /**HLpK: (flow temperature, step 1) heat loss per Kelvin (W/K). */
+
+    /**HLpK: (Flow Temperature, step 1) heat loss per Kelvin (W/K). */
     public static final double HOME_HEAT_LOSS_PER_KELVIN_WpK =
 		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K;
 
     /**tIntSetback: setback/unused room temperature (Celsius). */
     public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
-    /**tMeanWhenSetback: (flow temperature, step 2) mean home temperature when B rooms setback (Celcius). */
+    /**tMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */
     public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =
 		(NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;
-    /**HLsbW: (flow temperature, step 3) heat loss with B rooms setback (W). */
+    /**HLsbW: (Flow Temperature, step 3) heat loss with B rooms setback (W). */
     public static final double HOME_HEAT_LOSS_B_SETBACK_W = HOME_HEAT_LOSS_PER_KELVIN_WpK *
     		(MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - EXTERNAL_AIR_TEMPERATURE_C);
-    /**HLfall: (flow temperature, step 3) reduction in home heat loss with B set back. */
+    /**HLfall: (Flow Temperature, step 3) reduction in home heat loss with B set back. */
     public static final double HOME_HEAT_LOSS_FALL_B_SETBACK =
 		(HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W - HOME_HEAT_LOSS_B_SETBACK_W) /
 			HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W;
 
-    /**IWA: (heat loss 1.0) internal wall area of each internal intra-room wall (m^2). */
+    /**IWA: (Heat Loss 1.0) internal wall area of each internal intra-room wall (m^2). */
     public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = 2.3 * 4;
-    /**IDA: (heat loss 1.0) internal door area per door - one in each internal wall (m^2). */
+    /**IDA: Heat Loss 1.0) internal door area per door - one in each internal wall (m^2). */
     public static final double INTERNAL_DOOR_AREA_PER_WALL_M2 = 2;
-    /**IWU: (heat loss 1.0) internal wall U value (W/m^2K). */
+    /**IWU: (Heat Loss 1.0) internal wall U value (W/m^2K). */
     public static final double INTERNAL_WALL_U_WpM2K = 2;
-    /**IWU: (heat loss 1.0) internal door U value (W/m^2K). */
+    /**IWU: (Heat Loss 1.0) internal door U value (W/m^2K). */
     public static final double INTERNAL_DOOR_U_WpM2K = 8;
     /**IWAab: (heat loss 1.1) internal wall area between each A and adjoining B rooms (m^2). */
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 = 2 * INTERNAL_WALL_AREA_PER_WALL_M2;
-    /**IWAabmd: (heat loss 1.2) internal wall area between each A and adjoining B rooms minus one door (m^2).
+    /**IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus one door (m^2).
      * Note: inconsistent with text that says one door per internal wall rather than per pair.
      */
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 =
 		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 - INTERNAL_DOOR_AREA_PER_WALL_M2;
-    /**IWAabHL: (heat load 1.3) internal wall (minus door) heat loss per Kelvin (W/K). */
+    /**IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K). */
     public static final double INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK =
 		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 * INTERNAL_WALL_U_WpM2K;
-    /**IWAabHLW: (heat load 1.4) internal wall (minus door) heat loss (WK). */
+    /**IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK). */
     public static final double INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W =
 		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK *
     		(NORMAL_ROOM_TEMPERATURE_C - SETBACK_ROOM_TEMPERATURE_C);
-    /**IDAabHL: (heat load 1.5) internal door heat loss per door per Kelvin (W/K). */
+    /**IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K). */
     public static final double INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK =
 		INTERNAL_DOOR_AREA_PER_WALL_M2 * INTERNAL_DOOR_U_WpM2K;
-    /**IDAabHLW: (heat load 1.6) internal door heat loss per door (W). */
+    /**IDAabHLW: (Heat Loss 1.6) internal door heat loss per door (W). */
     public static final double INTERNAL_DOOR_HEAT_LOSS_W =
 		INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK *
 			(NORMAL_ROOM_TEMPERATURE_C - SETBACK_ROOM_TEMPERATURE_C);
-    /**IDWAabHLW: (heat load 1.7) internal wall and door heat loss per A room (W). */
+    /**IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W). */
     public static final double INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W =
     		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W + INTERNAL_DOOR_HEAT_LOSS_W;
 
