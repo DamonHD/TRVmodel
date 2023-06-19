@@ -97,9 +97,7 @@ public final class HGTRVHPMModel
 
     /**IWA: (heat loss 1.0) internal wall area of each internal intra-room wall (m^2). */
     public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = 2.3 * 4;
-    /**IDA: (heat loss 1.0) internal door area per door - one in each internal wall (m^2).
-     * Note: resultr
-     */
+    /**IDA: (heat loss 1.0) internal door area per door - one in each internal wall (m^2). */
     public static final double INTERNAL_DOOR_AREA_PER_WALL_M2 = 2;
     /**IWU: (heat loss 1.0) internal wall U value (W/m^2K). */
     public static final double INTERNAL_WALL_U_WpM2K = 2;
