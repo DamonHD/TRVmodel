@@ -50,6 +50,14 @@ package org.hd.d.TRVmodel.hg;
  * <p>
  * For step 2 the B rooms are lowered to the setback temperature (18&deg;C).
  * The mean home temperature is verified to be 19.5&deg;C as stated, with testTMeanWhenSetback().
+ * <p>
+ * ...
+ * <p>
+ * (The <q>Let's say those rooms with a setback temperature of 18&deg;C only drop to 19°C.</q>
+ * seems spurious: the room is either at 18&deg;C or it is not.)
+ * <p>
+ * ...
+ * <p>
  */
 public final class HGTRVHPMModel
  	{
@@ -83,14 +91,16 @@ public final class HGTRVHPMModel
 		(HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W - HOME_HEAT_LOSS_B_SETBACK_W) /
 			HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W;
 
-    /**IWA: (heat loss 1.0) internal wall area of each internal intra-room wall m^2. */
+    /**IWA: (heat loss 1.0) internal wall area of each internal intra-room wall (m^2). */
     public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = 2.3 * 4;
-    /**IDA: (heat loss 1.0) internal door area per door (one in each internal wall) m^2. */
+    /**IDA: (heat loss 1.0) internal door area per door - one in each internal wall (m^2). */
     public static final double INTERNAL_DOOR_AREA_PER_WALL_M2 = 2;
     /**IWU: (heat loss 1.0) internal wall U value (W/m^2K). */
     public static final double INTERNAL_WALL_U_WpM2K = 2;
     /**IWU: (heat loss 1.0) internal door U value (W/m^2K). */
     public static final double INTERNAL_DOOR_U_WpM2K = 8;
+    /**IWAab: (heat loss 1.1) internal wall area between each A and adjoining B rooms (m^2). */
+    public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 = 2 * INTERNAL_WALL_AREA_PER_WALL_M2;
 
 
 
