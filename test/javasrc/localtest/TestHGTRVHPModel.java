@@ -48,7 +48,7 @@ public final class TestHGTRVHPModel extends TestCase
         }
 
     /**Verify heat loss fall/reduction when B rooms set back (flow temperature, step 3).
-     * Note: published value in page is 6.3%, computed value is 6.25%W.
+     * Note: published value in page is 6.3%, computed value is 6.25%.
      */
     public static void testHLFallWhenSetback()
 	    {
