@@ -79,4 +79,12 @@ public final class TestHGTRVHPModel extends TestCase
 	    assertEquals(30.5, HGTRVHPMModel.RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K, 0.05);
 	    assertEquals(51.5, HGTRVHPMModel.RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C, 0.05);
 	    }
+
+    /**Verify claimed heat-pump power in in normal and setback cases. */
+    public static void testHPOowerIn()
+		{
+	    assertEquals(769, HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, 0.5);
+	    assertEquals(815, HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, 0.5);
+		}
+
     }

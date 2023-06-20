@@ -169,9 +169,14 @@ public final class HGTRVHPMModel
     public static final double COP_AT_51p5C = 2.3;
     /**CoPDropPerK: (Heat Pump Efficiency) suggested approximate fall in CoP per K rise in flow temperature. */
     public static final double COP_DROP_pK = 0.025;
-
-
-
-
-
+    /**HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
+     * Note that flow and mean temperatures seem to be being mixed here.
+     */
+    public static final double HEAT_PUMP_POWER_IN_NO_SETBACK_W =
+		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / COP_AT_46p0C;
+    /**HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
+     * Note that flow and mean temperatures seem to be being mixed here.
+     */
+    public static final double HEAT_PUMP_POWER_IN_B_SETBACK_W =
+		HOME_HEAT_LOSS_B_SETBACK_W / COP_AT_51p5C;
  	}
