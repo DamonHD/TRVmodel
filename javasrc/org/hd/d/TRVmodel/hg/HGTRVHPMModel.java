@@ -163,6 +163,10 @@ public final class HGTRVHPMModel
     public static final double RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C =
 		NORMAL_ROOM_TEMPERATURE_C + RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K;
 
+    /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP at 46.0C flow temperature. */
+    public static final double COP_AT_46p0C = 2.6;
+    /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP at 51.5C flow temperature. */
+    public static final double COP_AT_51p5C = 2.3;
 
 
 
