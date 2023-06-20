@@ -153,7 +153,18 @@ public final class HGTRVHPMModel
 		RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W / RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
  	/**MWATP2Dexp: (Heat Loss 2.2) exponent to go from power increase to delta-T increase. */
     public static final double RADIATOR_EXP_POWER_TO_DT = 0.77;
-    /**radAdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
+    /**radAbsdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
     public static final double RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =
 		Math.pow(RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, RADIATOR_EXP_POWER_TO_DT);
+    /**radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */
+    public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK =
+		RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W * RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER;
+
+
+
+
+
+
+
+
  	}

@@ -72,9 +72,10 @@ public final class TestHGTRVHPModel extends TestCase
 	    assertEquals(291, HGTRVHPMModel.RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W, 0.5);
     	}
 
-    /**Verify A radiators delta-T (MW-AT) uplift multiplier when B rooms are setback. */
-    public static void testARadsDTUplift()
+    /**Verify A radiators delta-T (MW-AT) uplift multiplier and new value when B rooms are setback. */
+    public static void testARadsDT()
 	    {
 	    assertEquals(1.22, HGTRVHPMModel.RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, 0.005);
+	    assertEquals(30.5, HGTRVHPMModel.RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK, 0.05);
 	    }
     }
