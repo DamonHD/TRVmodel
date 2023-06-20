@@ -81,7 +81,7 @@ public final class TestHGTRVHPModel extends TestCase
 	    }
 
     /**Verify claimed heat-pump power in in normal and setback cases. */
-    public static void testHPOowerIn()
+    public static void testHPPowerIn()
 		{
 	    assertEquals(769, HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, 0.5);
 	    assertEquals(815, HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, 0.5);
