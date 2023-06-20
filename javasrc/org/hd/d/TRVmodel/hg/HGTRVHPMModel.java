@@ -88,6 +88,8 @@ public final class HGTRVHPMModel
     public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
     /**radW: pre-setback radiator output (W). */
     public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
+    /**radMWATdT: no-setback Mean Water to Air Temperature delta T (K). */
+    public static final double RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W = 25;
 
 
     /**HLpK: (Flow Temperature, step 1) heat loss per Kelvin (W/K). */
@@ -151,7 +153,7 @@ public final class HGTRVHPMModel
 		RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W / RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
  	/**MWATP2Dexp: (Heat Loss 2.2) exponent to go from power increase to delta-T increase. */
     public static final double RADIATOR_EXP_POWER_TO_DT = 0.77;
-    /**radADTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
+    /**radAdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
     public static final double RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =
 		Math.pow(RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, RADIATOR_EXP_POWER_TO_DT);
  	}
