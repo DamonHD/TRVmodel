@@ -157,10 +157,11 @@ public final class HGTRVHPMModel
     public static final double RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =
 		Math.pow(RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, RADIATOR_EXP_POWER_TO_DT);
     /**radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */
-    public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK =
+    public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K =
 		RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W * RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER;
-
-
+    /**radAbsMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C). */
+    public static final double RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C =
+		NORMAL_ROOM_TEMPERATURE_C + RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K;
 
 
 

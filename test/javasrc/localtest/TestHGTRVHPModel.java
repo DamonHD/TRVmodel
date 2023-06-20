@@ -76,6 +76,7 @@ public final class TestHGTRVHPModel extends TestCase
     public static void testARadsDT()
 	    {
 	    assertEquals(1.22, HGTRVHPMModel.RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, 0.005);
-	    assertEquals(30.5, HGTRVHPMModel.RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK, 0.05);
+	    assertEquals(30.5, HGTRVHPMModel.RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K, 0.05);
+	    assertEquals(51.5, HGTRVHPMModel.RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C, 0.05);
 	    }
     }
