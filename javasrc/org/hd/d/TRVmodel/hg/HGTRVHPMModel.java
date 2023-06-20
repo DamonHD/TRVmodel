@@ -167,6 +167,8 @@ public final class HGTRVHPMModel
     public static final double COP_AT_46p0C = 2.6;
     /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP at 51.5C flow temperature. */
     public static final double COP_AT_51p5C = 2.3;
+    /**CoPDropPerK: (Heat Pump Efficiency) suggested approximate fall in CoP per K rise in flow temperature. */
+    public static final double COP_DROP_pK = 0.025;
 
 
 
