@@ -85,6 +85,7 @@ public final class TestHGTRVHPModel extends TestCase
 		{
 	    assertEquals(769, HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, 0.5);
 	    assertEquals(815, HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, 0.5);
+	    assertTrue("electrical power goes UP with Bs set back", HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W <  HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W);
 		}
 
     }
