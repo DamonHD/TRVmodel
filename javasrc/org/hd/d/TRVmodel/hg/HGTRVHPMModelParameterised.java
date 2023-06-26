@@ -124,7 +124,8 @@ public final class HGTRVHPMModelParameterised
         final double radWAbs =
     		HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
         // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
-        // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W_
+        // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
+// TODO: why unused: radWBbs
         final double radWBbs =
     		(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W - 2*radWAbs) / 2;
         // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
@@ -138,26 +139,27 @@ public final class HGTRVHPMModelParameterised
         // radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
         // (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
         final double radAbsdT =
-        		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W * radAbsdTmult;
+    		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAbsdTmult;
         // radAbsMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
         final double radAbsMW =
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
 
 
-        // FIXME: extrapolate CoP for actual mid/flow temperatures and use below.
-
+        // Normal (no setback) mean water temperature (C).
+        final double radAMW =
+            HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
 
         // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here.
         final double HPinWnsb =
-    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / HGTRVHPMModel.COP_AT_46p0C;
+    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / computeFlowCoP(radAMW);
         // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here.
         final double HPinWsb =
-    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / HGTRVHPMModel.COP_AT_51p5C;
+    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / computeFlowCoP(radAbsMW);
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
 	    }
