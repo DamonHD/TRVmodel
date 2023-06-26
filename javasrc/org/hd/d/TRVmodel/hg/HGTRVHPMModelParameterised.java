@@ -18,6 +18,33 @@ public final class HGTRVHPMModelParameterised
 	/**Prevent creation of an instance. */
     private HGTRVHPMModelParameterised() { }
 
+    /**Parameters for this version of the model.
+     * Defaults should yield the same
+     *
+     * @param  doorsPerInternalWall  what 0.5 in original calcs (but 1 in text);
+     *     expected to be in range [0,1], must be finite and positive
+     */
+    public record ModelParameters(double doorsPerInternalWall)
+	    {
+    	public ModelParameters
+			{
+    		if(!Double.isFinite(doorsPerInternalWall)) { throw new IllegalArgumentException(); }
+    		if(doorsPerInternalWall < 0) { throw new IllegalArgumentException(); }
+			}
+
+    	/**All-defaults parameter set the should produce original model results. */
+    	public ModelParameters()
+	    	{
+	    	this(DEFAULT_DOORS_PER_INTERNAL_WALL);
+	    	}
+
+        /**Default doors per internal wall (was 0.5 in the calcs on the original page. */
+    	public static double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
+	    }
+
+
+
+
     /**tExt: external air temperature, ie design temperature on cold winter day, (Celsius). */
     public static final double EXTERNAL_AIR_TEMPERATURE_C = -3;
     /**tInt: 'normal' room temperature (Celsius). */
