@@ -53,8 +53,11 @@ public final class HGTRVHPMModelParameterised
     	public static final boolean DEFAULT_ARRANGEMENT_ABAB = true;
 	    }
 
-    /**Estimate a CoP for a given flow temperature (C) given the two supplied data points.
+    /**Estimate the CoP for a given flow temperature (C) given the two supplied data points.
      * This does a simple linear fit, which is not perfect but probably adequate.
+     * <p>
+     * Note this is for flow temperature, given the sample manufacturer's data,
+     * though the original text uses this interchangeably with mid temperature.
      */
     public static double computeFlowCoP(final double flowC)
 	    {
