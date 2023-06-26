@@ -43,7 +43,20 @@ public final class HGTRVHPMModelParameterised
 	    }
 
 
+    /**Compute the heat-pump electricity demand (W); zero or more.
+     *
+     * @param params  the variable model parameters
+     * @param withBSetback  if true, with B rooms set back, else all at same temperature
+     * @return  demand in watts, finite and non-negative
+     */
+    public static double computeHPElectricityDemandW(final ModelParameters params, final boolean withBSetback)
+	    {
 
 
+
+
+
+    	return(0); // FIXME
+	    }
 
  	}
