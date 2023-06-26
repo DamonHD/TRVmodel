@@ -16,6 +16,8 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package localtest;
 
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised;
+
 import junit.framework.TestCase;
 
 /**Test the parameterised Heat Geek TRV-with-HP model.
@@ -25,6 +27,16 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     /**Verify that test harness is sane... */
     public static void testSanity() { }
 
-
-
+    /**Test with default (as published page) parameters. */
+    public static void testWithDefaultParameters()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters defaultParams = new HGTRVHPMModelParameterised.ModelParameters();
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, true);
+//	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 0.5);
+//	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, powerWithSetback, 0.5);
+//
+//	    // The overall point of this Heat Geek example!
+//	    assertTrue("electrical power goes UP with Bs set back", powerNoSetback < powerWithSetback);
+	    }
     }
