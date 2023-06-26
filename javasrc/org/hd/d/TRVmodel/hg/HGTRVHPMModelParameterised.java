@@ -127,38 +127,21 @@ public final class HGTRVHPMModelParameterised
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
 
 
+        // FIXME: extrapolate CoP for actual mid/flow temperatures and use below.
 
 
-//        /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP at 46.0C flow temperature. */
-//        public static final double COP_AT_46p0C = 2.6;
-//        /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP at 51.5C flow temperature. */
-//        public static final double COP_AT_51p5C = 2.3;
-//        /**CoPDropPerK: (Heat Pump Efficiency) suggested approximate fall in CoP per K rise in flow temperature. */
-//        public static final double COP_DROP_pK = 0.025;
-//        /**HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
-//         * Note that flow and mean temperatures seem to be being mixed here.
-//         */
-//        public static final double HEAT_PUMP_POWER_IN_NO_SETBACK_W =
-//    		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / COP_AT_46p0C;
-//        /**HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
-//         * Note that flow and mean temperatures seem to be being mixed here.
-//         */
-//        public static final double HEAT_PUMP_POWER_IN_B_SETBACK_W =
-//    		HOME_HEAT_LOSS_B_SETBACK_W / COP_AT_51p5C;
+        // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
+        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here.
+        final double HPinWnsb =
+    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / HGTRVHPMModel.COP_AT_46p0C;
+        // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
+        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here.
+        final double HPinWsb =
+    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / HGTRVHPMModel.COP_AT_51p5C;
 
-
-
-
-
-
-    	// TODO
-
-
-
-
-
-
-    	return(withBSetback ? HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W : HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W);
+    	return(withBSetback ? HPinWsb : HPinWnsb);
 	    }
 
  	}
