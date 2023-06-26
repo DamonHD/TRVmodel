@@ -53,6 +53,21 @@ public final class HGTRVHPMModelParameterised
     	public static final boolean DEFAULT_ARRANGEMENT_ABAB = true;
 	    }
 
+    /**Estimate a CoP for a given flow temperature (C) given the two supplied data points.
+     * This does a simple linear fit, which is not perfect but probably adequate.
+     */
+    public static double computeFlowCoP(final double flowC)
+	    {
+    	final double lowerTempC = 46.0;
+    	final double upperTempC = 51.5;
+    	final double tempDeltaK = upperTempC - lowerTempC;
+    	final double CoPDelta = HGTRVHPMModel.COP_AT_51p5C - HGTRVHPMModel.COP_AT_46p0C;
+
+    	final double CoP = HGTRVHPMModel.COP_AT_46p0C +
+    			((flowC - lowerTempC) * (CoPDelta / tempDeltaK));
+
+    	return(CoP);
+	    }
 
     /**Compute the heat-pump electricity demand (W); zero or more.
      * The calculation uses constants from HGTRVHPMModel as far as possible,

@@ -40,4 +40,11 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    // The overall point of this Heat Geek example!
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
+
+    /**Test the CoP computation. */
+    public static void testComputeFlowCoP()
+	    {
+	    assertEquals(HGTRVHPMModel.COP_AT_46p0C, HGTRVHPMModelParameterised.computeFlowCoP(46.0), 0.01);
+	    assertEquals(HGTRVHPMModel.COP_AT_51p5C, HGTRVHPMModelParameterised.computeFlowCoP(51.5), 0.01);
+	    }
     }
