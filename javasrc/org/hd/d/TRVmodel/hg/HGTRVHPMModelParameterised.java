@@ -24,10 +24,14 @@ public final class HGTRVHPMModelParameterised
      * @param  doorsPerInternalWall  was 0.5 in the original page calcs (but 1 in the text);
      *     expected to be in range [0,1], must be finite and positive
      */
-    public record ModelParameters(double doorsPerInternalWall)
+    public record ModelParameters(
+    		double doorsPerInternalWall,
+    		boolean roomsAlternatingABAB
+    		)
 	    {
     	public ModelParameters
 			{
+    		// Sanity-check parameters.
     		if(!Double.isFinite(doorsPerInternalWall)) { throw new IllegalArgumentException(); }
     		if(doorsPerInternalWall < 0) { throw new IllegalArgumentException(); }
 			}
@@ -35,11 +39,16 @@ public final class HGTRVHPMModelParameterised
     	/**All-defaults parameter set the should produce original model results. */
     	public ModelParameters()
 	    	{
-	    	this(DEFAULT_DOORS_PER_INTERNAL_WALL);
+	    	this(
+    			DEFAULT_DOORS_PER_INTERNAL_WALL,
+    			true
+    			);
 	    	}
 
         /**Default doors per internal wall: matches the 0.5 in calcs on the original page. */
-    	public static double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
+    	public static final double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
+    	/**Default room arrangement ABAB (vs AABB) alternating as original calcs. */
+    	public static final boolean DEFAULT_ARRANGEMENT_ABAB = true;
 	    }
 
 
