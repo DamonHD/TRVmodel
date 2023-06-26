@@ -117,16 +117,18 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radAbsdTmult =
     		Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
+        // radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
+        // (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
+        final double radAbsdT =
+        		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W * radAbsdTmult;
+        // radAbsMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
+        // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
+        final double radAbsMW =
+    		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
 
 
 
-//        /**radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */
-//        public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K =
-//    		RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W * RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER;
-//        /**radAbsMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C). */
-//        public static final double RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C =
-//    		NORMAL_ROOM_TEMPERATURE_C + RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K;
-//
+
 //        /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP at 46.0C flow temperature. */
 //        public static final double COP_AT_46p0C = 2.6;
 //        /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP at 51.5C flow temperature. */
