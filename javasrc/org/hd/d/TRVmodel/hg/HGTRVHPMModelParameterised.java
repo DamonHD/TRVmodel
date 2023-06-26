@@ -55,6 +55,8 @@ public final class HGTRVHPMModelParameterised
 
 
     /**Compute the heat-pump electricity demand (W); zero or more.
+     * The calculation uses constants from HGTRVHPMModel as far as possible,
+     * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
      * @param withBSetback  if true, with B rooms set back, else all at same temperature
@@ -64,14 +66,20 @@ public final class HGTRVHPMModelParameterised
 	    {
     	Objects.requireNonNull(params);
 
-    	// Parameterisation not yet handled...
+    	// Parameterisation not yet fully handled...
     	if(params.doorsPerInternalWall != ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
     	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
+    	// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
+    	final double IWAabmd =
+			HGTRVHPMModel.INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2
+			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_WALL_M2);
+
+
+
+
     	// TODO
-
-
 
 
 
