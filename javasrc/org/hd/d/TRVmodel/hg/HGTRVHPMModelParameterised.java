@@ -95,11 +95,12 @@ public final class HGTRVHPMModelParameterised
         final double IDAabHLW =
     		IDAabHL *
     		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+        // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
+        // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
+        final double IDWAabHLW =
+    		IWAabHLW + IDAabHLW;
 
 
-//        /**IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W). */
-//        public static final double INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W =
-//        		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W + INTERNAL_DOOR_HEAT_LOSS_W;
 //
 //        /**radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W). */
 //        public static final double RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W =
