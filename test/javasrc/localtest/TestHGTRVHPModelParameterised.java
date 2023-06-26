@@ -22,6 +22,9 @@ import junit.framework.TestCase;
  */
 public final class TestHGTRVHPModelParameterised extends TestCase
     {
+    /**Verify that test harness is sane... */
+    public static void testSanity() { }
+
 
 
     }
