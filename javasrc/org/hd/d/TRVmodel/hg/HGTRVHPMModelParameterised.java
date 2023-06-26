@@ -75,14 +75,18 @@ public final class HGTRVHPMModelParameterised
     	// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
     	final double IWAabmd =
 			HGTRVHPMModel.INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2
-			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_WALL_M2);
+			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2);
     	// IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K).
         final double IWAabHL =
     		IWAabmd * HGTRVHPMModel.INTERNAL_WALL_U_WpM2K;
         // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK).
-        public static final double IWAabHLW =
+        final double IWAabHLW =
     		IWAabHL *
     			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+        // IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K).
+        final double IDAabHL =
+    		HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2 * HGTRVHPMModel.INTERNAL_DOOR_U_WpM2K;
+
 
 
 

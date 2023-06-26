@@ -111,8 +111,8 @@ public final class HGTRVHPMModel
 
     /**IWA: (Heat Loss 1.0) internal wall area of each internal intra-room wall (m^2). */
     public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = 2.3 * 4;
-    /**IDA: Heat Loss 1.0) internal door area per door - one in each internal wall (m^2). */
-    public static final double INTERNAL_DOOR_AREA_PER_WALL_M2 = 2;
+    /**IDA: Heat Loss 1.0) internal door area per door - test says one in each internal wall (m^2). */
+    public static final double INTERNAL_DOOR_AREA_PER_DOOR_M2 = 2;
     /**IWU: (Heat Loss 1.0) internal wall U value (W/m^2K). */
     public static final double INTERNAL_WALL_U_WpM2K = 2;
     /**IWU: (Heat Loss 1.0) internal door U value (W/m^2K). */
@@ -123,7 +123,7 @@ public final class HGTRVHPMModel
      * Note: inconsistent with text that says one door per internal wall rather than per pair.
      */
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 =
-		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 - INTERNAL_DOOR_AREA_PER_WALL_M2;
+		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_M2 - INTERNAL_DOOR_AREA_PER_DOOR_M2;
     /**IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K). */
     public static final double INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK =
 		INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2 * INTERNAL_WALL_U_WpM2K;
@@ -133,7 +133,7 @@ public final class HGTRVHPMModel
     		(NORMAL_ROOM_TEMPERATURE_C - SETBACK_ROOM_TEMPERATURE_C);
     /**IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K). */
     public static final double INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK =
-		INTERNAL_DOOR_AREA_PER_WALL_M2 * INTERNAL_DOOR_U_WpM2K;
+		INTERNAL_DOOR_AREA_PER_DOOR_M2 * INTERNAL_DOOR_U_WpM2K;
     /**IDAabHLW: (Heat Loss 1.6) internal door heat loss per door (W). */
     public static final double INTERNAL_DOOR_HEAT_LOSS_W =
 		INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK *
