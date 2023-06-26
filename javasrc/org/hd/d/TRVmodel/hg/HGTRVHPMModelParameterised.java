@@ -72,7 +72,10 @@ public final class HGTRVHPMModelParameterised
     	// TODO
 
 
-    	return(0); // FIXME
+
+
+
+    	return(withBSetback ? HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W : HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W);
 	    }
 
  	}
