@@ -105,25 +105,21 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
         final double radWAbs =
     		HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
-
         // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
         // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W_
         final double radWBbs =
     		(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W - 2*radWAbs) / 2;
-
         // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAmult =
     		radWAbs / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+        // radAbsdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
+        // (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+        final double radAbsdTmult =
+    		Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
 
 
 
-
-//     	/**MWATP2Dexp: (Heat Loss 2.2) exponent to go from power increase to delta-T increase. */
-//        public static final double RADIATOR_EXP_POWER_TO_DT = 0.77;
-//        /**radAbsdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
-//        public static final double RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =
-//    		Math.pow(RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, RADIATOR_EXP_POWER_TO_DT);
 //        /**radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */
 //        public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K =
 //    		RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_W * RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER;
