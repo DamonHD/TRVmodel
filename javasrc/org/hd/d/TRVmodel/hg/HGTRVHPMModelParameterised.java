@@ -1,5 +1,7 @@
 package org.hd.d.TRVmodel.hg;
 
+import java.util.Objects;
+
 /**Parameterised recreation of the heat-pump / TRV / energy interactions from Heat Geek's page:
  * <a href="https://www.heatgeek.com/why-not-to-zone-heat-pumps-or-boilers/">https://www.heatgeek.com/why-not-to-zone-heat-pumps-or-boilers/</a>
  * as of ~2023-06.
@@ -60,9 +62,14 @@ public final class HGTRVHPMModelParameterised
      */
     public static double computeHPElectricityDemandW(final ModelParameters params, final boolean withBSetback)
 	    {
+    	Objects.requireNonNull(params);
+
+    	// Parameterisation not yet handled...
+    	if(params.doorsPerInternalWall != ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
+    	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
-
+    	// TODO
 
 
     	return(0); // FIXME
