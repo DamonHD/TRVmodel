@@ -49,5 +49,9 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    final double intermediateTempC = 50.0;
 	    assertTrue("should interpolate an intermediate value (inverse relationship)", HGTRVHPMModel.COP_AT_46p0C > HGTRVHPMModelParameterised.computeFlowCoP(intermediateTempC));
 	    assertTrue("should interpolate an intermediate value (inverse relationship)", HGTRVHPMModel.COP_AT_51p5C < HGTRVHPMModelParameterised.computeFlowCoP(intermediateTempC));
+	    final double lowTempC = 35.0;
+	    assertTrue("should extrapolate low", HGTRVHPMModel.COP_AT_46p0C < HGTRVHPMModelParameterised.computeFlowCoP(lowTempC));
+	    final double highTempC = 60.0;
+	    assertTrue("should extrapolate high", HGTRVHPMModel.COP_AT_51p5C>  HGTRVHPMModelParameterised.computeFlowCoP(highTempC));
 	    }
     }
