@@ -56,7 +56,7 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    }
 
     /**Test with parameters at default except one full door per internal wall. */
-    public static void testOneDoorPerInternalWall()
+    public static void testOneDoorPerInternalWallCorrection()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters oneDoor = new HGTRVHPMModelParameterised.ModelParameters(1.0);
     	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, false);
@@ -82,4 +82,17 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
 
+    /**Test with parameters at default except corrections for CoP and doors. */
+    public static void testCorrections()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters corrections = new HGTRVHPMModelParameterised.ModelParameters(
+    			1.0, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(corrections, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(corrections, true);
+	    assertTrue("corrections should increase overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
+	    assertTrue("corrections should increase overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
+	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
+	    }
     }
