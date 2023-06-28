@@ -61,12 +61,10 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     	final HGTRVHPMModelParameterised.ModelParameters oneDoor = new HGTRVHPMModelParameterised.ModelParameters(1.0);
     	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, false);
     	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, true);
-
 	    assertEquals("doors-per-internal-wall should not affect no-setback case",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 0.5);
-
-//	    assertEquals("doors-per-internal-wall should increase intra-room loss and overall electricity demand",
-//    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W , powerWithSetback);
+	    assertTrue("doors-per-internal-wall should increase intra-room loss and overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
 
 
 

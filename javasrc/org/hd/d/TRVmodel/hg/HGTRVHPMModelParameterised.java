@@ -119,7 +119,7 @@ public final class HGTRVHPMModelParameterised
         // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
         // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
         final double IDWAabHLW =
-    		IWAabHLW + IDAabHLW;
+    		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
 
         // HEAT LOSS 2
         // radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W).
