@@ -47,6 +47,9 @@ public final class HGTRVHPMModelParameterised
     			);
 	    	}
 
+    	/**Allow doors per internal wall to be set, all else defaults. */
+    	public ModelParameters(final double doorsPerInternalWall) { this(doorsPerInternalWall, true); }
+
         /**Default doors per internal wall: matches the 0.5 in calcs on the original page. */
     	public static final double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
     	/**Default room arrangement ABAB (vs AABB) alternating as original calcs. */
@@ -85,7 +88,6 @@ public final class HGTRVHPMModelParameterised
     	Objects.requireNonNull(params);
 
     	// Parameterisation not yet fully handled...
-    	if(params.doorsPerInternalWall != ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
     	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 

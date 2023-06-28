@@ -54,4 +54,18 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    final double highTempC = 60.0;
 	    assertTrue("should extrapolate high", HGTRVHPMModel.COP_AT_51p5C > HGTRVHPMModelParameterised.computeFlowCoP(highTempC));
 	    }
+
+    /**Test with parameters at default except one full door per internal wall. */
+    public static void testOneDoorPerInternalWall()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters oneDoor = new HGTRVHPMModelParameterised.ModelParameters(1.0);
+
+	    assertEquals("doors-per-internal-wall should not affect no-setback case",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, false), 1);
+
+
+
+
+
+	    }
     }
