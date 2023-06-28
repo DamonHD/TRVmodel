@@ -68,7 +68,7 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    }
 
     /**Test with parameters at default except CoP correction to use flow rather than radiator mean water temperature. */
-    public static void testFlowTempereatureCorrection()
+    public static void testFlowTemperatureCorrection()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters fixCoP = new HGTRVHPMModelParameterised.ModelParameters(
     			HGTRVHPMModelParameterised.ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL, true);
