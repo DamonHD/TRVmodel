@@ -161,16 +161,20 @@ public final class HGTRVHPMModelParameterised
         final double radAMW =
             HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
 
+        // Assumed delta between MW and flow temperature (5K system delta).
+        final double flowMWDelta = 2.5;
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta : 0;
+
         // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here.
         final double HPinWnsb =
-    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / computeFlowCoP(radAMW);
+    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / computeFlowCoP(radAMW + CoPCorrectionK);
         // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here.
         final double HPinWsb =
-    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / computeFlowCoP(radAbsMW);
+    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / computeFlowCoP(radAbsMW + CoPCorrectionK);
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
 	    }
