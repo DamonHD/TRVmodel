@@ -66,4 +66,18 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    assertTrue("doors-per-internal-wall should increase intra-room loss and overall electricity demand",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
 	    }
+
+    /**Test with parameters at default except CoP correction to use flow rather than radiator mean water temperature. */
+    public static void testFlowTempereatureCorrection()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters fixCoP = new HGTRVHPMModelParameterised.ModelParameters(
+    			HGTRVHPMModelParameterised.ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(fixCoP, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(fixCoP, true);
+	    assertTrue("CoP correction should increase overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
+	    assertTrue("CoP correction should increase overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
+	    }
+
     }
