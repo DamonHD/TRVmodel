@@ -48,7 +48,8 @@ public final class HGTRVHPMModelParameterised
 	    	}
 
     	/**Allow doors per internal wall to be set, all else defaults. */
-    	public ModelParameters(final double doorsPerInternalWall) { this(doorsPerInternalWall, true); }
+    	public ModelParameters(final double doorsPerInternalWall)
+    	    { this(doorsPerInternalWall, true); }
 
         /**Default doors per internal wall: matches the 0.5 in calcs on the original page. */
     	public static final double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
