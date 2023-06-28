@@ -65,9 +65,5 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 0.5);
 	    assertTrue("doors-per-internal-wall should increase intra-room loss and overall electricity demand",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
-
-
-
-
 	    }
     }
