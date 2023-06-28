@@ -28,6 +28,7 @@ public final class HGTRVHPMModelParameterised
      */
     public record ModelParameters(
     		double doorsPerInternalWall,
+    		boolean correctCoPForFlowVsMW,
     		boolean roomsAlternatingABAB
     		)
 	    {
@@ -43,16 +44,23 @@ public final class HGTRVHPMModelParameterised
 	    	{
 	    	this(
     			DEFAULT_DOORS_PER_INTERNAL_WALL,
-    			true
+    			DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+    			DEFAULT_ARRANGEMENT_ABAB
     			);
 	    	}
 
     	/**Allow doors per internal wall to be set, all else defaults. */
+    	public ModelParameters(final double doorsPerInternalWall, final boolean correctCoPForFlowVsMW)
+    	    { this(doorsPerInternalWall, correctCoPForFlowVsMW, DEFAULT_ARRANGEMENT_ABAB); }
+
+    	/**Allow doors per internal wall to be set, all else defaults. */
     	public ModelParameters(final double doorsPerInternalWall)
-    	    { this(doorsPerInternalWall, true); }
+    	    { this(doorsPerInternalWall, DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE); }
 
         /**Default doors per internal wall: matches the 0.5 in calcs on the original page. */
     	public static final double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
+    	/**Default correction for CoP for flow rather than radiator mean water temperature. */
+    	public static final boolean DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE = false;
     	/**Default room arrangement ABAB (vs AABB) alternating as original calcs. */
     	public static final boolean DEFAULT_ARRANGEMENT_ABAB = true;
 	    }
