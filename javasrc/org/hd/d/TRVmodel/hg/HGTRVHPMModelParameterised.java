@@ -63,6 +63,12 @@ public final class HGTRVHPMModelParameterised
     	public static final boolean DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE = false;
     	/**Default room arrangement ABAB (vs AABB) alternating as original calcs. */
     	public static final boolean DEFAULT_ARRANGEMENT_ABAB = true;
+
+        /**Fixed doors per internal wall: matches the 1 in text on the original page. */
+    	public static final double FIXED_DOORS_PER_INTERNAL_WALL = 1.0;
+    	/**Fixed correction for CoP for flow rather than radiator mean water temperature. */
+    	public static final boolean FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE = true;
+
 	    }
 
     /**Estimate the CoP for a given flow temperature (C) given the two supplied data points.
@@ -155,7 +161,6 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
         final double radAbsMW =
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
-
 
         // Normal (no setback) mean water temperature (C).
         final double radAMW =
