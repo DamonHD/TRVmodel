@@ -58,7 +58,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     /**Test with parameters at default except one full door per internal wall. */
     public static void testOneDoorPerInternalWallCorrection()
 	    {
-    	final HGTRVHPMModelParameterised.ModelParameters oneDoor = new HGTRVHPMModelParameterised.ModelParameters(1.0);
+    	final HGTRVHPMModelParameterised.ModelParameters oneDoor = new HGTRVHPMModelParameterised.ModelParameters(
+			HGTRVHPMModelParameterised.ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL);
     	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, false);
     	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, true);
 	    assertEquals("doors-per-internal-wall should not affect no-setback case",
@@ -72,7 +73,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     public static void testFlowTemperatureCorrection()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters fixCoP = new HGTRVHPMModelParameterised.ModelParameters(
-    			HGTRVHPMModelParameterised.ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL, true);
+			HGTRVHPMModelParameterised.ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
+			HGTRVHPMModelParameterised.ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE);
     	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(fixCoP, false);
     	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(fixCoP, true);
 	    assertTrue("CoP correction should increase overall electricity demand",
@@ -86,7 +88,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     public static void testCorrections()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters corrections = new HGTRVHPMModelParameterised.ModelParameters(
-    			1.0, true);
+			HGTRVHPMModelParameterised.ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+			HGTRVHPMModelParameterised.ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE);
     	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(corrections, false);
     	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(corrections, true);
 	    assertTrue("corrections should increase overall electricity demand",

@@ -68,7 +68,11 @@ public final class HGTRVHPMModelParameterised
     	public static final double FIXED_DOORS_PER_INTERNAL_WALL = 1.0;
     	/**Fixed correction for CoP for flow rather than radiator mean water temperature. */
     	public static final boolean FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE = true;
-
+        /**Version of parameters with fixes applied but no other changes from defaults. */
+    	public static final ModelParameters FIXES_APPLIED =
+			new ModelParameters(
+    			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+    			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE);
 	    }
 
     /**Estimate the CoP for a given flow temperature (C) given the two supplied data points.
