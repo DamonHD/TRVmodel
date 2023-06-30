@@ -20,6 +20,9 @@ public final class ShowComputations
     	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false),
     	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, true)));
 
+		System.out.println(String.format("Paramterised model, fixes applied for doors and CoP temperature, electricity demand normal / setback: %.0fW / %.0fW",
+    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, false),
+    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, true)));
 
 
 
