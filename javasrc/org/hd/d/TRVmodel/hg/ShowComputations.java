@@ -12,8 +12,14 @@ public final class ShowComputations
 		System.out.println("Show HG TRV/HP model computations.");
 
 		System.out.println(String.format("Hardwired model, electricity demand normal / setback: %.0fW / %.0fW",
-				HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W,
-				HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W));
+			HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W,
+			HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W));
+
+    	final HGTRVHPMModelParameterised.ModelParameters defaultParams = new HGTRVHPMModelParameterised.ModelParameters();
+		System.out.println(String.format("Paramterised model, all default parameters, electricity demand normal / setback: %.0fW / %.0fW",
+    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false),
+    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, true)));
+
 
 
 

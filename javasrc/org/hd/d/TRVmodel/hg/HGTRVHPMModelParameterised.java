@@ -187,5 +187,4 @@ public final class HGTRVHPMModelParameterised
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
 	    }
-
  	}
