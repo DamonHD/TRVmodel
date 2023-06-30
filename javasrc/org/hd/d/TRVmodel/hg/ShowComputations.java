@@ -11,10 +11,13 @@ public final class ShowComputations
 		{
 		System.out.println("Show HG TRV/HP model computations.");
 
+		System.out.println(String.format("Hardwired model, electricity demand normal / setback: %.0fW / %.0fW",
+				HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W,
+				HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W));
 
 
 
-		// TODO Auto-generated method stub
+		// TODO
 
 		}
 	}
