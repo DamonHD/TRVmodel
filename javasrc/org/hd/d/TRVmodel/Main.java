@@ -16,6 +16,8 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package org.hd.d.TRVmodel;
 
+import org.hd.d.TRVmodel.hg.ShowComputations;
+
 /**Main (command-line) entry-point for the data handler.
  */
 public final class Main
@@ -26,6 +28,8 @@ public final class Main
         System.err.println("Commands/options");
         System.err.println("  -help");
         System.err.println("    This summary/help.");
+        System.err.println("  -hg");
+        System.err.println("    Show Heat Geek TRV/HP model and variants.");
         }
 
     /**Accepts command-line arguments.
@@ -47,8 +51,11 @@ public final class Main
 
         try
             {
-            
-            
+        	if("-hg".equals(args[0]))
+    			{
+        		ShowComputations.showCalcs();
+        		System.exit(0);
+    			}
             }
         catch(final Throwable e)
             {
