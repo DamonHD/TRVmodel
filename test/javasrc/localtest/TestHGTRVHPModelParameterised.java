@@ -98,4 +98,18 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
+
+    /**Test with corrections for CoP and doors and AABB room arrangement. */
+    public static void testCorrectionsAndAABB()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters correctionsAndAABB = HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB;
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(correctionsAndAABB, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(correctionsAndAABB, true);
+	    assertTrue("corrections should increase overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
+	    assertTrue("corrections should increase overall electricity demand",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
+	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
+	    }
+
     }

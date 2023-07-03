@@ -73,6 +73,13 @@ public final class HGTRVHPMModelParameterised
 			new ModelParameters(
     			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
     			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE);
+
+    	/**AABB minimal-loss room arrangement. */
+    	public static final ModelParameters FIXES_AND_AABB =
+			new ModelParameters(
+    			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+    			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+    			false);
 	    }
 
     /**Estimate the CoP for a given flow temperature (C) given the two supplied data points.
@@ -107,7 +114,7 @@ public final class HGTRVHPMModelParameterised
     	Objects.requireNonNull(params);
 
     	// Parameterisation not yet fully handled...
-    	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
+//    	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
         // HEAT LOSS 1
@@ -136,7 +143,10 @@ public final class HGTRVHPMModelParameterised
     		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
         // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
         // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
-        final double IDWAabHLW =
+        // In the original ABAB arrangement there are two walls from each A room into B rooms.
+        // In the alternate AABB arrangement there is one wall from each A room into a B room.
+        // Thus AABB has half the internal heat loss of ABAB.
+        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
     		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
 
         // HEAT LOSS 2
