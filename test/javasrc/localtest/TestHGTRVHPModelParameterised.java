@@ -18,6 +18,7 @@ package localtest;
 
 import org.hd.d.TRVmodel.hg.HGTRVHPMModel;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.ModelParameters;
 
 import junit.framework.TestCase;
 
@@ -112,4 +113,18 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
 
+    /**Test without corrections and original external air temperature. */
+    public static void testVariableExternalAirTemperaturePerOriginal()
+	    {
+    	final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C;
+      	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
+      			ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
+      			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+      			eat);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
+	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 1);
+	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, powerWithSetback, 1);
+	    }
     }
