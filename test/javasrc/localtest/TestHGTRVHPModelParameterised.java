@@ -128,37 +128,37 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, powerWithSetback, 1);
 	    }
 
-//    /**Test without corrections that lowering external air temperature raises electricity demand. */
-//    public static void testVariableExternalAirTemperatureBelowOriginal()
-//	    {
-//    	final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 1.0;
-//      	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
-//      			ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
-//      			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-//      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
-//      			eat);
-//    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
-//    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
-//	    assertTrue("lowering external air temperature should increase overall electricity demand unsetback",
-//    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
-//	    assertTrue("lowering external air temperature should increase overall electricity demand setback",
-//    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
-//	    }
-//
-//    /**Test without corrections that raising external air temperature lowers electricity demand. */
-//    public static void testVariableExternalAirTemperatureAboveOriginal()
-//	    {
-//    	final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C + 1.0;
-//      	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
-//      			ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
-//      			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-//      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
-//      			eat);
-//    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
-//    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
-//	    assertTrue("raising external air temperature should lower overall electricity demand unsetback",
-//    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W > powerNoSetback);
-//	    assertTrue("raising external air temperature should lower overall electricity demand setback",
-//    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W > powerWithSetback);
-//	    }
+    /**Test without corrections that lowering external air temperature raises electricity demand. */
+    public static void testVariableExternalAirTemperatureBelowOriginal()
+	    {
+    	final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 1.0;
+      	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
+      			ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
+      			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+      			eat);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
+	    assertTrue("lowering external air temperature should increase overall electricity demand unsetback",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
+	    assertTrue("lowering external air temperature should increase overall electricity demand setback",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W < powerWithSetback);
+	    }
+
+    /**Test without corrections that raising external air temperature lowers electricity demand. */
+    public static void testVariableExternalAirTemperatureAboveOriginal()
+	    {
+    	final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C + 1.0;
+      	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
+      			ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
+      			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+      			eat);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
+	    assertTrue("raising external air temperature should lower overall electricity demand unsetback",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W > powerNoSetback);
+	    assertTrue("raising external air temperature should lower overall electricity demand setback",
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W > powerWithSetback);
+	    }
     }
