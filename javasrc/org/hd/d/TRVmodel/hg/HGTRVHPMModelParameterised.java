@@ -119,7 +119,7 @@ public final class HGTRVHPMModelParameterised
     	Objects.requireNonNull(params);
 
     	// Parameterisation not yet fully handled...
-    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
+//    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
     	// Do not allow model to be run with potentially implausible parameters.
@@ -169,9 +169,9 @@ public final class HGTRVHPMModelParameterised
     	// Whole home heat loss with B rooms setback and given external air temperature (W).
         final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
-		// radW: (Flow Temperature, step 1) pre-setback radiator output (W).
+		// radWN: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
-		final double radW = HHL / 4;
+		final double radWN = HHL / 4;
 
 
         // HEAT LOSS 1
@@ -210,7 +210,8 @@ public final class HGTRVHPMModelParameterised
         // radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W).
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
         final double radWAbs =
-    		HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
+        	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
+    		radWN + IDWAabHLW;
         // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
         // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
 // TODO: why unused: radWBbs
