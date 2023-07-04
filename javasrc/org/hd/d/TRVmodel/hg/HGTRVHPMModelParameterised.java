@@ -119,11 +119,10 @@ public final class HGTRVHPMModelParameterised
     	Objects.requireNonNull(params);
 
     	// Parameterisation not yet fully handled...
-//    	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
     	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
-    	// Do not allow model to run with potentially implausible parameters.
+    	// Do not allow model to be run with potentially implausible parameters.
     	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
 
