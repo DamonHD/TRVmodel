@@ -157,7 +157,7 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
     	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
 	    assertTrue("raising external air temperature should lower overall electricity demand unsetback",
-    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W >powerNoSetback);
+    		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W > powerNoSetback);
 	    assertTrue("raising external air temperature should lower overall electricity demand setback",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W > powerWithSetback);
 	    }
