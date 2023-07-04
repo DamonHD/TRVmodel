@@ -113,7 +113,7 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
 
-    /**Test without corrections and original external air temperature. */
+    /**Test without corrections and explicitly with original external air temperature. */
     public static void testVariableExternalAirTemperaturePerOriginal()
 	    {
     	final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C;
