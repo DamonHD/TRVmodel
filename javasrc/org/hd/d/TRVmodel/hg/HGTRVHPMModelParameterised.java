@@ -119,7 +119,7 @@ public final class HGTRVHPMModelParameterised
     	Objects.requireNonNull(params);
 
     	// Parameterisation not yet fully handled...
-//    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
+    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
     	// Do not allow model to be run with potentially implausible parameters.
