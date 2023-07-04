@@ -123,6 +123,55 @@ public final class HGTRVHPMModelParameterised
     	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
+    	// Do not allow model to run with potentially implausible parameters.
+    	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
+    	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
+
+
+
+
+///**tExt: external air temperature, ie design temperature on cold winter day, (Celsius). */
+//public static final double EXTERNAL_AIR_TEMPERATURE_C = -3;
+///**tInt: 'normal' room temperature (Celsius). */
+//public static final double NORMAL_ROOM_TEMPERATURE_C = 21;
+///**HLDT: design temperature (cold winter day) for heat loss calculations (Kelvin). */
+//public static final double HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K =
+//	(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
+///**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
+//public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
+///**radW: pre-setback radiator output (W). */
+//public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
+///**radMWATdT: no-setback Mean Water to Air Temperature delta T (K). */
+//public static final double RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K = 25;
+
+
+///**HLpK: (Flow Temperature, step 1) heat loss per Kelvin (W/K). */
+//public static final double HOME_HEAT_LOSS_PER_KELVIN_WpK =
+//	HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K;
+//
+///**tIntSetback: setback/unused room temperature (Celsius). */
+//public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
+///**tMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */
+//public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =
+//	(NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;
+///**HLsbW: (Flow Temperature, step 3) heat loss with B rooms setback (W). */
+//public static final double HOME_HEAT_LOSS_B_SETBACK_W = HOME_HEAT_LOSS_PER_KELVIN_WpK *
+//		(MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - EXTERNAL_AIR_TEMPERATURE_C);
+///**HLfall: (Flow Temperature, step 3) reduction in home heat loss with B set back. */
+//public static final double HOME_HEAT_LOSS_FALL_B_SETBACK =
+//	(HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W - HOME_HEAT_LOSS_B_SETBACK_W) /
+//		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W;
+
+
+
+    	// Whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
+        final double HHL = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+        		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
+    	// Whole home heat loss with B rooms setback and given external air temperature (W).
+        final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
+        		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
+
+
         // HEAT LOSS 1
     	// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
     	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
