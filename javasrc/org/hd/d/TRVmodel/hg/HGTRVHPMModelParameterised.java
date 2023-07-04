@@ -169,6 +169,9 @@ public final class HGTRVHPMModelParameterised
     	// Whole home heat loss with B rooms setback and given external air temperature (W).
         final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
+		// radW: (Flow Temperature, step 1) pre-setback radiator output (W).
+        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
+		final double radW = HHL / 4;
 
 
         // HEAT LOSS 1
