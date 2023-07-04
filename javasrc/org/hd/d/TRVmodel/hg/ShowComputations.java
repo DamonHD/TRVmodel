@@ -33,8 +33,8 @@ public final class ShowComputations
 
         System.out.println();
         System.out.println("Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...");
-        final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C;
-//        for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
+//        final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C;
+        for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 10.0; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
 	        {
         	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
         			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
