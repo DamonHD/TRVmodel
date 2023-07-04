@@ -29,7 +29,8 @@ public final class HGTRVHPMModelParameterised
     public record ModelParameters(
     		double doorsPerInternalWall,
     		boolean correctCoPForFlowVsMW,
-    		boolean roomsAlternatingABAB
+    		boolean roomsAlternatingABAB,
+    		double externalAirTemperatureC
     		)
 	    {
     	public ModelParameters
@@ -45,13 +46,14 @@ public final class HGTRVHPMModelParameterised
 	    	this(
     			DEFAULT_DOORS_PER_INTERNAL_WALL,
     			DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-    			DEFAULT_ARRANGEMENT_ABAB
+    			DEFAULT_ARRANGEMENT_ABAB,
+    			DEFAULT_EXTERNAL_AIR_TEMPERATURE_C
     			);
 	    	}
 
     	/**Allow doors per internal wall to be set, all else defaults. */
     	public ModelParameters(final double doorsPerInternalWall, final boolean correctCoPForFlowVsMW)
-    	    { this(doorsPerInternalWall, correctCoPForFlowVsMW, DEFAULT_ARRANGEMENT_ABAB); }
+    	    { this(doorsPerInternalWall, correctCoPForFlowVsMW, DEFAULT_ARRANGEMENT_ABAB, DEFAULT_EXTERNAL_AIR_TEMPERATURE_C); }
 
     	/**Allow doors per internal wall to be set, all else defaults. */
     	public ModelParameters(final double doorsPerInternalWall)
@@ -63,6 +65,8 @@ public final class HGTRVHPMModelParameterised
     	public static final boolean DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE = false;
     	/**Default room arrangement ABAB (vs AABB) alternating as original calcs. */
     	public static final boolean DEFAULT_ARRANGEMENT_ABAB = true;
+    	/**Default external temperature (C). */
+    	public static final double DEFAULT_EXTERNAL_AIR_TEMPERATURE_C = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C;
 
         /**Fixed doors per internal wall: matches the 1 in text on the original page. */
     	public static final double FIXED_DOORS_PER_INTERNAL_WALL = 1.0;
@@ -79,7 +83,8 @@ public final class HGTRVHPMModelParameterised
 			new ModelParameters(
     			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
     			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-    			false);
+    			false,
+    			DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
 	    }
 
     /**Estimate the CoP for a given flow temperature (C) given the two supplied data points.
@@ -115,6 +120,7 @@ public final class HGTRVHPMModelParameterised
 
     	// Parameterisation not yet fully handled...
 //    	if(params.roomsAlternatingABAB != ModelParameters.DEFAULT_ARRANGEMENT_ABAB) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
+    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
 
 
         // HEAT LOSS 1
