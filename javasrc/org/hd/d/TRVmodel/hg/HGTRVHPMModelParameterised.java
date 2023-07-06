@@ -172,6 +172,7 @@ public final class HGTRVHPMModelParameterised
 		// radWN: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double radWN = HHL / 4;
+System.err.println(String.format("radWN = %f", radWN));
 
 
         // HEAT LOSS 1
@@ -216,7 +217,7 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
 // TODO: why unused: radWBbs
         final double radWBbs =
-    		(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W - 2*radWAbs) / 2;
+    		(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W - 2*radWAbs) / 2; // FIXME FOR eat
         // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAmult =
@@ -235,7 +236,7 @@ public final class HGTRVHPMModelParameterised
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
 
         // Normal (no setback) mean water temperature (C).
-        final double radAMW =
+        final double radAMW = // FIXME for eat
             HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
 
         // Assumed delta between MW and flow temperature (5K system delta).
@@ -250,7 +251,7 @@ public final class HGTRVHPMModelParameterised
         // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here.
-        final double HPinWsb =
+        final double HPinWsb = // FIXME for eat
     		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / computeFlowCoP(radAbsMW + CoPCorrectionK);
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
