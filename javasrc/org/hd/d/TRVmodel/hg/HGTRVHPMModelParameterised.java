@@ -127,42 +127,6 @@ public final class HGTRVHPMModelParameterised
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
 
 
-
-
-///**tExt: external air temperature, ie design temperature on cold winter day, (Celsius). */
-//public static final double EXTERNAL_AIR_TEMPERATURE_C = -3;
-///**tInt: 'normal' room temperature (Celsius). */
-//public static final double NORMAL_ROOM_TEMPERATURE_C = 21;
-///**HLDT: design temperature (cold winter day) for heat loss calculations (Kelvin). */
-//public static final double HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K =
-//	(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
-///**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
-//public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
-///**radW: pre-setback radiator output (W). */
-//public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
-///**radMWATdT: no-setback Mean Water to Air Temperature delta T (K). */
-//public static final double RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K = 25;
-
-
-///**HLpK: (Flow Temperature, step 1) heat loss per Kelvin (W/K). */
-//public static final double HOME_HEAT_LOSS_PER_KELVIN_WpK =
-//	HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K;
-//
-///**tIntSetback: setback/unused room temperature (Celsius). */
-//public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
-///**tMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */
-//public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =
-//	(NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;
-///**HLsbW: (Flow Temperature, step 3) heat loss with B rooms setback (W). */
-//public static final double HOME_HEAT_LOSS_B_SETBACK_W = HOME_HEAT_LOSS_PER_KELVIN_WpK *
-//		(MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - EXTERNAL_AIR_TEMPERATURE_C);
-///**HLfall: (Flow Temperature, step 3) reduction in home heat loss with B set back. */
-//public static final double HOME_HEAT_LOSS_FALL_B_SETBACK =
-//	(HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W - HOME_HEAT_LOSS_B_SETBACK_W) /
-//		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W;
-
-
-
     	// Whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
         final double HHL = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
@@ -172,7 +136,7 @@ public final class HGTRVHPMModelParameterised
 		// radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double radWnbs = HHL / 4;
-System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
+//System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
 
 
         // HEAT LOSS 1
@@ -250,7 +214,7 @@ System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAi
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAnbsmult =
     		radWnbs / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
+//System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
 
 		// radAnbsdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.
 		final double radAnbsdTmult =
@@ -261,28 +225,14 @@ System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
 		// radAnbsMW: radiator mean water temperature in each A room when B NOT setback (C).
 		final double radAnbsMW =
 			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnbsdT;
-System.err.println(String.format("radAnbsMW = %f", radAnbsMW));
-
-
-
-        // TODO
-
-
-
-
-
-
+//System.err.println(String.format("radAnbsMW = %f", radAnbsMW));
 
 
         // Normal (no setback) mean water temperature (C).
-        final double radAMW = // FIXME for eat
-            HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-System.err.println(String.format("radAMW = %f", radAMW));
-
-
-
-
-
+        final double radAMW = radAnbsMW;
+        // Was:
+//            HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+//System.err.println(String.format("radAMW = %f", radAMW));
 
 
         // Assumed delta between MW and flow temperature (5K system delta).
