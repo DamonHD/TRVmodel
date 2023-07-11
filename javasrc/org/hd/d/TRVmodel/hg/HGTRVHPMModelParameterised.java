@@ -252,6 +252,18 @@ System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAi
     		radWnbs / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
 System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
 
+		// radAnbsdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.
+		final double radAnbsdTmult =
+			Math.pow(radWAnbsmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
+		// radAnbsdT: radiator MW-AT delta-T in each A room when B NOT setback (K).
+		final double radAnbsdT =
+			HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAnbsdTmult;
+		// radAnbsMW: radiator mean water temperature in each A room when B NOT setback (C).
+		final double radAnbsMW =
+			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnbsdT;
+System.err.println(String.format("radAnbsMW = %f", radAnbsMW));
+
+
 
         // TODO
 
@@ -265,6 +277,7 @@ System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
         // Normal (no setback) mean water temperature (C).
         final double radAMW = // FIXME for eat
             HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+System.err.println(String.format("radAMW = %f", radAMW));
 
 
 
