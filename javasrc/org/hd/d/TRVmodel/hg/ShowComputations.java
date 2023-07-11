@@ -39,8 +39,12 @@ public final class ShowComputations
         	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
         			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
         			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-        			false,
+        			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
         			eat);
+        	if(Math.abs(HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - eat) < 0.1)
+	        	{
+        		System.out.println(String.format(" *** original external air temperature, ie %.1fC", eat));
+	        	}
         	System.out.println(String.format("  %s, electricity demand normal / setback: %.0fW / %.0fW",
     			params.toString(),
         	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false),
