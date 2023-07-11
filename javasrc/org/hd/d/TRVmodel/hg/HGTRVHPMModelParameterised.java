@@ -239,16 +239,21 @@ public final class HGTRVHPMModelParameterised
         final double flowMWDelta = 2.5;
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta : 0;
 
-        // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
+		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
-        // Note that flow and mean temperatures seem to be being mixed here.
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double CoPnsb = computeFlowCoP(radAMW + CoPCorrectionK);
+ System.err.println(String.format("CoPnsb = %f", CoPnsb));
         final double HPinWnsb =
-    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / computeFlowCoP(radAMW + CoPCorrectionK);
-        // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
+    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / CoPnsb;
+
+		// HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
-        // Note that flow and mean temperatures seem to be being mixed here.
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double CoPsb = computeFlowCoP(radAbsMW + CoPCorrectionK);
+System.err.println(String.format("CoPsb = %f", CoPsb));
         final double HPinWsb = // FIXME for eat
-    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / computeFlowCoP(radAbsMW + CoPCorrectionK);
+    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / CoPsb;
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
 	    }
