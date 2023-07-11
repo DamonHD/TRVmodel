@@ -169,10 +169,10 @@ public final class HGTRVHPMModelParameterised
     	// Whole home heat loss with B rooms setback and given external air temperature (W).
         final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
-		// radWN: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
+		// radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
-		final double radWN = HHL / 4;
-//System.err.println(String.format("radWN = %f", radWN));
+		final double radWnbs = HHL / 4;
+System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
 
 
         // HEAT LOSS 1
@@ -212,7 +212,7 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
         final double radWAbs =
         	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
-    		radWN + IDWAabHLW;
+    		radWnbs + IDWAabHLW;
         // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
         // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
 // TODO: why unused: radWBbs
@@ -246,6 +246,13 @@ public final class HGTRVHPMModelParameterised
 //     final double radAMW = // FIXME for eat
 //         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
         //
+        // radWAmult: (Heat Loss 2.1) radiator output (possibly < 1) multiplier in each A room when B is not setback.
+        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+        final double radWAnbsmult =
+    		radWnbs / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
+
+
         // TODO
 
 
