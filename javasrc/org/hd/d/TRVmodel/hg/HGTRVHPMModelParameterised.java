@@ -235,7 +235,7 @@ public final class HGTRVHPMModelParameterised
 //System.out.println(String.format("radAMW = %f", radAMW));
 
 
-        // Assumed delta between MW and flow temperature (5K system delta).
+        // Assumed delta between MW and flow temperature with 5K system delta (K).
         final double flowMWDelta = 2.5;
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta : 0;
 
