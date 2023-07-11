@@ -127,15 +127,15 @@ public final class HGTRVHPMModelParameterised
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
 
 
-    	// Whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
-        final double HHL = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+    	// HHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
+        final double HHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
-    	// Whole home heat loss with B rooms setback and given external air temperature (W).
+    	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
         final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
 		// radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
-		final double radWnbs = HHL / 4;
+		final double radWnbs = HHLnsb / 4;
 //System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
 
 
@@ -243,17 +243,17 @@ public final class HGTRVHPMModelParameterised
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
         final double CoPnsb = computeFlowCoP(radAMW + CoPCorrectionK);
- System.err.println(String.format("CoPnsb = %f", CoPnsb));
+//System.err.println(String.format("CoPnsb = %f", CoPnsb));
         final double HPinWnsb =
-    		HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / CoPnsb;
+    		HHLnsb / CoPnsb;
 
 		// HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
         final double CoPsb = computeFlowCoP(radAbsMW + CoPCorrectionK);
-System.err.println(String.format("CoPsb = %f", CoPsb));
+//System.err.println(String.format("CoPsb = %f", CoPsb));
         final double HPinWsb = // FIXME for eat
-    		HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W / CoPsb;
+    		HHLsb / CoPsb;
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
 	    }
