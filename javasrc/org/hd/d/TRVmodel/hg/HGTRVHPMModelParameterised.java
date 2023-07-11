@@ -136,7 +136,7 @@ public final class HGTRVHPMModelParameterised
 		// radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double radWnbs = HHLnsb / 4;
-//System.err.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
+//System.out.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
 
 
         // HEAT LOSS 1
@@ -178,10 +178,10 @@ public final class HGTRVHPMModelParameterised
         	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
     		radWnbs + IDWAabHLW;
         // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
-        // (RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
+        // (Was: RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
 // TODO: why unused: radWBbs
         final double radWBbs =
-    		(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W - 2*radWAbs) / 2; // FIXME FOR eat
+    		(HHLsb - 2*radWAbs) / 2;
         // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAmult =
@@ -207,14 +207,14 @@ public final class HGTRVHPMModelParameterised
         //   * thus the electricity demand
         //
         // Replaces the simple calc;
-//     final double radAMW = // FIXME for eat
+//     final double radAMW =
 //         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
         //
         // radWAmult: (Heat Loss 2.1) radiator output (possibly < 1) multiplier in each A room when B is not setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAnbsmult =
     		radWnbs / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-//System.err.println(String.format("radWAnbsmult = %f", radWAnbsmult));
+//System.out.println(String.format("radWAnbsmult = %f", radWAnbsmult));
 
 		// radAnbsdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.
 		final double radAnbsdTmult =
@@ -225,14 +225,14 @@ public final class HGTRVHPMModelParameterised
 		// radAnbsMW: radiator mean water temperature in each A room when B NOT setback (C).
 		final double radAnbsMW =
 			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnbsdT;
-//System.err.println(String.format("radAnbsMW = %f", radAnbsMW));
+//System.out.println(String.format("radAnbsMW = %f", radAnbsMW));
 
 
         // Normal (no setback) mean water temperature (C).
         final double radAMW = radAnbsMW;
         // Was:
 //            HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-//System.err.println(String.format("radAMW = %f", radAMW));
+//System.out.println(String.format("radAMW = %f", radAMW));
 
 
         // Assumed delta between MW and flow temperature (5K system delta).
@@ -243,7 +243,7 @@ public final class HGTRVHPMModelParameterised
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
         final double CoPnsb = computeFlowCoP(radAMW + CoPCorrectionK);
-//System.err.println(String.format("CoPnsb = %f", CoPnsb));
+//System.out.println(String.format("CoPnsb = %f", CoPnsb));
         final double HPinWnsb =
     		HHLnsb / CoPnsb;
 
@@ -251,8 +251,8 @@ public final class HGTRVHPMModelParameterised
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
         final double CoPsb = computeFlowCoP(radAbsMW + CoPCorrectionK);
-//System.err.println(String.format("CoPsb = %f", CoPsb));
-        final double HPinWsb = // FIXME for eat
+//System.out.println(String.format("CoPsb = %f", CoPsb));
+        final double HPinWsb =
     		HHLsb / CoPsb;
 
     	return(withBSetback ? HPinWsb : HPinWnsb);
