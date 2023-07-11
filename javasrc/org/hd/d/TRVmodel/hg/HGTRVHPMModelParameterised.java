@@ -172,7 +172,7 @@ public final class HGTRVHPMModelParameterised
 		// radWN: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double radWN = HHL / 4;
-System.err.println(String.format("radWN = %f", radWN));
+//System.err.println(String.format("radWN = %f", radWN));
 
 
         // HEAT LOSS 1
@@ -235,9 +235,35 @@ System.err.println(String.format("radWN = %f", radWN));
         final double radAbsMW =
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
 
+        // Extension to heat loss 2 to allow for varying external temperatures.
+        // Compute, for when B rooms are not set back:
+        //   * the needed power for each A radiator
+        //   * thus the implied temperature
+        //   * thus the CoP
+        //   * thus the electricity demand
+        //
+        // Replaces the simple calc;
+//     final double radAMW = // FIXME for eat
+//         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+        //
+        // TODO
+
+
+
+
+
+
+
+
         // Normal (no setback) mean water temperature (C).
         final double radAMW = // FIXME for eat
             HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+
+
+
+
+
+
 
         // Assumed delta between MW and flow temperature (5K system delta).
         final double flowMWDelta = 2.5;
