@@ -161,4 +161,26 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    assertTrue("raising external air temperature should lower overall electricity demand setback",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W > powerWithSetback);
 	    }
+
+    /**Test (with corrections) that there is an external temperature above which expected TRV energy-saving behaviour returns. */
+    public static void testForEATThresholdForSetbackSavingsBehaviour()
+	    {
+    	final double thresholdEAT = 10.0;
+      	final HGTRVHPMModelParameterised.ModelParameters paramsBelowThreshold = new ModelParameters(
+      			HGTRVHPMModelParameterised.ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+    			HGTRVHPMModelParameterised.ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+      			thresholdEAT - 1.0);
+     	final HGTRVHPMModelParameterised.ModelParameters paramsAboveThreshold = new ModelParameters(
+      			HGTRVHPMModelParameterised.ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+    			HGTRVHPMModelParameterised.ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+      			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+      			thresholdEAT + 1.0);
+	    assertTrue("electrical power goes UP with B rooms set back below EAT threshold",
+	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsBelowThreshold, false) <
+	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsBelowThreshold, true));
+	    assertTrue("electrical power goes DOWN with B rooms set back above EAT threshold",
+	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsAboveThreshold, false) >
+	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsAboveThreshold, true));
+	    }
     }
