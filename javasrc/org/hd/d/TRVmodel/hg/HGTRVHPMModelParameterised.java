@@ -198,6 +198,7 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
         final double radAbsMW =
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAbsdT;
+//System.out.println(String.format("radAbsMW = %.1f", radAbsMW));
 
         // Extension to heat loss 2 to allow for varying external temperatures.
         // Compute, for when B rooms are not set back:
@@ -225,7 +226,7 @@ public final class HGTRVHPMModelParameterised
 		// radAnbsMW: radiator mean water temperature in each A room when B NOT setback (C).
 		final double radAnbsMW =
 			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnbsdT;
-//System.out.println(String.format("radAnbsMW = %f", radAnbsMW));
+//System.out.println(String.format("radAnbsMW = %.1f", radAnbsMW));
 
 
         // Normal (no setback) mean water temperature (C).
