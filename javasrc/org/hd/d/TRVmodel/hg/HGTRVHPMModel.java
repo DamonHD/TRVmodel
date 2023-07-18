@@ -184,8 +184,11 @@ public final class HGTRVHPMModel
     public static final double HEAT_PUMP_POWER_IN_B_SETBACK_W =
 		HOME_HEAT_LOSS_B_SETBACK_W / COP_AT_51p5C;
 
+
     /**Extras available from the model. */
     /**TFA: approximate total floor area (ignoring wall thickness (m^2). */
     public static final double HOME_TOTAL_FLOOR_AREA_M2 = (INTERNAL_WALL_LENGTH_M * INTERNAL_WALL_LENGTH_M) * 4;
+    /**TEWL: approximate external wall length (ignoring wall thickness (m). */
+    public static final double HOME_TOTAL_EXTERNAL_WALL_LENGTH_M = INTERNAL_WALL_LENGTH_M * 8;
 
  	}
