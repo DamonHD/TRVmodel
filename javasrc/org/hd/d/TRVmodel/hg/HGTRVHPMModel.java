@@ -195,5 +195,7 @@ public final class HGTRVHPMModel
     /**TEWA: approximate external wall area (ignoring wall thickness (m2). */
     public static final double HOME_TOTAL_EXTERNAL_WALL_AREA_M2 =
 		HOME_TOTAL_EXTERNAL_WALL_LENGTH_M * INTERNAL_WALL_HEIGHT_M;
-
+    /**EWU: effective total external wall U value (assuming no heat loss through any other route, eg roof (W/m^2K). */
+    public static final double HOME_EXTERNAL_WALL_U_WpM2K =
+		HOME_HEAT_LOSS_PER_KELVIN_WpK / HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
  	}
