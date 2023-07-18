@@ -111,8 +111,10 @@ public final class HGTRVHPMModel
 
     /**IWL: (Heat Loss 1.0) internal wall length of each intra-room wall (m). */
     public static final double INTERNAL_WALL_LENGTH_M = 4;
+    /**IWH: (Heat Loss 1.0) internal wall height of each intra-room wall (m). */
+    public static final double INTERNAL_WALL_HEIGHT_M = 2.3;
     /**IWA: (Heat Loss 1.0) internal wall area of each internal intra-room wall (m^2). */
-    public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = 2.3 * INTERNAL_WALL_LENGTH_M;
+    public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = INTERNAL_WALL_HEIGHT_M * INTERNAL_WALL_LENGTH_M;
     /**IDA: (Heat Loss 1.0) internal door area per door - test says one in each internal wall (m^2). */
     public static final double INTERNAL_DOOR_AREA_PER_DOOR_M2 = 2;
     /**IWU: (Heat Loss 1.0) internal wall U value (W/m^2K). */
