@@ -185,10 +185,15 @@ public final class HGTRVHPMModel
 		HOME_HEAT_LOSS_B_SETBACK_W / COP_AT_51p5C;
 
 
-    /**Extras available from the model. */
+    /**Extras available from the HG description. */
     /**TFA: approximate total floor area (ignoring wall thickness (m^2). */
-    public static final double HOME_TOTAL_FLOOR_AREA_M2 = (INTERNAL_WALL_LENGTH_M * INTERNAL_WALL_LENGTH_M) * 4;
+    public static final double HOME_TOTAL_FLOOR_AREA_M2 =
+		(INTERNAL_WALL_LENGTH_M * INTERNAL_WALL_LENGTH_M) * 4;
     /**TEWL: approximate external wall length (ignoring wall thickness (m). */
-    public static final double HOME_TOTAL_EXTERNAL_WALL_LENGTH_M = INTERNAL_WALL_LENGTH_M * 8;
+    public static final double HOME_TOTAL_EXTERNAL_WALL_LENGTH_M =
+		INTERNAL_WALL_LENGTH_M * 8;
+    /**TEWA: approximate external wall area (ignoring wall thickness (m2). */
+    public static final double HOME_TOTAL_EXTERNAL_WALL_AREA_M2 =
+		HOME_TOTAL_EXTERNAL_WALL_LENGTH_M * INTERNAL_WALL_HEIGHT_M;
 
  	}
