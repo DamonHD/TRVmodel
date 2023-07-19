@@ -89,17 +89,17 @@ public final class HGTRVHPMModelParameterised
 
     /**Heat demand and the electricity input to the heat pump to meet it (W).
      * @param heatDemand  raw heat demand to maintain home temperature; finite, non-negative
-     * @param heatPumpInput  electricity into the heat pump to maintain home temperature; finite, non-negative
+     * @param heatPumpElectricity  electricity into the heat pump to maintain home temperature; finite, non-negative
      */
-    public record HeatAndElectricityDemand(double heatDemand, double heatPumpInput)
+    public record HeatAndElectricityDemand(double heatDemand, double heatPumpElectricity)
 	    {
 	    public HeatAndElectricityDemand
 		    {
     		// Sanity-check parameters.
     		if(!Double.isFinite(heatDemand)) { throw new IllegalArgumentException(); }
     		if(heatDemand < 0) { throw new IllegalArgumentException(); }
-    		if(!Double.isFinite(heatPumpInput)) { throw new IllegalArgumentException(); }
-    		if(heatPumpInput < 0) { throw new IllegalArgumentException(); }
+    		if(!Double.isFinite(heatPumpElectricity)) { throw new IllegalArgumentException(); }
+    		if(heatPumpElectricity < 0) { throw new IllegalArgumentException(); }
 		    }
 	    }
 
