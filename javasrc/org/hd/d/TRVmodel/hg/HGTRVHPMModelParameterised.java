@@ -103,6 +103,16 @@ public final class HGTRVHPMModelParameterised
 		    }
 	    }
 
+    /**Home heat and electricity demand with and without setback in B rooms; both non-null. */
+    public record DemandWithoutAndWithSetback(HeatAndElectricityDemand noSetback, HeatAndElectricityDemand withSetback)
+	    {
+    	public DemandWithoutAndWithSetback
+	    	{
+    		Objects.requireNonNull(noSetback);
+    		Objects.requireNonNull(withSetback);
+	    	}
+	    }
+
     /**Estimate the CoP for a given flow temperature (C) given the two supplied data points.
      * This does a simple linear fit, which is not perfect but probably adequate.
      * <p>
