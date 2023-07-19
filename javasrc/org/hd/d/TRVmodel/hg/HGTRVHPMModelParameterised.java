@@ -143,6 +143,22 @@ public final class HGTRVHPMModelParameterised
     public static double computeHPElectricityDemandW(final ModelParameters params, final boolean withBSetback)
 	    {
     	Objects.requireNonNull(params);
+    	return(withBSetback ?
+    			computeDemandW(params).withSetback.heatPumpElectricity :
+    			computeDemandW(params).noSetback.heatPumpElectricity);
+	    }
+
+    /**Compute the raw heat and heat-pump electricity demand with and without setback (W).
+     * The calculation uses constants from HGTRVHPMModel as far as possible,
+     * substituting in parameters and new calculation where needed.
+     *
+     * @param params  the variable model parameters
+     * @param withBSetback  if true, with B rooms set back, else all at same temperature
+     * @return  demand in watts, finite and non-negative
+     */
+    public static DemandWithoutAndWithSetback computeDemandW(final ModelParameters params)
+	    {
+    	Objects.requireNonNull(params);
 
     	// Parameterisation not yet fully handled...
 //    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
@@ -282,6 +298,10 @@ public final class HGTRVHPMModelParameterised
         final double HPinWsb =
     		HHLsb / CoPsb;
 
-    	return(withBSetback ? HPinWsb : HPinWnsb);
+        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(HHLnsb, HPinWnsb);
+        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(HHLsb, HPinWsb);
+
+        // Return everything at once.
+    	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
 	    }
  	}
