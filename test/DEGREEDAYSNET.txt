@@ -1,0 +1,12 @@
+Note on data from degreedays.net.
+
+(Thank you again for permission to use the data in this project.)
+
+Email extract from "Degree Days.net" <info@degreedays.net> 2023-07-19:
+
+"We don't place any restrictions on what people do with the data from our system."
+
+Thus, as part of this project you may use the embedded degreedays.net data sets,
+for example to extend or reproduce/validate this work.
+
+Please support degreedays.net.
