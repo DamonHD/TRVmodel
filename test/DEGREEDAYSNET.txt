@@ -1,6 +1,6 @@
 Note on data from degreedays.net.
 
-(Thank you again for permission to use the data in this project.)
+(Thanks again to degreedays.net for permission to use the data in this project!)
 
 Email extract from "Degree Days.net" <info@degreedays.net> 2023-07-19:
 
