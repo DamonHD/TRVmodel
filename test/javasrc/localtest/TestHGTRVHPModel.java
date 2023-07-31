@@ -24,9 +24,6 @@ import junit.framework.TestCase;
  */
 public final class TestHGTRVHPModel extends TestCase
     {
-    /**Verify that test harness is sane... */
-    public static void testSanity() { }
-
     /**Verify computed home heat loss per K (flow temperature, step 1). */
     public static void testHLWpK()
 	    {
