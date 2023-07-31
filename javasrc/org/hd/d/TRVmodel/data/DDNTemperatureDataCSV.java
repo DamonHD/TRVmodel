@@ -100,8 +100,8 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
             {
         	// Skip empty rows.
         	if("".equals(row)) { continue; }
-        	// Skip comments.
-        	if(row.startsWith("#")) { continue; }
+        	// Skip anything other than data rows starting with a date.
+        	if(!row.startsWith("2")) { continue; }
             final String fields[] = delimCSV.split(row);
             if(fields.length < 1) { continue; }
 
