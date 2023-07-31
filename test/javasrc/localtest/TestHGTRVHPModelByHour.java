@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised;
 
 import junit.framework.TestCase;
@@ -36,10 +37,12 @@ public final class TestHGTRVHPModelByHour extends TestCase
 Datetime,Timezone,Date,Time,Temp (?C),% Estimated
 2023-01-01 00:00,GMT,2023-01-01,00:00,-3,0
 	    			""";
-    	final DDNTemperatureDataCSV temperatures = DDNTemperatureDataCSV.parseDDNTemperatureDataCSV(new StringReader(fragment));
-    	final HGTRVHPMModelParameterised.ModelParameters defaultParams = new HGTRVHPMModelParameterised.ModelParameters();
+    	final DDNTemperatureDataCSV temperatureDefault = DDNTemperatureDataCSV.parseDDNTemperatureDataCSV(new StringReader(fragment));
+    	final HGTRVHPMModelParameterised.ModelParameters modelDefaultParams = new HGTRVHPMModelParameterised.ModelParameters();
 
+    	final HGTRVHPMModelByHour scenario = new HGTRVHPMModelByHour(modelDefaultParams, temperatureDefault);
 
+//    	final ScenarioResult result = HGTRVHPMModelByHour.runScenario();
 
 
 //    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false);

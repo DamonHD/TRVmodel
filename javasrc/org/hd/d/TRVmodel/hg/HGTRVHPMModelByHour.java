@@ -7,7 +7,7 @@ import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.DemandWithoutAndWithSetba
 
 /**Drives the parameterised HG model variant(s) with hourly temperature data.
  */
-public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised model, DDNTemperatureDataCSV temperatures)
+public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters model, DDNTemperatureDataCSV temperatures)
  	{
 	public HGTRVHPMModelByHour
 		{
