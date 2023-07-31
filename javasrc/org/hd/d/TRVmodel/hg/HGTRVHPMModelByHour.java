@@ -13,4 +13,7 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised model, DDNTemperatu
 		Objects.requireNonNull(model);
 		Objects.requireNonNull(temperatures);
 		}
+
+	/**Temperature below which space heating is required, CIBSE typical UK threshold. */
+	public static final double DEFAULT_BASE_HEATING_TEMPERATURE_C = 15.5;
  	}
