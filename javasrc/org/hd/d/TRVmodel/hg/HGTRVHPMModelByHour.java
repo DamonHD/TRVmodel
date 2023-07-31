@@ -1,18 +1,25 @@
 package org.hd.d.TRVmodel.hg;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.DemandWithoutAndWithSetback;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.HeatAndElectricityDemand;
 
-/**Drives the parameterised HG model variant(s) with hourly temperature data.
+/**Drives the parameterised HG model variant(s) with hourly external temperature data.
+ * This clones the model parameters, replacing the external temperature for each hour.
+ *
+ * @param modelParameters  input parameters to the model; never null
+ * @param temperatures  hourly temperature records; never null nor empty
  */
-public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters model, DDNTemperatureDataCSV temperatures)
+public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters modelParameters, DDNTemperatureDataCSV temperatures)
  	{
 	public HGTRVHPMModelByHour
 		{
-		Objects.requireNonNull(model);
+		Objects.requireNonNull(modelParameters);
 		Objects.requireNonNull(temperatures);
+		if(temperatures.data().isEmpty()) { throw new IllegalArgumentException(); }
 		}
 
 	/**Temperature below which space heating is required, CIBSE typical UK threshold. */
@@ -36,8 +43,32 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 
 	/**Run scenario on model and temperature data; never null.
 	 */
-	public static ScenarioResult runScenario()
+	public ScenarioResult runScenario()
 		{
-throw new RuntimeException("NOT IMPLEMENTED");
+		final int hourCount = temperatures.data().size();
+		assert(hourCount > 0);
+
+		int hoursSetbackRaisesDemand = 0;
+
+		for(final List<String> row : temperatures.data())
+			{
+			final double temperature = Double.parseDouble(row.get(DDNTemperatureDataCSV.INDEX_OF_TEMPERATURE));
+			final HGTRVHPMModelParameterised.ModelParameters updateModelParameters =
+					modelParameters.cloneWithAdjustedExternalTemperature(temperature);
+
+	    	final DemandWithoutAndWithSetback power = HGTRVHPMModelParameterised.computeDemandW(updateModelParameters);
+
+            if(power.withSetback().heatPumpElectricity() > power.noSetback().heatPumpElectricity())
+            	{ ++hoursSetbackRaisesDemand; }
+			}
+
+		final double hoursFractionSetbackRaisesDemand = hoursSetbackRaisesDemand / (double) hourCount;
+
+		// FIXME!
+		final DemandWithoutAndWithSetback demand = new DemandWithoutAndWithSetback(
+        		new HeatAndElectricityDemand(0, 0),
+        		new HeatAndElectricityDemand(0, 0));
+
+		return(new ScenarioResult(hoursFractionSetbackRaisesDemand, demand));
 		}
  	}

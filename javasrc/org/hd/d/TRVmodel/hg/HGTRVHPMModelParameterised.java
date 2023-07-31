@@ -59,6 +59,19 @@ public final class HGTRVHPMModelParameterised
     	public ModelParameters(final double doorsPerInternalWall)
     	    { this(doorsPerInternalWall, DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE); }
 
+
+    	/**Clone but replace external temperature value; all other parameters unchanged. */
+    	public ModelParameters cloneWithAdjustedExternalTemperature(final double newExternalTemperature)
+	    	{
+	    	if(!Double.isFinite(newExternalTemperature)) { throw new IllegalArgumentException(); }
+	    	return(new ModelParameters(
+	    			doorsPerInternalWall,
+	        		correctCoPForFlowVsMW,
+	        		roomsAlternatingABAB,
+	        		newExternalTemperature));
+	    	}
+
+
         /**Default doors per internal wall: matches the 0.5 in calcs on the original page. */
     	public static final double DEFAULT_DOORS_PER_INTERNAL_WALL = 0.5;
     	/**Default correction for CoP for flow rather than radiator mean water temperature. */

@@ -21,6 +21,7 @@ import java.io.StringReader;
 
 import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour.ScenarioResult;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised;
 
 import junit.framework.TestCase;
@@ -42,7 +43,9 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
 
     	final HGTRVHPMModelByHour scenario = new HGTRVHPMModelByHour(modelDefaultParams, temperatureDefault);
 
-//    	final ScenarioResult result = HGTRVHPMModelByHour.runScenario();
+    	final ScenarioResult result = scenario.runScenario();
+    	assertNotNull(result);
+    	assertEquals(1.0, result.hoursFractionSetbackRaisesDemand(), 0.0001);
 
 
 //    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false);
