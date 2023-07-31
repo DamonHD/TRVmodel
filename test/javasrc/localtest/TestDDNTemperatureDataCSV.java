@@ -55,7 +55,7 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
     	assertEquals("6.3", result.data().get(2).get(DDNTemperatureDataCSV.INDEX_OF_TEMPERATURE));
 	    }
 
-    /**Test loading and parsing of sample (compressed) temperature date file.
+    /**Test loading and parsing of sample (compressed) temperature data file.
      * @throws IOException
      */
     public static void testLoad() throws IOException
