@@ -59,6 +59,10 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 		for(final List<String> row : temperatures.data())
 			{
 			final double temperature = Double.parseDouble(row.get(DDNTemperatureDataCSV.INDEX_OF_TEMPERATURE));
+
+			// Assume no heat required above standard HDD base temperature.
+			if(temperature >= DEFAULT_BASE_HEATING_TEMPERATURE_C) { continue; }
+
 			final HGTRVHPMModelParameterised.ModelParameters updateModelParameters =
 					modelParameters.cloneWithAdjustedExternalTemperature(temperature);
 
@@ -77,8 +81,8 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 		final double hoursFractionSetbackRaisesDemand = hoursSetbackRaisesDemand / (double) hourCount;
 
 		final DemandWithoutAndWithSetback demand = new DemandWithoutAndWithSetback(
-        		new HeatAndElectricityDemand(heatDemandNSB, heatPumpElectricityNSB),
-        		new HeatAndElectricityDemand(heatDemandSB, heatPumpElectricitySB));
+        		new HeatAndElectricityDemand(heatDemandNSB / hourCount, heatPumpElectricityNSB / hourCount),
+        		new HeatAndElectricityDemand(heatDemandSB / hourCount, heatPumpElectricitySB / hourCount));
 
 		return(new ScenarioResult(hoursFractionSetbackRaisesDemand, demand));
 		}

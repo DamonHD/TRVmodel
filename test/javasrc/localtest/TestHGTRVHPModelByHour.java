@@ -16,6 +16,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package localtest;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -27,8 +28,7 @@ import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised;
 
 import junit.framework.TestCase;
 
-/**Test the parameterised Heat Geek TRV-with-HP model against hourly temperature data.
- */
+/**Test the parameterised Heat Geek TRV-with-HP model against hourly temperature data. */
 public final class TestHGTRVHPModelByHour extends TestCase
     {
     /**Test with default (as published page) parameters and synthetic single external temperature per original model. */
@@ -53,7 +53,31 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 1);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, powerWithSetback, 1);
 
-	    // The overall point of this Heat Geek example!
+	    // The overall point of the Heat Geek example!
+	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
+	    }
+
+    /**Test with errors fixed and a representative London temperature year. */
+    public static void testForLondon2018() throws IOException
+	    {
+    	final File path = DDNTemperatureDataCSV.DATA_EGLL_2018;
+    	final DDNTemperatureDataCSV temperatures =
+    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(path);
+    	final HGTRVHPMModelParameterised.ModelParameters modelParams =
+    			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED;
+
+    	final HGTRVHPMModelByHour scenario = new HGTRVHPMModelByHour(modelParams, temperatures);
+
+    	final ScenarioResult result = scenario.runScenario();
+    	assertNotNull(result);
+    	assertEquals("expect the HG-reported result, ie setback increase heat pump electricity demand", 0.45, result.hoursFractionSetbackRaisesDemand(), 0.01);
+
+    	final double powerNoSetback = result.demand().noSetback().heatPumpElectricity();
+    	final double powerWithSetback = result.demand().withSetback().heatPumpElectricity();
+	    assertEquals(246, powerNoSetback, 1);
+	    assertEquals(253, powerWithSetback, 1);
+
+	    // The overall point of the Heat Geek example!
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
     }
