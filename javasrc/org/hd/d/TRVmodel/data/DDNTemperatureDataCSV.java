@@ -73,6 +73,9 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
 	/**Default path to temperature data directory from project root; non-null. */
     public static final File DEFAULT_PATH_TO_TEMPERATURE_DATA = new File("data/temperature");
 
+    /**Sample data set in default directory: EGLL (LHR/Heathrow) for 2018 as ~median HDD (12) from 2008 to 2022. */
+    public static final File EGLL_2018 = new File(DEFAULT_PATH_TO_TEMPERATURE_DATA, "EGLL_CelsiusTemps_2018_extract.csv.gz");
+
 	/**Parse degreedays.net hourly temperature CSV file/stream; never null but may be empty.
      * Parses CSV as List (by row) of List (of String fields),
      * omitting empty and comment (starting with '#') rows.
