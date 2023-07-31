@@ -60,7 +60,7 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
      */
     public static void testLoad() throws IOException
 	    {
-    	final File path = DDNTemperatureDataCSV.EGLL_2018;
+    	final File path = DDNTemperatureDataCSV.DATA_EGLL_2018;
     	final DDNTemperatureDataCSV result = DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(path);
     	assertNotNull(result);
     	assertEquals("should be 8760 data rows (1 non-leap year, hourly)", 8760, result.data().size());
