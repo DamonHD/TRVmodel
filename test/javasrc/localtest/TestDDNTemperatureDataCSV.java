@@ -16,6 +16,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package localtest;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -27,7 +28,7 @@ import junit.framework.TestCase;
  */
 public final class TestDDNTemperatureDataCSV extends TestCase
     {
-    /**Check parsing of small fragment.
+    /**Test parsing of small fragment.
      * @throws IOException
      */
     public static void testParse() throws IOException
@@ -53,4 +54,16 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
     	assertEquals("should be 5 data rows", 5, result.data().size());
     	assertEquals("6.3", result.data().get(2).get(DDNTemperatureDataCSV.INDEX_OF_TEMPERATURE));
 	    }
+
+    /**Test loading and parsing of sample (compressed) temperature date file.
+     * @throws IOException
+     */
+    public static void testLoad() throws IOException
+	    {
+    	final File path = new File(DDNTemperatureDataCSV.DEFAULT_PATH_TO_TEMPERATURE_DATA, "EGLL_CelsiusTemps_2018_extract.csv.gz");
+    	final DDNTemperatureDataCSV result = DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(path);
+    	assertNotNull(result);
+    	assertEquals("should be 8760 data rows (1 non-leap year, hourly)", 8760, result.data().size());
+    	assertEquals("6.3", result.data().get(2).get(DDNTemperatureDataCSV.INDEX_OF_TEMPERATURE));
+    	}
     }

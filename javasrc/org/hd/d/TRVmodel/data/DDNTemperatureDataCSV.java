@@ -61,14 +61,17 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
 	/**Charset for degreedays.net hourly temperature data CSV format (ISO-Latin-1 for degree symbol 0xB0). */
 	public static final Charset TEMPDATACSV_CHARSET = StandardCharsets.ISO_8859_1;
 
-	/**Index of key temperature field (C) in each data row; positive. */
-	public static final int INDEX_OF_TEMPERATURE = 4;
-
 	/**Immutable regex pattern used to split CSV lines; never null.
 	 * This is basically just a simple ","
 	 * which with split() should preserve empty fields.
 	 */
 	public static final Pattern delimCSV = Pattern.compile(",");
+
+	/**Index of key temperature field (C) in each data row; positive. */
+	public static final int INDEX_OF_TEMPERATURE = 4;
+
+	/**Default path to temperature data directory from project root; non-null. */
+    public static final File DEFAULT_PATH_TO_TEMPERATURE_DATA = new File("data/temperature");
 
 	/**Parse degreedays.net hourly temperature CSV file/stream; never null but may be empty.
      * Parses CSV as List (by row) of List (of String fields),
