@@ -77,6 +77,11 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
 	    assertEquals(246, powerNoSetback, 1);
 	    assertEquals(253, powerWithSetback, 1);
 
+    	final double heatNoSetback = result.demand().noSetback().heatDemand();
+    	final double heatWithSetback = result.demand().withSetback().heatDemand();
+	    assertEquals(719, heatNoSetback, 1);
+	    assertEquals(634, heatWithSetback, 1);
+
 	    // The overall point of the Heat Geek example!
 	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
 	    }
