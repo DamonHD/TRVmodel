@@ -48,7 +48,13 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 		final int hourCount = temperatures.data().size();
 		assert(hourCount > 0);
 
+		// Running totals.
 		int hoursSetbackRaisesDemand = 0;
+		// Cumulative Wh.
+		double heatDemandNSB = 0;
+		double heatPumpElectricityNSB = 0;
+		double heatDemandSB = 0;
+		double heatPumpElectricitySB = 0;
 
 		for(final List<String> row : temperatures.data())
 			{
@@ -58,16 +64,21 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 
 	    	final DemandWithoutAndWithSetback power = HGTRVHPMModelParameterised.computeDemandW(updateModelParameters);
 
+	    	heatDemandNSB += power.noSetback().heatDemand();
+	    	heatPumpElectricityNSB += power.noSetback().heatPumpElectricity();
+
+	    	heatDemandSB += power.withSetback().heatDemand();
+	    	heatPumpElectricitySB += power.withSetback().heatPumpElectricity();
+
             if(power.withSetback().heatPumpElectricity() > power.noSetback().heatPumpElectricity())
             	{ ++hoursSetbackRaisesDemand; }
 			}
 
 		final double hoursFractionSetbackRaisesDemand = hoursSetbackRaisesDemand / (double) hourCount;
 
-		// FIXME!
 		final DemandWithoutAndWithSetback demand = new DemandWithoutAndWithSetback(
-        		new HeatAndElectricityDemand(0, 0),
-        		new HeatAndElectricityDemand(0, 0));
+        		new HeatAndElectricityDemand(heatDemandNSB, heatPumpElectricityNSB),
+        		new HeatAndElectricityDemand(heatDemandSB, heatPumpElectricitySB));
 
 		return(new ScenarioResult(hoursFractionSetbackRaisesDemand, demand));
 		}
