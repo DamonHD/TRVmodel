@@ -19,23 +19,22 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised model, DDNTemperatu
 	public static final double DEFAULT_BASE_HEATING_TEMPERATURE_C = 15.5;
 
 	/**Results of running a model against a temperature set.
-	 * @param  fractionSetbackRaisesDemand  fraction of the hours in which setting back B rooms
+	 * @param  hoursFractionSetbackRaisesDemand  fraction of the hours in which setting back B rooms
 	 *     causes electricity demand by the heat pump to rise [0.0,1.0]
 	 * @param demand heat and electrical mean demand; not null
-	 *
 	 */
-	public record ScenarioResult(double fractionSetbackRaisesDemand, DemandWithoutAndWithSetback demand)
+	public record ScenarioResult(double hoursFractionSetbackRaisesDemand, DemandWithoutAndWithSetback demand)
 		{
 		public ScenarioResult
 			{
-			if(!Double.isFinite(fractionSetbackRaisesDemand)) { throw new IllegalArgumentException(); }
-			if(fractionSetbackRaisesDemand < 0) { throw new IllegalArgumentException(); }
-			if(fractionSetbackRaisesDemand > 1) { throw new IllegalArgumentException(); }
+			if(!Double.isFinite(hoursFractionSetbackRaisesDemand)) { throw new IllegalArgumentException(); }
+			if(hoursFractionSetbackRaisesDemand < 0) { throw new IllegalArgumentException(); }
+			if(hoursFractionSetbackRaisesDemand > 1) { throw new IllegalArgumentException(); }
 			Objects.requireNonNull(demand);
 			}
 		}
 
-	/**Run scenario on model and temperature; never null.
+	/**Run scenario on model and temperature data; never null.
 	 */
 	public static ScenarioResult runScenario()
 		{
