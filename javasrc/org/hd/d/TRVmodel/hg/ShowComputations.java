@@ -70,10 +70,12 @@ public final class ShowComputations
         		100 * resultLondon2018.hoursFractionSetbackRaisesDemand()));
     	final double heatNoSetback = resultLondon2018.demand().noSetback().heatDemand();
     	final double heatWithSetback = resultLondon2018.demand().withSetback().heatDemand();
-    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW", heatNoSetback, heatWithSetback));
+    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+    			heatNoSetback, heatWithSetback, 100*((heatWithSetback/heatNoSetback)-1)));
     	final double powerNoSetback = resultLondon2018.demand().noSetback().heatPumpElectricity();
     	final double powerWithSetback = resultLondon2018.demand().withSetback().heatPumpElectricity();
-    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW", powerNoSetback, powerWithSetback));
+    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+    			powerNoSetback, powerWithSetback, 100*((powerWithSetback/powerNoSetback)-1)));
 
 
 
