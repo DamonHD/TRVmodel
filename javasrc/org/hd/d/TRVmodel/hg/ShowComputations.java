@@ -1,5 +1,9 @@
 package org.hd.d.TRVmodel.hg;
 
+import java.io.IOException;
+
+import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour.ScenarioResult;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.ModelParameters;
 
 /**Show computations from the Heat Geek TRV/HP model. */
@@ -8,8 +12,10 @@ public final class ShowComputations
 	/**Prevent creation of an instance. */
     private ShowComputations() { }
 
-    /**Print computations on stdout. */
-	public static void showCalcs()
+    /**Print computations on stdout.
+     * @throws IOException
+     */
+	public static void showCalcs() throws IOException
 		{
 		System.out.println("Show HG TRV/HP model computations.");
 
@@ -50,6 +56,25 @@ public final class ShowComputations
         	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false),
         	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true) ));
 	        }
+
+
+        System.out.println("");
+        System.out.println("Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...");
+        System.out.println("London 2018 hourly temperatures");
+    	final DDNTemperatureDataCSV temperaturesLondon2018 =
+    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
+    	final HGTRVHPMModelByHour scenario = new HGTRVHPMModelByHour(
+    			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesLondon2018);
+    	final ScenarioResult resultLondon2018 = scenario.runScenario();
+        System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
+        		100 * resultLondon2018.hoursFractionSetbackRaisesDemand()));
+    	final double heatNoSetback = resultLondon2018.demand().noSetback().heatDemand();
+    	final double heatWithSetback = resultLondon2018.demand().withSetback().heatDemand();
+    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW", heatNoSetback, heatWithSetback));
+    	final double powerNoSetback = resultLondon2018.demand().noSetback().heatPumpElectricity();
+    	final double powerWithSetback = resultLondon2018.demand().withSetback().heatPumpElectricity();
+    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW", powerNoSetback, powerWithSetback));
+
 
 
 
