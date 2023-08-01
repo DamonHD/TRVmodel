@@ -1,6 +1,7 @@
 package org.hd.d.TRVmodel.hg;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour.ScenarioResult;
@@ -18,7 +19,9 @@ public final class ShowComputations
 	public static void showCalcs() throws IOException
 		{
 		System.out.println("Show HG TRV/HP model computations.");
+		System.out.println("Date/time: " + new Date());
 
+		System.out.println();
 		System.out.println(String.format("Hardwired model, electricity demand normal / setback: %.0fW / %.0fW",
 			HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W,
 			HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W));

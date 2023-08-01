@@ -1,0 +1,53 @@
+Show HG TRV/HP model computations.
+Date/time: Tue Aug 01 18:04:02 BST 2023
+
+Hardwired model, electricity demand normal / setback: 769W / 815W
+Parameterised model, all default parameters, electricity demand normal / setback: 769W / 815W
+Parameterised model, fixes applied for doors and CoP temperature, electricity demand normal / setback: 812W / 895W
+Parameterised model, fixes applied and AABB lower-loss arrangement, electricity demand normal / setback: 812W / 860W
+
+Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-13.0], electricity demand normal / setback: 1386W / 1593W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-12.0], electricity demand normal / setback: 1319W / 1510W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-11.0], electricity demand normal / setback: 1255W / 1430W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-10.0], electricity demand normal / setback: 1192W / 1354W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-9.0], electricity demand normal / setback: 1132W / 1280W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-8.0], electricity demand normal / setback: 1074W / 1210W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-7.0], electricity demand normal / setback: 1018W / 1142W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-6.0], electricity demand normal / setback: 964W / 1077W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-5.0], electricity demand normal / setback: 912W / 1014W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-4.0], electricity demand normal / setback: 861W / 953W
+ *** original external air temperature, ie -3.0C
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0], electricity demand normal / setback: 812W / 895W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-2.0], electricity demand normal / setback: 764W / 839W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-1.0], electricity demand normal / setback: 718W / 785W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=0.0], electricity demand normal / setback: 674W / 733W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=1.0], electricity demand normal / setback: 631W / 682W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=2.0], electricity demand normal / setback: 589W / 633W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=3.0], electricity demand normal / setback: 549W / 586W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=4.0], electricity demand normal / setback: 509W / 541W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=5.0], electricity demand normal / setback: 471W / 497W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=6.0], electricity demand normal / setback: 434W / 455W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=7.0], electricity demand normal / setback: 399W / 414W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=8.0], electricity demand normal / setback: 364W / 374W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=9.0], electricity demand normal / setback: 330W / 336W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=10.0], electricity demand normal / setback: 298W / 298W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=11.0], electricity demand normal / setback: 266W / 262W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=12.0], electricity demand normal / setback: 235W / 228W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=13.0], electricity demand normal / setback: 206W / 194W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=14.0], electricity demand normal / setback: 177W / 161W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=15.0], electricity demand normal / setback: 149W / 130W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=16.0], electricity demand normal / setback: 122W / 99W
+  ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=17.0], electricity demand normal / setback: 96W / 70W
+
+Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...
+London (EGLL) 2018 hourly temperatures
+Percentage of hours that room setback raises heat pump demand: 45%
+Heat mean demand: with no setback 719W, with setback 634W; -12% change with setback
+Heat pump mean power: with no setback 246W, with setback 253W; 3% change with setback
+
+Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...
+Glasgow (EGPF) 2018 hourly temperatures
+Percentage of hours that room setback raises heat pump demand: 56%
+Heat mean demand: with no setback 938W, with setback 832W; -11% change with setback
+Heat pump mean power: with no setback 327W, with setback 339W; 4% change with setback
