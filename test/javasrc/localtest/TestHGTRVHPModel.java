@@ -86,4 +86,14 @@ public final class TestHGTRVHPModel extends TestCase
 	    assertTrue("electrical power goes UP with Bs set back", HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W);
 		}
 
+    /**Test extrapolated/implied properties of basic setup. */
+    public static void testBasicModelExtrapolations()
+	    {
+        assertEquals(64.0, HGTRVHPMModel.HOME_TOTAL_FLOOR_AREA_M2, 0.1);
+        assertEquals(73.6, HGTRVHPMModel.HOME_TOTAL_EXTERNAL_WALL_AREA_M2, 0.1);
+        assertEquals(1.13, HGTRVHPMModel.HOME_LOSSELESS_FLOOR_AND_ROOF_EXTERNAL_WALL_U_WpM2K, 0.01);
+
+
+
+	    }
     }
