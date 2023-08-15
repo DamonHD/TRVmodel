@@ -182,9 +182,6 @@ public final class HGTRVHPMModelParameterised
 	    {
     	Objects.requireNonNull(params);
 
-    	// Parameterisation not yet fully handled...
-//    	if(params.externalAirTemperatureC != ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C) { throw new UnsupportedOperationException("NOT IMPLEMENTED YET"); }
-
 
     	// Do not allow model to be run with potentially implausible parameters.
     	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
@@ -323,5 +320,30 @@ public final class HGTRVHPMModelParameterised
 
         // Return everything at once.
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
+	    }
+
+
+    /**Compute 4-room 'detatched' raw heat and heat-pump electricity demand with and without setback (W).
+     * The calculation uses constants from HGTRVHPMModel as far as possible,
+     * substituting in parameters and new calculation where needed.
+     *
+     * @param params  the variable model parameters
+     * @param withBSetback  if true, with B rooms set back, else all at same temperature
+     * @return  demand in watts, finite and non-negative
+     */
+    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)
+	    {
+    	Objects.requireNonNull(params);
+
+
+    	// Do not allow model to be run with potentially implausible parameters.
+    	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
+    	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
+
+
+
+
+    	throw new RuntimeException("NOT IMPLEMENTED");
+
 	    }
  	}
