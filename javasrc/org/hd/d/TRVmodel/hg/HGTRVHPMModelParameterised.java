@@ -175,7 +175,6 @@ public final class HGTRVHPMModelParameterised
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
-     * @param withBSetback  if true, with B rooms set back, else all at same temperature
      * @return  demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeBungalowDemandW(final ModelParameters params)
@@ -328,10 +327,10 @@ public final class HGTRVHPMModelParameterised
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
-     * @param withBSetback  if true, with B rooms set back, else all at same temperature
+     * @param keepAsBungalow  if true, compute as bungalow to cross-check with original calculation
      * @return  demand in watts, finite and non-negative
      */
-    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)
+    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params, final boolean keepAsBungalow)
 	    {
     	Objects.requireNonNull(params);
 
