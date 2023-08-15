@@ -153,12 +153,12 @@ public final class HGTRVHPMModelParameterised
      * @param withBSetback  if true, with B rooms set back, else all at same temperature
      * @return  demand in watts, finite and non-negative
      */
-    public static double computeHPElectricityDemandW(final ModelParameters params, final boolean withBSetback)
+    public static double computeBungalowHPElectricityDemandW(final ModelParameters params, final boolean withBSetback)
 	    {
     	Objects.requireNonNull(params);
     	return(withBSetback ?
-    			computeDemandW(params).withSetback.heatPumpElectricity :
-    			computeDemandW(params).noSetback.heatPumpElectricity);
+    			computeBungalowDemandW(params).withSetback.heatPumpElectricity :
+    			computeBungalowDemandW(params).noSetback.heatPumpElectricity);
 	    }
 
     /**Compute the raw heat and heat-pump electricity demand with and without setback (W).
@@ -169,7 +169,7 @@ public final class HGTRVHPMModelParameterised
      * @param withBSetback  if true, with B rooms set back, else all at same temperature
      * @return  demand in watts, finite and non-negative
      */
-    public static DemandWithoutAndWithSetback computeDemandW(final ModelParameters params)
+    public static DemandWithoutAndWithSetback computeBungalowDemandW(final ModelParameters params)
 	    {
     	Objects.requireNonNull(params);
 

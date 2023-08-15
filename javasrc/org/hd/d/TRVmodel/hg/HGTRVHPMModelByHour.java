@@ -66,7 +66,7 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 			final HGTRVHPMModelParameterised.ModelParameters updateModelParameters =
 					modelParameters.cloneWithAdjustedExternalTemperature(temperature);
 
-	    	final DemandWithoutAndWithSetback power = HGTRVHPMModelParameterised.computeDemandW(updateModelParameters);
+	    	final DemandWithoutAndWithSetback power = HGTRVHPMModelParameterised.computeBungalowDemandW(updateModelParameters);
 
 	    	heatDemandNSB += power.noSetback().heatDemand();
 	    	heatPumpElectricityNSB += power.noSetback().heatPumpElectricity();

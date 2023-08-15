@@ -28,16 +28,16 @@ public final class ShowComputations
 
     	final HGTRVHPMModelParameterised.ModelParameters defaultParams = new HGTRVHPMModelParameterised.ModelParameters();
 		System.out.println(String.format("Parameterised model, all default parameters, electricity demand normal / setback: %.0fW / %.0fW",
-    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false),
-    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, true)));
+    	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(defaultParams, false),
+    	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(defaultParams, true)));
 
 		System.out.println(String.format("Parameterised model, fixes applied for doors and CoP temperature, electricity demand normal / setback: %.0fW / %.0fW",
-    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, false),
-    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, true)));
+    	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, false),
+    	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, true)));
 
 		System.out.println(String.format("Parameterised model, fixes applied and AABB lower-loss arrangement, electricity demand normal / setback: %.0fW / %.0fW",
-    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB, false),
-    	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB, true)));
+    	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB, false),
+    	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB, true)));
 
 
         System.out.println();
@@ -56,8 +56,8 @@ public final class ShowComputations
 	        	}
         	System.out.println(String.format("  %s, electricity demand normal / setback: %.0fW / %.0fW",
     			params.toString(),
-        	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false),
-        	    HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true) ));
+        	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, false),
+        	    HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, true) ));
 	        }
 
 

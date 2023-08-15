@@ -30,8 +30,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     public static void testWithDefaultParameters()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters defaultParams = new HGTRVHPMModelParameterised.ModelParameters();
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(defaultParams, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(defaultParams, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(defaultParams, true);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 1);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, powerWithSetback, 1);
 
@@ -58,8 +58,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters oneDoor = new HGTRVHPMModelParameterised.ModelParameters(
 			HGTRVHPMModelParameterised.ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL);
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(oneDoor, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(oneDoor, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(oneDoor, true);
 	    assertEquals("doors-per-internal-wall should not affect no-setback case",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 0.5);
 	    assertTrue("doors-per-internal-wall should increase intra-room loss and overall electricity demand",
@@ -73,8 +73,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     	final HGTRVHPMModelParameterised.ModelParameters fixCoP = new HGTRVHPMModelParameterised.ModelParameters(
 			HGTRVHPMModelParameterised.ModelParameters.DEFAULT_DOORS_PER_INTERNAL_WALL,
 			HGTRVHPMModelParameterised.ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE);
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(fixCoP, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(fixCoP, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(fixCoP, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(fixCoP, true);
 	    assertTrue("CoP correction should increase overall electricity demand",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
 	    assertTrue("CoP correction should increase overall electricity demand",
@@ -88,8 +88,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     	final HGTRVHPMModelParameterised.ModelParameters corrections = new HGTRVHPMModelParameterised.ModelParameters(
 			HGTRVHPMModelParameterised.ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
 			HGTRVHPMModelParameterised.ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE);
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(corrections, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(corrections, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(corrections, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(corrections, true);
 	    assertTrue("corrections should increase overall electricity demand",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
 	    assertTrue("corrections should increase overall electricity demand",
@@ -101,8 +101,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     public static void testCorrectionsAndAABB()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters correctionsAndAABB = HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB;
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(correctionsAndAABB, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(correctionsAndAABB, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(correctionsAndAABB, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(correctionsAndAABB, true);
 	    assertTrue("corrections even with AABB layout should increase overall electricity demand",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
 	    assertTrue("corrections even with AABB layout should increase overall electricity demand",
@@ -119,8 +119,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
       			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
       			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
       			eat);
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, true);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, powerNoSetback, 1);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, powerWithSetback, 1);
 	    }
@@ -134,8 +134,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
       			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
       			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
       			eat);
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, true);
 	    assertTrue("lowering external air temperature should increase overall electricity demand unsetback",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W < powerNoSetback);
 	    assertTrue("lowering external air temperature should increase overall electricity demand setback",
@@ -151,8 +151,8 @@ public final class TestHGTRVHPModelParameterised extends TestCase
       			ModelParameters.DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE,
       			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
       			eat);
-    	final double powerNoSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, false);
-    	final double powerWithSetback = HGTRVHPMModelParameterised.computeHPElectricityDemandW(params, true);
+    	final double powerNoSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, false);
+    	final double powerWithSetback = HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(params, true);
 	    assertTrue("raising external air temperature should lower overall electricity demand unsetback",
     		HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W > powerNoSetback);
 	    assertTrue("raising external air temperature should lower overall electricity demand setback",
@@ -174,10 +174,10 @@ public final class TestHGTRVHPModelParameterised extends TestCase
       			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
       			thresholdEAT + 1.0);
 	    assertTrue("electrical power goes UP with B rooms set back below EAT threshold",
-	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsBelowThreshold, false) <
-	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsBelowThreshold, true));
+	    		HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(paramsBelowThreshold, false) <
+	    		HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(paramsBelowThreshold, true));
 	    assertTrue("electrical power goes DOWN with B rooms set back above EAT threshold",
-	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsAboveThreshold, false) >
-	    		HGTRVHPMModelParameterised.computeHPElectricityDemandW(paramsAboveThreshold, true));
+	    		HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(paramsAboveThreshold, false) >
+	    		HGTRVHPMModelParameterised.computeBungalowHPElectricityDemandW(paramsAboveThreshold, true));
 	    }
     }
