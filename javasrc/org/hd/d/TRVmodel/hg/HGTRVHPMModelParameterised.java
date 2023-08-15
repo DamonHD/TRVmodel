@@ -151,6 +151,9 @@ public final class HGTRVHPMModelParameterised
     	return(CoP);
 	    }
 
+    /**Assumed delta between MW and flow temperature with 5K system delta (K). */
+    public static final double flowMWDelta_K = 2.5;
+
     /**Compute the original HG 4-room 'bungalow' heat-pump electricity demand (W); zero or more.
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
@@ -297,9 +300,7 @@ public final class HGTRVHPMModelParameterised
 //System.out.println(String.format("radAMW = %f", radAMW));
 
 
-        // Assumed delta between MW and flow temperature with 5K system delta (K).
-        final double flowMWDelta = 2.5;
-        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta : 0;
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
 
 		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
