@@ -117,9 +117,20 @@ public final class HGTRVHPMModel
     public static final double INTERNAL_WALL_AREA_PER_WALL_M2 = INTERNAL_WALL_HEIGHT_M * INTERNAL_WALL_LENGTH_M;
     /**IDA: (Heat Loss 1.0) internal door area per door - test says one in each internal wall (m^2). */
     public static final double INTERNAL_DOOR_AREA_PER_DOOR_M2 = 2;
-    /**IWU: (Heat Loss 1.0) internal wall U value (W/m^2K). */
+    /**IWU: (Heat Loss 1.0) internal wall U value (W/m^2K).
+     * An internal stud wall with plasterboard is ~1.7, a single brick wall with plaster ~1.2.
+     * <p>
+     * Also used for internal floor U value for simplicity, eg given
+     * plasterboard then 8 inch joist space then tongue-and-groove boards ~1.4/1.7.
+     * <p>
+     * See: https://www.diydata.com/information/u_values/u_values.php
+     */
     public static final double INTERNAL_WALL_U_WpM2K = 2;
-    /**IWU: (Heat Loss 1.0) internal door U value (W/m^2K). */
+    /**IWU: (Heat Loss 1.0) internal door U value (W/m^2K).
+     * Possibly a bit high (solid wood external door ~3.0), but may not be shut tight for example.
+     * <p>
+     * See: https://www.bregroup.com/wp-content/uploads/2019/10/BR443-October-2019_consult.pdf
+     */
     public static final double INTERNAL_DOOR_U_WpM2K = 8;
     /**IWAab: (heat loss 1.1) internal wall area between each A and adjoining B rooms (m^2). */
     public static final double INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOM_M2 = 2 * INTERNAL_WALL_AREA_PER_WALL_M2;
@@ -224,4 +235,11 @@ public final class HGTRVHPMModel
      */
     public static final double HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K =
 		HOME_HEAT_LOSS_PER_KELVIN_WpK / (HOME_TOTAL_EXTERNAL_WALL_AREA_M2 + HOME_TOTAL_ROOF_AREA_M2);
+    /**IFU: internal floor U value (W/m^2K).
+     * Wall U-value used for internal floor U value for simplicity, eg given
+     * plasterboard then 8 inch joist space then tongue-and-groove boards ~1.4/1.7.
+     * <p>
+     * See: https://www.diydata.com/information/u_values/u_values.php
+     */
+    public static final double INTERNAL_FLOOR_U_WpM2K = INTERNAL_WALL_U_WpM2K;
  	}
