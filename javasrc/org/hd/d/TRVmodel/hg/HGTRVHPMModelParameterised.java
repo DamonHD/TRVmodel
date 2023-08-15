@@ -151,7 +151,7 @@ public final class HGTRVHPMModelParameterised
     	return(CoP);
 	    }
 
-    /**Compute the heat-pump electricity demand (W); zero or more.
+    /**Compute the original HG 4-room 'bungalow' heat-pump electricity demand (W); zero or more.
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
@@ -167,7 +167,7 @@ public final class HGTRVHPMModelParameterised
     			computeBungalowDemandW(params).noSetback.heatPumpElectricity);
 	    }
 
-    /**Compute the raw heat and heat-pump electricity demand with and without setback (W).
+    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
