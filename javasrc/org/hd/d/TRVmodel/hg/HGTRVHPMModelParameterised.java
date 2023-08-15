@@ -330,7 +330,8 @@ public final class HGTRVHPMModelParameterised
      * @param keepAsBungalow  if true, compute as bungalow to cross-check with original calculation
      * @return  demand in watts, finite and non-negative
      */
-    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params, final boolean keepAsBungalow)
+    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params,
+    		final boolean keepAsBungalow)
 	    {
     	Objects.requireNonNull(params);
 
