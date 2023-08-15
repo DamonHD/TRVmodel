@@ -186,9 +186,12 @@ public final class HGTRVHPMModel
 
 
     /**Extras available extrapolating from the HG description. */
-    /**TFA: approximate total floor area (ignoring wall thickness (m^2). */
+    /**TFA: approximate total floor area ignoring wall thickness (m^2). */
     public static final double HOME_TOTAL_FLOOR_AREA_M2 =
 		(INTERNAL_WALL_LENGTH_M * INTERNAL_WALL_LENGTH_M) * 4;
+    /**TRAL approximate total roof area ignoring wall thickness (m^2). */
+    public static final double HOME_TOTAL_ROOF_AREA_M2 =
+		HOME_TOTAL_FLOOR_AREA_M2;
     /**TEWL: approximate external wall length (ignoring wall thickness (m). */
     public static final double HOME_TOTAL_EXTERNAL_WALL_LENGTH_M =
 		INTERNAL_WALL_LENGTH_M * 8;
@@ -199,6 +202,26 @@ public final class HGTRVHPMModel
      * This figure is assuming no heat loss through any other route, eg floor or roof,
      * or ventilation losses, or indeed occupancy and appliance gains.
      */
-    public static final double HOME_LOSSELESS_FLOOR_AND_ROOF_EXTERNAL_WALL_U_WpM2K =
+    public static final double HOME_LOSSLESS_FLOOR_AND_ROOF_EXTERNAL_WALL_U_WpM2K =
 		HOME_HEAT_LOSS_PER_KELVIN_WpK / HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
+    /**EWRU: effective total external wall and roof U value if only sources of heat loss to outside (W/m^2K).
+     * This figure is assuming no heat loss through any other route, eg floor,
+     * or ventilation losses, or indeed occupancy and appliance gains.
+     * <p>
+     * This assumes roof and external wall roof U values are the same
+     * (usually roof is a little lower in reality).
+     * <p>
+     * English 1970 regs U values for external walls and roof:
+     * <ul>
+     * <li>1970: 1.6, 1.5</li>
+     * <li>1980: 1.0, 0.68</li>
+     * <li>1990: 0.60, 0.40</li>
+     * </ul>
+     * <p>
+     * See: https://www.ecomerchant.co.uk/news/a-brief-history-of-building-regulation-u-values-with-examples/
+     * <p>
+     * Implied value of 0.61 is ~1980s.
+     */
+    public static final double HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K =
+		HOME_HEAT_LOSS_PER_KELVIN_WpK / (HOME_TOTAL_EXTERNAL_WALL_AREA_M2 + HOME_TOTAL_ROOF_AREA_M2);
  	}
