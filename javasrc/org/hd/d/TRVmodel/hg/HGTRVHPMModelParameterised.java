@@ -25,6 +25,12 @@ public final class HGTRVHPMModelParameterised
      *
      * @param  doorsPerInternalWall  was 0.5 in the original page calcs (but 1 in the text);
      *     expected to be in range [0,1], must be finite and positive
+     * @param correctCoPForFlowVsMW  if true then correct CoP flow temperature
+     *     (original page implies false)
+     * @param roomsAlternatingABAB  if true then arrange rooms to maximise internal heat transfer/loss
+     *     (original page implies true)
+     * @param externalAirTemperatureC  external air temperature, degrees C;
+     *     (original page has -3&deg;C)
      */
     public record ModelParameters(
     		double doorsPerInternalWall,
