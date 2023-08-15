@@ -239,6 +239,8 @@ public final class HGTRVHPMModel
      * Wall U-value used for internal floor U value for simplicity, eg given
      * plasterboard then 8 inch joist space then tongue-and-groove boards ~1.4/1.7.
      * <p>
+     * Treated as symmetric for simplicity.
+     * <p>
      * See: https://www.diydata.com/information/u_values/u_values.php
      */
     public static final double INTERNAL_FLOOR_U_WpM2K = INTERNAL_WALL_U_WpM2K;
