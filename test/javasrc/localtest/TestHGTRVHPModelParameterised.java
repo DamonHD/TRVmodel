@@ -41,13 +41,6 @@ public final class TestHGTRVHPModelParameterised extends TestCase
 //	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, detachedDemandW.withSetback().heatPumpElectricity(), 1);
 //	    assertEquals(HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W, detachedDemandW.noSetback().heatDemand(), 1);
 //	    assertEquals(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W, detachedDemandW.withSetback().heatDemand(), 1);
-
-//	    // The overall point of this Heat Geek example!
-//	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
-
-
-
-
 	    }
 
     }
