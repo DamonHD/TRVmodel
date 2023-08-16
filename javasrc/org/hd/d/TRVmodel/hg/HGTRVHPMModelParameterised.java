@@ -340,6 +340,11 @@ public final class HGTRVHPMModelParameterised
     	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
 
+        // Do not allow model to be run *except* in bungalow-like mode yet.
+    	if(!keepAsBungalow)
+	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
+
+
 
 
 
