@@ -33,10 +33,14 @@ public final class TestHGTRVHPModelParameterised extends TestCase
     	final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(defaultParams);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, bungalowDemandW.noSetback().heatPumpElectricity(), 1);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, bungalowDemandW.withSetback().heatPumpElectricity(), 1);
+	    assertEquals(HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W, bungalowDemandW.noSetback().heatDemand(), 1);
+	    assertEquals(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W, bungalowDemandW.withSetback().heatDemand(), 1);
 
 //    	final DemandWithoutAndWithSetback detachedDemandW = HGTRVHPMModelParameterised.computeDetachedDemandW(defaultParams, true);
 //	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, detachedDemandW.noSetback().heatPumpElectricity(), 1);
 //	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, detachedDemandW.withSetback().heatPumpElectricity(), 1);
+//	    assertEquals(HGTRVHPMModel.HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W, detachedDemandW.noSetback().heatDemand(), 1);
+//	    assertEquals(HGTRVHPMModel.HOME_HEAT_LOSS_B_SETBACK_W, detachedDemandW.withSetback().heatDemand(), 1);
 
 //	    // The overall point of this Heat Geek example!
 //	    assertTrue("electrical power goes UP with B rooms set back", powerNoSetback < powerWithSetback);
