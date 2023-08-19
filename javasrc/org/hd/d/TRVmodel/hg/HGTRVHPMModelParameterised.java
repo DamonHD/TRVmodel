@@ -344,6 +344,14 @@ public final class HGTRVHPMModelParameterised
     	if(!keepAsBungalow)
 	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
 
+    	
+    	// Roof area: as for bungalow.
+    	final double roofArea = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
+    	
+    	// External wall area: as for bungalow in bungalow mode, else double.
+    	final double extWallArea = (keepAsBungalow ? 1 : 2) *
+    			HGTRVHPMModel.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
+    	
 
 
 

@@ -206,7 +206,7 @@ public final class HGTRVHPMModel
     /**TEWL: approximate external wall length (ignoring wall thickness (m). */
     public static final double HOME_TOTAL_EXTERNAL_WALL_LENGTH_M =
 		INTERNAL_WALL_LENGTH_M * 8;
-    /**TEWA: approximate external wall area (ignoring wall thickness (m2). */
+    /**TEWA: approximate external wall area (ignoring wall thickness, windows, doors (m2). */
     public static final double HOME_TOTAL_EXTERNAL_WALL_AREA_M2 =
 		HOME_TOTAL_EXTERNAL_WALL_LENGTH_M * INTERNAL_WALL_HEIGHT_M;
     /**EWU: effective total external wall U value if only source of heat loss to outside (W/m^2K).
