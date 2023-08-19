@@ -346,14 +346,14 @@ public final class HGTRVHPMModelParameterised
 
     	
     	// Roof area: as for bungalow.
-    	final double roofArea = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
+    	final double roofAreaM2 = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
 
     	// External wall area: as for bungalow in bungalow mode, else double.
-    	final double extWallArea = (keepAsBungalow ? 1 : 2) *
+    	final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *
     			HGTRVHPMModel.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
 
         // Wall heat loss per K temperature differential between inside and out.
-    	final double homeHeatLossPerK = (roofArea + extWallArea) *
+    	final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *
     			HGTRVHPMModel.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;
 
 
