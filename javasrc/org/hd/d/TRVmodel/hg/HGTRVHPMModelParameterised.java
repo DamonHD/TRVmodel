@@ -343,6 +343,9 @@ public final class HGTRVHPMModelParameterised
         // FIXME: do not allow model to be run *except* in bungalow-like mode yet.
     	if(!keepAsBungalow)
 	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
+    	// Do not allow to be run except in ABAB mode yet.
+    	if(!params.roomsAlternatingABAB)
+    		{ throw new RuntimeException("NOT IMPLEMENTED"); }
 
 
     	// Roof area: as for bungalow.
