@@ -356,11 +356,24 @@ public final class HGTRVHPMModelParameterised
     	final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *
     			HGTRVHPMModel.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;
 
+    	// HHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
+        final double HHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+        		homeHeatLossPerK;
+    	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
+        final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
+        		homeHeatLossPerK;
 
 
     	
-    	
-    	throw new RuntimeException("NOT IMPLEMENTED");
+        
+        
+        
+        
 
+        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(HHLnsb, 0 /*FIXME*/ );
+        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(HHLsb, 0 /*FIXME*/ );
+
+        // Return everything at once.
+    	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
 	    }
  	}
