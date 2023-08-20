@@ -344,7 +344,7 @@ public final class HGTRVHPMModelParameterised
     	if(!keepAsBungalow)
 	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
 
-    	
+
     	// Roof area: as for bungalow.
     	final double roofAreaM2 = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
 
@@ -356,11 +356,11 @@ public final class HGTRVHPMModelParameterised
     	final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *
     			HGTRVHPMModel.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;
 
-    	// HHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
-        final double HHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+    	// DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
+        final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
     	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
-        final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
+        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
 
 
@@ -370,8 +370,8 @@ public final class HGTRVHPMModelParameterised
         
         
 
-        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(HHLnsb, 0 /*FIXME*/ );
-        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(HHLsb, 0 /*FIXME*/ );
+        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, 0 /*FIXME*/ );
+        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, 0 /*FIXME*/ );
 
         // Return everything at once.
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
