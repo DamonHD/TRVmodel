@@ -200,36 +200,7 @@ public final class HGTRVHPMModelParameterised
 
 
         // HEAT LOSS 1
-    	// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
-    	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
-    	final double IWAabmd =
-			HGTRVHPMModel.INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOM_M2
-			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2);
-    	// IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K).
-    	// (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
-        final double IWAabHL =
-    		IWAabmd * HGTRVHPMModel.INTERNAL_WALL_U_WpM2K;
-        // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK).
-        // (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W)
-        final double IWAabHLW =
-    		IWAabHL *
-    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
-        // IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K).
-        // (INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
-        final double IDAabHL =
-    		HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2 * HGTRVHPMModel.INTERNAL_DOOR_U_WpM2K;
-        // IDAabHLW: (Heat Loss 1.6) internal door heat loss per door (W).
-        // (INTERNAL_DOOR_HEAT_LOSS_W)
-        final double IDAabHLW =
-    		IDAabHL *
-    		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
-        // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
-        // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
-        // In the original ABAB arrangement there are two walls from each A room into B rooms.
-        // In the alternate AABB arrangement there is one wall from each A room into a B room.
-        // Thus AABB has half the internal heat loss of ABAB.
-        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
-    		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
+    	final double IDWAabHLW = iwHeatLoss(params);
 
         // HEAT LOSS 2
         // radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W).
@@ -321,6 +292,42 @@ public final class HGTRVHPMModelParameterised
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
 	    }
 
+    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
+	private static double iwHeatLoss(final ModelParameters params)
+	    {
+		// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
+    	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
+    	final double IWAabmd =
+			HGTRVHPMModel.INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOM_M2
+			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2);
+    	// IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K).
+    	// (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
+        final double IWAabHL =
+    		IWAabmd * HGTRVHPMModel.INTERNAL_WALL_U_WpM2K;
+        // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK).
+        // (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W)
+        final double IWAabHLW =
+    		IWAabHL *
+    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+        // IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K).
+        // (INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
+        final double IDAabHL =
+    		HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2 * HGTRVHPMModel.INTERNAL_DOOR_U_WpM2K;
+        // IDAabHLW: (Heat Loss 1.6) internal door heat loss per door (W).
+        // (INTERNAL_DOOR_HEAT_LOSS_W)
+        final double IDAabHLW =
+    		IDAabHL *
+    		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+        // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
+        // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
+        // In the original ABAB arrangement there are two walls from each A room into B rooms.
+        // In the alternate AABB arrangement there is one wall from each A room into a B room.
+        // Thus AABB has half the internal heat loss of ABAB.
+        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
+    		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
+		return IDWAabHLW;
+	    }
+
 
     /**Compute 4-room 'detatched' raw heat and heat-pump electricity demand with and without setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
@@ -366,6 +373,10 @@ public final class HGTRVHPMModelParameterised
         final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
 
+        // HEAT LOSS 1
+        // TODO: additional for intra-floor for detached.
+    	final double IDWAabHLW = iwHeatLoss(params);
+    	final double DIDWAabHLW = IDWAabHLW + 0;
 
     	
         
