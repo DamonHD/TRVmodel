@@ -196,8 +196,7 @@ public final class HGTRVHPMModelParameterised
         		HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;
 		// radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
-		final double radWnbs = HHLnsb / 4;
-//System.out.println(String.format("radWnbs = %f @ %fC", radWnbs,params.externalAirTemperatureC));
+		final double radWnsb = HHLnsb / 4;
 
 
         // HEAT LOSS 1
@@ -210,7 +209,7 @@ public final class HGTRVHPMModelParameterised
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
         final double radWAbs =
         	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
-    		radWnbs + IDWAabHLW;
+    		radWnsb + IDWAabHLW;
         // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
         // (Was: RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
 // TODO: why unused: radWBbs
@@ -248,7 +247,7 @@ public final class HGTRVHPMModelParameterised
         // radWAmult: (Heat Loss 2.1) radiator output (possibly < 1) multiplier in each A room when B is not setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAnbsmult =
-    		radWnbs / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+    		radWnsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
 //System.out.println(String.format("radWAnbsmult = %f", radWAnbsmult));
 
 		// radAnbsdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.
@@ -367,6 +366,11 @@ public final class HGTRVHPMModelParameterised
 
     	// Roof area: as for bungalow.
     	final double roofAreaM2 = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
+    	
+    	// Number of rooms.
+    	final int numRooms = keepAsBungalow ? 4 : 8;
+    	// Number of A rooms.
+    	final int numARooms = numRooms / 2;
 
     	// External wall area: as for bungalow in bungalow mode, else double.
     	final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *
@@ -382,6 +386,14 @@ public final class HGTRVHPMModelParameterised
     	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
         final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
+        // DradWnbs: pre-setback radiator output based on variable external air temperature (W).
+        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
+		final double DradWnsb = DHHLnsb / numRooms;
+//System.out.println(String.format("DradWnbs = %f", DradWnsb));
+//		// DradWbs: setback radiator output based on variable external air temperature (W).
+//		// (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
+//		final double DradWsb = DHHLsb / numRooms;
+//System.out.println(String.format("DradWnsb = %f", DradWnsb));
 
         // HEAT LOSS 1
 		// Internal wall heat loss/transfer per A room (W).
