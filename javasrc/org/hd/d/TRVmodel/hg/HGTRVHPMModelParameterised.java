@@ -28,6 +28,7 @@ public final class HGTRVHPMModelParameterised
      * @param correctCoPForFlowVsMW  if true then correct CoP flow temperature
      *     (original page implies false)
      * @param roomsAlternatingABAB  if true then arrange rooms to maximise internal heat transfer/loss
+     *     else arrange so as to minimise heat loss
      *     (original page implies true)
      * @param externalAirTemperatureC  external air temperature, degrees C;
      *     (original page has -3&deg;C)
