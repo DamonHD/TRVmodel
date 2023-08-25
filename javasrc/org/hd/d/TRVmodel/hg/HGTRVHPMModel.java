@@ -197,9 +197,12 @@ public final class HGTRVHPMModel
 
 
     /**Extras available extrapolating from the HG description. */
+    /**AFA: approximate floor and ceiling area per room A). */
+    public static final double PER_A_FLOOR_AREA_M2 =
+		INTERNAL_WALL_LENGTH_M * INTERNAL_WALL_LENGTH_M;
     /**TFA: approximate total floor area ignoring wall thickness (m^2). */
     public static final double HOME_TOTAL_FLOOR_AREA_M2 =
-		(INTERNAL_WALL_LENGTH_M * INTERNAL_WALL_LENGTH_M) * 4;
+		PER_A_FLOOR_AREA_M2 * 4;
     /**TRAL approximate total roof area ignoring wall thickness (m^2). */
     public static final double HOME_TOTAL_ROOF_AREA_M2 =
 		HOME_TOTAL_FLOOR_AREA_M2;

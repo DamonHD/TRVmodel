@@ -200,7 +200,9 @@ public final class HGTRVHPMModelParameterised
 
 
         // HEAT LOSS 1
-    	final double IDWAabHLW = iwHeatLoss(params);
+		// Internal wall heat loss/transfer per A room (W).
+    	final double IDWAabHLW = iwHeatLossPerA(params);
+
 
         // HEAT LOSS 2
         // radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W).
@@ -293,7 +295,7 @@ public final class HGTRVHPMModelParameterised
 	    }
 
     /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
-	private static double iwHeatLoss(final ModelParameters params)
+	private static double iwHeatLossPerA(final ModelParameters params)
 	    {
 		// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
     	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
@@ -328,8 +330,15 @@ public final class HGTRVHPMModelParameterised
 		return IDWAabHLW;
 	    }
 
+    /**Internal floor/ceiling heat loss/transfer per A room (W).
+     * Only applies when B directly above and below.
+     */
+	private static double ifHeatLossPerA(final ModelParameters params)
+		{
+		throw new RuntimeException("NOT IMPLEMENTED");
+		}
 
-    /**Compute 4-room 'detatched' raw heat and heat-pump electricity demand with and without setback (W).
+    /**Compute 4-room 'detached' raw heat and heat-pump electricity demand with and without setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
@@ -374,9 +383,14 @@ public final class HGTRVHPMModelParameterised
         		homeHeatLossPerK;
 
         // HEAT LOSS 1
-        // TODO: additional for intra-floor for detached.
-    	final double IDWAabHLW = iwHeatLoss(params);
-    	final double DIDWAabHLW = IDWAabHLW + 0;
+		// Internal wall heat loss/transfer per A room (W).
+    	final double DIWAabHLW = iwHeatLossPerA(params);
+		// Internal floor/ceiling heat loss/transfer per A room (W).
+    	// None if a bungalow or if AABB arrangement on both floors,
+    	// ie no A and B share a ceiling/floor.
+    	final double DIFAabHLW = (keepAsBungalow || !params.roomsAlternatingABAB) ? 0 : ifHeatLossPerA(params);
+        // All heat internal heat losses per A room (W).
+    	final double DIDWAabHLW = DIWAabHLW + DIFAabHLW;
 
     	
         
