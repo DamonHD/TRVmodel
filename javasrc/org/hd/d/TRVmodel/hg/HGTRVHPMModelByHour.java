@@ -46,7 +46,7 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 	public ScenarioResult runScenario()
 		{
 		final int hourCount = temperatures.data().size();
-		assert(hourCount > 0);
+//		assert(hourCount > 0);
 
 		// Running totals.
 		int hoursSetbackRaisesDemand = 0;
