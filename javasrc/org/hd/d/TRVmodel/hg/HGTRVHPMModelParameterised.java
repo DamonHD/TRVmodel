@@ -401,7 +401,9 @@ public final class HGTRVHPMModelParameterised
 		// Internal floor/ceiling heat loss/transfer per A room (W).
     	// None if a bungalow or if AABB arrangement on both floors,
     	// ie no A and B share a ceiling/floor.
-    	final double DIFAabHLW = (keepAsBungalow || !params.roomsAlternatingABAB) ? 0 : ifHeatLossPerA(params);
+    	final double DIFAabHLW =
+			(keepAsBungalow || !params.roomsAlternatingABAB) ? 0 :
+				ifHeatLossPerA(params);
         // All internal heat losses per A room (W).
     	final double DIDWAabHLW = DIWAabHLW + DIFAabHLW;
 
