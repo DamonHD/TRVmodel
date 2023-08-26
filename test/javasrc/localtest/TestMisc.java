@@ -16,6 +16,10 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package localtest;
 
+import java.io.IOException;
+
+import org.hd.d.TRVmodel.hg.ShowComputations;
+
 import junit.framework.TestCase;
 
 /**Miscellaneous tests.
@@ -24,4 +28,7 @@ public final class TestMisc extends TestCase
     {
     /**Verify that test harness is sane... */
     public static void testSanity() { }
+    
+    /**Ensure that showCalcs() can run without crashing! */
+    public static void testShowCalcs() throws IOException { ShowComputations.showCalcs(); }
     }
