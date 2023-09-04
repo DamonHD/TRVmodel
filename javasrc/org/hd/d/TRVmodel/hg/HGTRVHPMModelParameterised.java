@@ -327,7 +327,8 @@ public final class HGTRVHPMModelParameterised
         // Thus AABB has half the internal heat loss of ABAB.
         final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
     		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
-		return IDWAabHLW;
+
+		return(IDWAabHLW);
 	    }
 
     /**Internal floor/ceiling heat loss/transfer per A room (W).
