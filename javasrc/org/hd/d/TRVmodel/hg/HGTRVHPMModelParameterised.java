@@ -171,6 +171,90 @@ public final class HGTRVHPMModelParameterised
     			computeBungalowDemandW(params).noSetback.heatPumpElectricity);
 	    }
 
+
+    /**Radiator mean water temperature in each A room when B setback (C).
+     *
+     * @param HHLsb  whole home heat loss with B rooms setback and given external air temperature (W)
+     * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
+     * @param IDWFAabHLW  internal wall/floor heat loss/transfer per A room (W)
+     * @return (radAsbMW) mean water temperature in each A room when B setback (C)
+     */
+	public static double sbAMW(final double HHLsb, final double radWnsb, final double IDWAabHLW) {
+		// radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W).
+        // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
+        final double radWAsb =
+        	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
+    		radWnsb + IDWAabHLW;
+        // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
+        // (Was: RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
+// TODO: why unused: radWBsb
+//        final double radWBsb =
+//    		(HHLsb - 2*radWAsb) / 2;
+        // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
+        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+        final double radWAmult =
+    		radWAsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+        // radAsbdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
+        // (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+        final double radAsbdTmult =
+    		Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
+        // radAsbdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
+        // (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
+        final double radAsbdT =
+    		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAsbdTmult;
+        // radAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
+        // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
+        final double radAsbMW =
+    		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAsbdT;
+//System.out.println(String.format("radAbsMW = %.1f", radAbsMW));
+		return radAsbMW;
+	}
+
+    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
+	private static double iwHeatLossPerA(final ModelParameters params)
+	    {
+		// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
+    	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
+    	final double IWAabmd =
+			HGTRVHPMModel.INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOM_M2
+			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2);
+    	// IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K).
+    	// (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
+        final double IWAabHL =
+    		IWAabmd * HGTRVHPMModel.INTERNAL_WALL_U_WpM2K;
+        // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK).
+        // (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W)
+        final double IWAabHLW =
+    		IWAabHL *
+    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+        // IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K).
+        // (INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
+        final double IDAabHL =
+    		HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2 * HGTRVHPMModel.INTERNAL_DOOR_U_WpM2K;
+        // IDAabHLW: (Heat Loss 1.6) internal door heat loss per door (W).
+        // (INTERNAL_DOOR_HEAT_LOSS_W)
+        final double IDAabHLW =
+    		IDAabHL *
+    		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+        // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
+        // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
+        // In the original ABAB arrangement there are two walls from each A room into B rooms.
+        // In the alternate AABB arrangement there is one wall from each A room into a B room.
+        // Thus AABB has half the internal heat loss of ABAB.
+        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
+    		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
+
+		return(IDWAabHLW);
+	    }
+
+    /**Internal floor/ceiling heat loss/transfer per A room (W).
+     * Only applies when B directly above and below.
+     */
+	private static double ifHeatLossPerA(final ModelParameters params)
+		{
+		throw new RuntimeException("NOT IMPLEMENTED");
+		}
+
     /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
@@ -205,33 +289,8 @@ public final class HGTRVHPMModelParameterised
 
 
         // HEAT LOSS 2
-        // radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W).
-        // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
-        final double radWAsb =
-        	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
-    		radWnsb + IDWAabHLW;
-        // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
-        // (Was: RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
-// TODO: why unused: radWBsb
-        final double radWBsb =
-    		(HHLsb - 2*radWAsb) / 2;
-        // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
-        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-        final double radWAmult =
-    		radWAsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-        // radAsbdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
-        // (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-        final double radAsbdTmult =
-    		Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
-        // radAsbdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
-        // (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
-        final double radAsbdT =
-    		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAsbdTmult;
         // radAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
-        // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
-        final double radAsbMW =
-    		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAsbdT;
-//System.out.println(String.format("radAbsMW = %.1f", radAbsMW));
+        final double radAsbMW = sbAMW(HHLsb, radWnsb, IDWAabHLW);
 
         // Extension to heat loss 2 to allow for varying external temperatures.
         // Compute, for when B rooms are not set back:
@@ -294,51 +353,6 @@ public final class HGTRVHPMModelParameterised
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
 	    }
 
-    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
-	private static double iwHeatLossPerA(final ModelParameters params)
-	    {
-		// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
-    	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
-    	final double IWAabmd =
-			HGTRVHPMModel.INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOM_M2
-			- (2 * params.doorsPerInternalWall() * HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2);
-    	// IWAabHL: (Heat Loss 1.3) internal wall (minus door) heat loss per Kelvin (W/K).
-    	// (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
-        final double IWAabHL =
-    		IWAabmd * HGTRVHPMModel.INTERNAL_WALL_U_WpM2K;
-        // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK).
-        // (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W)
-        final double IWAabHLW =
-    		IWAabHL *
-    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
-        // IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K).
-        // (INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
-        final double IDAabHL =
-    		HGTRVHPMModel.INTERNAL_DOOR_AREA_PER_DOOR_M2 * HGTRVHPMModel.INTERNAL_DOOR_U_WpM2K;
-        // IDAabHLW: (Heat Loss 1.6) internal door heat loss per door (W).
-        // (INTERNAL_DOOR_HEAT_LOSS_W)
-        final double IDAabHLW =
-    		IDAabHL *
-    		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
-        // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
-        // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
-        // In the original ABAB arrangement there are two walls from each A room into B rooms.
-        // In the alternate AABB arrangement there is one wall from each A room into a B room.
-        // Thus AABB has half the internal heat loss of ABAB.
-        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
-    		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
-
-		return(IDWAabHLW);
-	    }
-
-    /**Internal floor/ceiling heat loss/transfer per A room (W).
-     * Only applies when B directly above and below.
-     */
-	private static double ifHeatLossPerA(final ModelParameters params)
-		{
-		throw new RuntimeException("NOT IMPLEMENTED");
-		}
-
     /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
@@ -391,9 +405,6 @@ public final class HGTRVHPMModelParameterised
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
 //System.out.println(String.format("DradWnbs = %f", DradWnsb));
-//		// DradWsb: setback radiator output based on variable external air temperature (W).
-//		final double DradWsb = DHHLsb / numRooms;
-//System.out.println(String.format("DradWsb = %f", DradWsb));
 
 		// Internal wall heat loss/transfer per A room (W).
     	final double DIWAabHLW = iwHeatLossPerA(params);
@@ -404,7 +415,10 @@ public final class HGTRVHPMModelParameterised
 			(keepAsBungalow || !params.roomsAlternatingABAB) ? 0 :
 				ifHeatLossPerA(params);
         // All internal heat losses per A room (W).
-    	final double DIDWAabHLW = DIWAabHLW + DIFAabHLW;
+    	final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;
+//    	// Total heat loss from all A rooms to B rooms when B rooms are set back.
+//    	final double DIFWallAabHLW = numARooms * DIFWAabHLW;
+
 
 
 
