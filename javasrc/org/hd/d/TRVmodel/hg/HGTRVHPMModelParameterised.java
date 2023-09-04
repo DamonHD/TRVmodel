@@ -171,7 +171,7 @@ public final class HGTRVHPMModelParameterised
     			computeBungalowDemandW(params).noSetback.heatPumpElectricity);
 	    }
 
-    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without setback (W).
+    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
@@ -339,12 +339,12 @@ public final class HGTRVHPMModelParameterised
 		throw new RuntimeException("NOT IMPLEMENTED");
 		}
 
-    /**Compute 4-room 'detached' raw heat and heat-pump electricity demand with and without setback (W).
+    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
-     * @param keepAsBungalow  if true, compute as bungalow to cross-check with original calculation
+     * @param keepAsBungalow  if true, compute as 4-room bungalow to cross-check with original calculation
      * @return  demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params,
