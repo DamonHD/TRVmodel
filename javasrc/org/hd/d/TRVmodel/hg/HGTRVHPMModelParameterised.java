@@ -366,7 +366,7 @@ public final class HGTRVHPMModelParameterised
 
     	// Roof area: as for bungalow.
     	final double roofAreaM2 = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
-    	
+
     	// Number of rooms.
     	final int numRooms = keepAsBungalow ? 4 : 8;
     	// Number of A rooms.
@@ -390,12 +390,10 @@ public final class HGTRVHPMModelParameterised
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
 //System.out.println(String.format("DradWnbs = %f", DradWnsb));
-//		// DradWsn: setback radiator output based on variable external air temperature (W).
-//		// (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
+//		// DradWsb: setback radiator output based on variable external air temperature (W).
 //		final double DradWsb = DHHLsb / numRooms;
 //System.out.println(String.format("DradWsb = %f", DradWsb));
 
-        // HEAT LOSS 1
 		// Internal wall heat loss/transfer per A room (W).
     	final double DIWAabHLW = iwHeatLossPerA(params);
 		// Internal floor/ceiling heat loss/transfer per A room (W).
@@ -407,11 +405,11 @@ public final class HGTRVHPMModelParameterised
         // All internal heat losses per A room (W).
     	final double DIDWAabHLW = DIWAabHLW + DIFAabHLW;
 
-    	
-        
-        
-        
-        
+
+
+
+
+
 
         final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, 0 /*FIXME*/ );
         final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, 0 /*FIXME*/ );
