@@ -331,19 +331,12 @@ public final class HGTRVHPMModelParameterised
         final double radAnsbMW = nsbAMW(radWnsb);
 
 
-        // Normal (no setback) mean water temperature (C).
-        final double radAMW = radAnsbMW;
-        // Was:
-//            HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-//System.out.println(String.format("radAMW = %f", radAMW));
-
-
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
 
 		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
-        final double CoPnsb = computeFlowCoP(radAMW + CoPCorrectionK);
+        final double CoPnsb = computeFlowCoP(radAnsbMW + CoPCorrectionK);
 //System.out.println(String.format("CoPnsb = %f", CoPnsb));
         final double HPinWnsb =
     		HHLnsb / CoPnsb;
@@ -427,8 +420,7 @@ public final class HGTRVHPMModelParameterised
 				ifHeatLossPerA(params);
         // All internal heat losses per A room (W).
     	final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;
-//    	// Total heat loss from all A rooms to B rooms when B rooms are set back.
-//    	final double DIFWallAabHLW = numARooms * DIFWAabHLW;
+
 
         // HEAT LOSS 2
         // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
@@ -437,12 +429,27 @@ public final class HGTRVHPMModelParameterised
         final double DradAnsbMW = nsbAMW(DradWnsb);
 
 
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
+
+		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
+        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);
+//System.out.println(String.format("CoPnsb = %f", CoPnsb));
+        final double DHPinWnsb =
+    		DHHLnsb / DCoPnsb;
+
+		// HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
+        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double DCoPsb = computeFlowCoP(DradAsbMW + CoPCorrectionK);
+//System.out.println(String.format("CoPsb = %f", CoPsb));
+        final double DHPinWsb =
+    		DHHLsb / DCoPsb;
 
 
-
-
-        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, 0 /*FIXME*/ );
-        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, 0 /*FIXME*/ );
+        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);
+        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, DHPinWsb);
 
         // Return everything at once.
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
