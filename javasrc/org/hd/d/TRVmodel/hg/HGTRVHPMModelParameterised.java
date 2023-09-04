@@ -349,6 +349,7 @@ public final class HGTRVHPMModelParameterised
         final double HPinWsb =
     		HHLsb / CoPsb;
 
+
         final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(HHLnsb, HPinWnsb);
         final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(HHLsb, HPinWsb);
 
