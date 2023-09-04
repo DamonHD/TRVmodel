@@ -254,6 +254,43 @@ public final class HGTRVHPMModelParameterised
 		throw new RuntimeException("NOT IMPLEMENTED");
 		}
 
+	/**Extension to heat loss 2 to allow for varying external temperatures.
+	 *
+	 * @param radWnsb
+	 * @return (radAnsbMW) radiator mean water temperature in each A room when B NOT setback (C)
+	 */
+	public static double nsbAMW(final double radWnsb)
+		{
+		// Extension to heat loss 2 to allow for varying external temperatures.
+        // Compute, for when B rooms are not set back:
+        //   * the needed power for each A radiator
+        //   * thus the implied temperature
+        //   * thus the CoP
+        //   * thus the electricity demand
+        //
+        // Replaces the simple calc;
+//     final double radAMW =
+//         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+        //
+        // radWAnsbmult: (Heat Loss 2.1) radiator output (possibly < 1) multiplier in each A room when B is not setback.
+        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+        final double radWAnsbmult =
+    		radWnsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+//System.out.println(String.format("radWAnsbmult = %f", radWAnsbmult));
+
+		// radAnsbdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.
+		final double radAnsbdTmult =
+			Math.pow(radWAnsbmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
+		// radAnsbdT: radiator MW-AT delta-T in each A room when B NOT setback (K).
+		final double radAnsbdT =
+			HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAnsbdTmult;
+		// radAnsbMW: radiator mean water temperature in each A room when B NOT setback (C).
+		final double radAnsbMW =
+			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnsbdT;
+//System.out.println(String.format("radAnbsMW = %.1f", radAnbsMW));
+		return(radAnsbMW);
+		}
+
     /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
@@ -290,34 +327,8 @@ public final class HGTRVHPMModelParameterised
         // HEAT LOSS 2
         // radAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         final double radAsbMW = sbAMW(HHLsb, radWnsb, IDWAabHLW);
-
-        // Extension to heat loss 2 to allow for varying external temperatures.
-        // Compute, for when B rooms are not set back:
-        //   * the needed power for each A radiator
-        //   * thus the implied temperature
-        //   * thus the CoP
-        //   * thus the electricity demand
-        //
-        // Replaces the simple calc;
-//     final double radAMW =
-//         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-        //
-        // radWAnsbmult: (Heat Loss 2.1) radiator output (possibly < 1) multiplier in each A room when B is not setback.
-        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-        final double radWAnsbmult =
-    		radWnsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-//System.out.println(String.format("radWAnsbmult = %f", radWAnsbmult));
-
-		// radAnsbdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.
-		final double radAnsbdTmult =
-			Math.pow(radWAnsbmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
-		// radAnsbdT: radiator MW-AT delta-T in each A room when B NOT setback (K).
-		final double radAnsbdT =
-			HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAnsbdTmult;
-		// radAnsbMW: radiator mean water temperature in each A room when B NOT setback (C).
-		final double radAnsbMW =
-			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnsbdT;
-//System.out.println(String.format("radAnbsMW = %.1f", radAnbsMW));
+		// Extension to heat loss 2 to allow for varying external temperatures.
+        final double radAnsbMW = nsbAMW(radWnsb);
 
 
         // Normal (no setback) mean water temperature (C).
@@ -422,6 +433,8 @@ public final class HGTRVHPMModelParameterised
         // HEAT LOSS 2
         // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);
+		// Extension to heat loss 2 to allow for varying external temperatures.
+        final double DradAnsbMW = nsbAMW(DradWnsb);
 
 
 
