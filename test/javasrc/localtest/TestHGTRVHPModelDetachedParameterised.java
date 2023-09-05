@@ -19,6 +19,7 @@ package localtest;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModel;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.DemandWithoutAndWithSetback;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.ModelParameters;
 
 import junit.framework.TestCase;
 
@@ -54,4 +55,22 @@ public final class TestHGTRVHPModelDetachedParameterised extends TestCase
 	    assertEquals(bungalowDemandW.withSetback().heatPumpElectricity(), detachedDemandW.withSetback().heatPumpElectricity(), 1);
 	    }
 
+    /**Sanity-test detached-as-bungalow against bungalow, with fixes and a range of external temperatures. */
+    public static void testOriginalVsDetachedWithFixedParametersAndVariousExtTemps()
+	    {
+        for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 10.0; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
+	        {
+	    	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
+	    			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+	    			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+	    			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+	    			eat);
+	    	final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(params);
+	    	final DemandWithoutAndWithSetback detachedDemandW = HGTRVHPMModelParameterised.computeDetachedDemandW(params, true);
+		    assertEquals(bungalowDemandW.noSetback().heatDemand(), detachedDemandW.noSetback().heatDemand(), 1);
+		    assertEquals(bungalowDemandW.withSetback().heatDemand(), detachedDemandW.withSetback().heatDemand(), 1);
+		    assertEquals(bungalowDemandW.noSetback().heatPumpElectricity(), detachedDemandW.noSetback().heatPumpElectricity(), 1);
+		    assertEquals(bungalowDemandW.withSetback().heatPumpElectricity(), detachedDemandW.withSetback().heatPumpElectricity(), 1);
+	        }
+	    }
     }
