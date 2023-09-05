@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**Test the parameterised Heat Geek TRV-with-HP model, detached house version. */
 public final class TestHGTRVHPModelDetachedParameterised extends TestCase
     {
-    /**Sanity-test detached-as-bungalow against bungalow. */
+    /**Sanity-test detached-as-bungalow against bungalow, all defaults. */
     public static void testOriginalVsDetachedWithDefaultParameters()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters defaultParams = new HGTRVHPMModelParameterised.ModelParameters();
@@ -41,4 +41,17 @@ public final class TestHGTRVHPModelDetachedParameterised extends TestCase
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_NO_SETBACK_W, detachedDemandW.noSetback().heatPumpElectricity(), 1);
 	    assertEquals(HGTRVHPMModel.HEAT_PUMP_POWER_IN_B_SETBACK_W, detachedDemandW.withSetback().heatPumpElectricity(), 1);
 	    }
+
+    /**Sanity-test detached-as-bungalow against bungalow, with fixes. */
+    public static void testOriginalVsDetachedWithFixedParameters()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters fixedParams = HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED;
+    	final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(fixedParams);
+    	final DemandWithoutAndWithSetback detachedDemandW = HGTRVHPMModelParameterised.computeDetachedDemandW(fixedParams, true);
+	    assertEquals(bungalowDemandW.noSetback().heatDemand(), detachedDemandW.noSetback().heatDemand(), 1);
+	    assertEquals(bungalowDemandW.withSetback().heatDemand(), detachedDemandW.withSetback().heatDemand(), 1);
+	    assertEquals(bungalowDemandW.noSetback().heatPumpElectricity(), detachedDemandW.noSetback().heatPumpElectricity(), 1);
+	    assertEquals(bungalowDemandW.withSetback().heatPumpElectricity(), detachedDemandW.withSetback().heatPumpElectricity(), 1);
+	    }
+
     }
