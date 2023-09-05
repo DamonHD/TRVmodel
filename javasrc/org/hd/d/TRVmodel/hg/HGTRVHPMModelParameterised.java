@@ -385,8 +385,8 @@ public final class HGTRVHPMModelParameterised
 
     	// Number of rooms.
     	final int numRooms = keepAsBungalow ? 4 : 8;
-    	// Number of A rooms.
-    	final int numARooms = numRooms / 2;
+//    	// Number of A rooms.
+//    	final int numARooms = numRooms / 2;
 
     	// External wall area: as for bungalow in bungalow mode, else double.
     	final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *
