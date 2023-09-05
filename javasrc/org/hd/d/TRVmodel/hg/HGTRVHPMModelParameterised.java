@@ -370,10 +370,10 @@ public final class HGTRVHPMModelParameterised
 	    {
     	Objects.requireNonNull(params);
 
-
     	// Do not allow model to be run with potentially implausible parameters.
     	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
+
 
         // FIXME: do not allow model to be run *except* in bungalow-like mode yet.
     	if(!keepAsBungalow)
