@@ -82,6 +82,9 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
 	/**Default path to 201X decade temperature data directory from project root; non-null. */
     public static final File PATH_TO_201X_TEMPERATURE_DATA = new File(DEFAULT_PATH_TO_TEMPERATURE_DATA, "201X");
 
+    /**Expected number of records in each of the 201X data files. */
+    public static final int RECORD_COUNT_201X_TEMPERATURE_DATA = 87648;
+
 	/**Parse degreedays.net hourly temperature CSV file/stream; never null but may be empty.
      * Parses CSV as List (by row) of List (of String fields),
      * omitting empty and comment (starting with '#') rows.
