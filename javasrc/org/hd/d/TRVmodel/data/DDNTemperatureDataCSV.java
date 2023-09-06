@@ -79,6 +79,9 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
     /**Sample data set in default directory: EGPF (GLA/Glasgow) for 2018. */
     public static final File DATA_EGPF_2018 = new File(DEFAULT_PATH_TO_TEMPERATURE_DATA, "EGPF_CelsiusTemps_2018_extract.csv.gz");
 
+	/**Default path to 201X decade temperature data directory from project root; non-null. */
+    public static final File PATH_TO_201X_TEMPERATURE_DATA = new File(DEFAULT_PATH_TO_TEMPERATURE_DATA, "201X");
+
 	/**Parse degreedays.net hourly temperature CSV file/stream; never null but may be empty.
      * Parses CSV as List (by row) of List (of String fields),
      * omitting empty and comment (starting with '#') rows.
