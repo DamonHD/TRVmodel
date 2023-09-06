@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour.ScenarioResult;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.DemandWithoutAndWithSetback;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.ModelParameters;
 
 /**Show computations from the Heat Geek TRV/HP model. */
@@ -98,6 +99,18 @@ public final class ShowComputations
     	final double powerWithSetbackGlasgow2018 = resultGlasgow2018.demand().withSetback().heatPumpElectricity();
     	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
     			powerNoSetbackGlasgow2018, powerWithSetbackGlasgow2018, 100*((powerWithSetbackGlasgow2018/powerNoSetbackGlasgow2018)-1)));
+
+
+    	// Bungalow vs detached, original conditions.
+        System.out.println("");
+		final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED);
+		System.out.println(String.format("Parameterised bungalow model, fixes applied for doors and CoP temperature, electricity demand normal / setback: %.0fW / %.0fW",
+    	    bungalowDemandW.noSetback().heatPumpElectricity(),
+    	    bungalowDemandW.withSetback().heatPumpElectricity()));
+		final DemandWithoutAndWithSetback detachedDemandW = HGTRVHPMModelParameterised.computeDetachedDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, false);
+		System.out.println(String.format("Parameterised detached model, fixes applied for doors and CoP temperature, electricity demand normal / setback: %.0fW / %.0fW",
+    	    detachedDemandW.noSetback().heatPumpElectricity(),
+    	    detachedDemandW.withSetback().heatPumpElectricity()));
 
 
 
