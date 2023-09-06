@@ -93,24 +93,24 @@ public final class TestHGTRVHPModelDetachedParameterised extends TestCase
 	        }
 	    }
 
-//    /**Sanity test detached-as-detached against bungalow (both with fixes).
-//     * The detached house should always lose more heat and need more electricity.
-//     */
-//    public static void testOriginalVsDetached()
-//	    {
-//	    for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 10.0; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
-//	        {
-//	    	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
-//	    			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
-//	    			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-//	    			!ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
-//	    			eat);
-//	    	final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(params);
-//	    	final DemandWithoutAndWithSetback detachedDemandW = HGTRVHPMModelParameterised.computeDetachedDemandW(params, false);
-//		    assertTrue(bungalowDemandW.noSetback().heatDemand() < detachedDemandW.noSetback().heatDemand());
-//		    assertTrue(bungalowDemandW.withSetback().heatDemand() < detachedDemandW.withSetback().heatDemand());
-//		    assertTrue(bungalowDemandW.noSetback().heatPumpElectricity() < detachedDemandW.noSetback().heatPumpElectricity());
-//		    assertTrue(bungalowDemandW.withSetback().heatPumpElectricity() < detachedDemandW.withSetback().heatPumpElectricity());
-//	        }
-//	    }
+    /**Sanity test detached-as-detached against bungalow (both with fixes).
+     * The detached house should always lose more heat and need more heat-pump electricity.
+     */
+    public static void testOriginalVsDetached()
+	    {
+	    for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 10.0; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
+	        {
+	    	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
+	    			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+	    			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+	    			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+	    			eat);
+	    	final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(params);
+	    	final DemandWithoutAndWithSetback detachedDemandW = HGTRVHPMModelParameterised.computeDetachedDemandW(params, false);
+		    assertTrue(bungalowDemandW.noSetback().heatDemand() < detachedDemandW.noSetback().heatDemand());
+		    assertTrue(bungalowDemandW.withSetback().heatDemand() < detachedDemandW.withSetback().heatDemand());
+		    assertTrue(bungalowDemandW.noSetback().heatPumpElectricity() < detachedDemandW.noSetback().heatPumpElectricity());
+		    assertTrue(bungalowDemandW.withSetback().heatPumpElectricity() < detachedDemandW.withSetback().heatPumpElectricity());
+	        }
+	    }
     }

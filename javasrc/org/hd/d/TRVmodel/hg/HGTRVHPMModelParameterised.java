@@ -221,7 +221,7 @@ public final class HGTRVHPMModelParameterised
     	// (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
         final double IWAabHL =
     		IWAabmd * HGTRVHPMModel.INTERNAL_WALL_U_WpM2K;
-        // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (WK).
+        // IWAabHLW: (Heat Loss 1.4) internal wall (minus door) heat loss (W).
         // (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W)
         final double IWAabHLW =
     		IWAabHL *
@@ -246,12 +246,27 @@ public final class HGTRVHPMModelParameterised
 		return(IDWAabHLW);
 	    }
 
-    /**Internal floor/ceiling heat loss/transfer per A room (W).
-     * Only applies when B directly above and below.
+    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.
+     * Only applies when a B room is directly above or below.
+     * <p>
+     * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)
+     * each A room will lose each <em>either</em> to a B room below or above (not both).
+     * Heat loss in each direction (up or down) is treated as the same.
      */
-	private static double ifHeatLossPerA(final ModelParameters params)
+	private static double ifHeatLossPerA2Storey(final ModelParameters params)
 		{
-		throw new RuntimeException("NOT IMPLEMENTED");
+		if(!params.roomsAlternatingABAB) { return(0); }
+
+    	// IFAabHL: internal floor/ceiling heat loss per Kelvin (W/K).
+        final double IFAabHL =
+        		HGTRVHPMModel.PER_A_FLOOR_AREA_M2 * HGTRVHPMModel.INTERNAL_FLOOR_U_WpM2K;
+
+        // IFAabHLW: internal floor/ceiling heat loss per A room (W).
+        final double IFAabHLW =
+    		IFAabHL *
+    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+
+		return(IFAabHLW);
 		}
 
 	/**Extension to heat loss 2 to allow for varying external temperatures.
@@ -375,9 +390,9 @@ public final class HGTRVHPMModelParameterised
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
 
 
-        // FIXME: do not allow model to be run *except* in bungalow-like mode yet.
-    	if(!keepAsBungalow)
-	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
+//        // FIXME: do not allow model to be run *except* in bungalow-like mode yet.
+//    	if(!keepAsBungalow)
+//	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
 
 
     	// Roof area: as for bungalow.
@@ -415,7 +430,7 @@ public final class HGTRVHPMModelParameterised
     	// ie no A and B share a ceiling/floor.
     	final double DIFAabHLW =
 			(keepAsBungalow || !params.roomsAlternatingABAB) ? 0 :
-				ifHeatLossPerA(params);
+				ifHeatLossPerA2Storey(params);
         // All internal heat losses per A room (W).
     	final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;
 
