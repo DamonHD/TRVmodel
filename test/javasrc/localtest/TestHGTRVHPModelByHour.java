@@ -44,7 +44,7 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
 
     	final HGTRVHPMModelByHour scenario = new HGTRVHPMModelByHour(modelDefaultParams, temperatureDefault);
 
-    	final ScenarioResult result = scenario.runScenario();
+    	final ScenarioResult result = scenario.runScenario(false);
     	assertNotNull(result);
     	assertEquals("expect the HG-reported result, ie setback increase heat pump electricity demand", 1.0, result.hoursFractionSetbackRaisesDemand(), 0.0001);
 
@@ -68,7 +68,7 @@ Datetime,Timezone,Date,Time,Temp (?C),% Estimated
 
     	final HGTRVHPMModelByHour scenario = new HGTRVHPMModelByHour(modelParams, temperatures);
 
-    	final ScenarioResult result = scenario.runScenario();
+    	final ScenarioResult result = scenario.runScenario(false);
     	assertNotNull(result);
     	assertEquals("expect the HG-reported result, ie setback increase heat pump electricity demand", 0.45, result.hoursFractionSetbackRaisesDemand(), 0.01);
 

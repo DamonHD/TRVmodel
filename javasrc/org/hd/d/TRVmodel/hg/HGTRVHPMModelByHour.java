@@ -42,8 +42,10 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 		}
 
 	/**Run scenario on model and temperature data; never null.
+	 * @param modelDetached  iff true, model detached house
+	 *         (else model original 4-room bungalow)
 	 */
-	public ScenarioResult runScenario()
+	public ScenarioResult runScenario(final boolean modelDetached)
 		{
 		final int hourCount = temperatures.data().size();
 //		assert(hourCount > 0);
@@ -66,7 +68,9 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 			final HGTRVHPMModelParameterised.ModelParameters updateModelParameters =
 					modelParameters.cloneWithAdjustedExternalTemperature(temperature);
 
-	    	final DemandWithoutAndWithSetback power = HGTRVHPMModelParameterised.computeBungalowDemandW(updateModelParameters);
+	    	final DemandWithoutAndWithSetback power = modelDetached ?
+    			HGTRVHPMModelParameterised.computeDetachedDemandW(updateModelParameters, false) :
+				HGTRVHPMModelParameterised.computeBungalowDemandW(updateModelParameters);
 
 	    	heatDemandNSB += power.noSetback().heatDemand();
 	    	heatPumpElectricityNSB += power.noSetback().heatPumpElectricity();

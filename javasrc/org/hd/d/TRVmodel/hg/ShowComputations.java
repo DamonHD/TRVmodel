@@ -71,7 +71,7 @@ public final class ShowComputations
     			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
     	final HGTRVHPMModelByHour scenarioLondon2018 = new HGTRVHPMModelByHour(
     			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesLondon2018);
-    	final ScenarioResult resultLondon2018 = scenarioLondon2018.runScenario();
+    	final ScenarioResult resultLondon2018 = scenarioLondon2018.runScenario(false);
         System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
         		100 * resultLondon2018.hoursFractionSetbackRaisesDemand()));
     	final double heatNoSetbackLondon2018 = resultLondon2018.demand().noSetback().heatDemand();
@@ -90,7 +90,7 @@ public final class ShowComputations
     			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGPF_2018);
     	final HGTRVHPMModelByHour scenarioGlasgow2018 = new HGTRVHPMModelByHour(
     			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesGlasgow2018);
-    	final ScenarioResult resultGlasgow2018 = scenarioGlasgow2018.runScenario();
+    	final ScenarioResult resultGlasgow2018 = scenarioGlasgow2018.runScenario(false);
         System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
         		100 * resultGlasgow2018.hoursFractionSetbackRaisesDemand()));
     	final double heatNoSetbackGlasgow2018 = resultGlasgow2018.demand().noSetback().heatDemand();
@@ -144,7 +144,7 @@ public final class ShowComputations
 		            			abab,
 		            			ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C),
 		    			temperatures201X);
-			    	final ScenarioResult result201X = scenario201X.runScenario();
+			    	final ScenarioResult result201X = scenario201X.runScenario(detached);
 
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
@@ -154,16 +154,8 @@ public final class ShowComputations
 			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
 			    	System.out.println(String.format("      Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
 			    			powerNoSetbackGlasgow2018, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
-
-
-					// TODO
-
 					}
 				}
 			}
-
-
-		// TODO
-
 		}
 	}
