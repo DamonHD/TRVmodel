@@ -81,6 +81,8 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
 
 	/**Default path to 201X decade temperature data directory from project root; non-null. */
     public static final File PATH_TO_201X_TEMPERATURE_DATA = new File(DEFAULT_PATH_TO_TEMPERATURE_DATA, "201X");
+    /**Tail of filename for 201X temperature data files; non-null. */
+    public static final String FILE_TAIL_FOR_201X_TEMPERATURE_FILE = "_CelsiusTemps_201X_extract.csv.gz";
 
     /**Expected number of records in each of the 201X data files. */
     public static final int RECORD_COUNT_201X_TEMPERATURE_DATA = 87648;
