@@ -1,5 +1,6 @@
 package org.hd.d.TRVmodel.hg;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
@@ -121,6 +122,14 @@ public final class ShowComputations
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
 			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
+	    	// Load temperature data for this station.
+			final DDNTemperatureDataCSV temperatures201X =
+    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
+					htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
+            if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
+            	{ throw new IOException("bad record count"); }
+
+
 			// TODO
 			for(final boolean detached : new boolean[]{false, true})
 				{
