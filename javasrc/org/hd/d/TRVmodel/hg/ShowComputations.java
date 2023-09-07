@@ -120,6 +120,7 @@ public final class ShowComputations
         System.out.println("7 towns/cites, 10Y hourly data (201x), bungalow and detached:");
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
+			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
 			// TODO
 			for(final boolean detached : new boolean[]{false, true})
 				{
