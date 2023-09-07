@@ -146,6 +146,14 @@ public final class ShowComputations
 		    			temperatures201X);
 			    	final ScenarioResult result201X = scenario201X.runScenario();
 
+			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
+			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
+			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+			    			heatNoSetbackGlasgow2018, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
+			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
+			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
+			    	System.out.println(String.format("      Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+			    			powerNoSetbackGlasgow2018, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
 
 
 					// TODO
