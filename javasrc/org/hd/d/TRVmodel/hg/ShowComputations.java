@@ -115,7 +115,7 @@ public final class ShowComputations
 
 
 		// TODO
-		// 7 cities x 10Y, bungalow and detached (ABAB and AABB as sensitivity measure).
+		// 7 major towns/cities x 10Y, bungalow and detached (ABAB and AABB as sensitivity measure).
 
 		}
 	}
