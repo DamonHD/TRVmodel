@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.hd.d.TRVmodel.data.DDNTemperatureDataCSV;
+import org.hd.d.TRVmodel.data.HourlyTemperatureDataDescriptor;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelByHour.ScenarioResult;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.DemandWithoutAndWithSetback;
 import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.ModelParameters;
@@ -113,9 +114,22 @@ public final class ShowComputations
     	    detachedDemandW.withSetback().heatPumpElectricity()));
 
 
+		// 7 major towns/cities x 10Y, bungalow and detached (ABAB and AABB as sensitivity measure).
+		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
+			{
+			// TODO
+			for(final boolean detached : new boolean[]{false, true})
+				{
+				for(final boolean abab : new boolean[]{true, false})
+					{
+					// TODO
+
+					}
+				}
+			}
+
 
 		// TODO
-		// 7 major towns/cities x 10Y, bungalow and detached (ABAB and AABB as sensitivity measure).
 
 		}
 	}
