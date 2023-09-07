@@ -104,6 +104,7 @@ public final class ShowComputations
 
     	// Bungalow vs detached, original conditions.
         System.out.println("");
+        System.out.println("Bungalow (original) vs detached:");
 		final DemandWithoutAndWithSetback bungalowDemandW = HGTRVHPMModelParameterised.computeBungalowDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED);
 		System.out.println(String.format("Parameterised bungalow model, fixes applied for doors and CoP temperature, electricity demand normal / setback: %.0fW / %.0fW",
     	    bungalowDemandW.noSetback().heatPumpElectricity(),
@@ -115,6 +116,8 @@ public final class ShowComputations
 
 
 		// 7 major towns/cities x 10Y, bungalow and detached (ABAB and AABB as sensitivity measure).
+        System.out.println("");
+        System.out.println("7 towns/cites, 10Y hourly data (201x), bungalow and detached:");
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
 			// TODO
