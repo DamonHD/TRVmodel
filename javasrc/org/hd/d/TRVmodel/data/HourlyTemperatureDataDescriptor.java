@@ -25,8 +25,8 @@ import java.util.Objects;
  * <p>
  * Can be used to describe the source of DDNTemperatureDataCSV items.
  *
- * @param station  location of weather station, eg at ICAO airport; never null or empty
- * @param conurbation  nearby large town or city; never null or empty
+ * @param station  location of weather station, eg at ICAO airport; never null (nor empty)
+ * @param conurbation  nearby large town or city; never null (nor empty)
  * @param records  expected record count
  */
 public record HourlyTemperatureDataDescriptor(String station, String conurbation, int records)
