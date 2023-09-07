@@ -87,6 +87,18 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
     /**Expected number of records in each of the 201X data files. */
     public static final int RECORD_COUNT_201X_TEMPERATURE_DATA = 87648;
 
+    /**Data descriptors for 201X temperature dataset; non-null. */
+    public static final List<HourlyTemperatureDataDescriptor> DESCRIPTORS_201X_DATASET =
+		Collections.unmodifiableList(Arrays.asList(new HourlyTemperatureDataDescriptor[] {
+			new HourlyTemperatureDataDescriptor("EGAA", "Belfast", RECORD_COUNT_201X_TEMPERATURE_DATA),
+			new HourlyTemperatureDataDescriptor("EGCC", "Manchester", RECORD_COUNT_201X_TEMPERATURE_DATA),
+			new HourlyTemperatureDataDescriptor("EGFF", "Cardiff", RECORD_COUNT_201X_TEMPERATURE_DATA),
+			new HourlyTemperatureDataDescriptor("EGLL", "London", RECORD_COUNT_201X_TEMPERATURE_DATA),
+			new HourlyTemperatureDataDescriptor("EGNT", "Newcastle", RECORD_COUNT_201X_TEMPERATURE_DATA),
+			new HourlyTemperatureDataDescriptor("EGPF", "Glasgow", RECORD_COUNT_201X_TEMPERATURE_DATA),
+			new HourlyTemperatureDataDescriptor("EGPH", "Edinburgh", RECORD_COUNT_201X_TEMPERATURE_DATA)
+		}));
+
 	/**Parse degreedays.net hourly temperature CSV file/stream; never null but may be empty.
      * Parses CSV as List (by row) of List (of String fields),
      * omitting empty and comment (starting with '#') rows.
