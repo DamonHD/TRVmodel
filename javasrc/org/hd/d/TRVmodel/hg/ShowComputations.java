@@ -137,15 +137,16 @@ public final class ShowComputations
 					{
 			        final String layout = abab ? "ABAB" : "AABB";
 					System.out.println("    Layout " + layout);
-			    	final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
-		    			new HGTRVHPMModelParameterised.ModelParameters(
-		            			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
-		            			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-		            			abab,
-		            			ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C),
+			    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
+							ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+							ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+							abab,
+							ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
+					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
+		    			modelParameters,
 		    			temperatures201X);
+			    	System.out.println("      Scenario base model parameters: " + modelParameters);
 			    	final ScenarioResult result201X = scenario201X.runScenario(detached);
-
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
 			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
@@ -154,6 +155,8 @@ public final class ShowComputations
 			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
 			    	System.out.println(String.format("      Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
 			    			powerNoSetbackGlasgow2018, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
+			        System.out.println(String.format("      Percentage of hours that room setback raises heat pump demand: %.0f%%",
+			        		100f * result201X.hoursFractionSetbackRaisesDemand()));
 					}
 				}
 			}
