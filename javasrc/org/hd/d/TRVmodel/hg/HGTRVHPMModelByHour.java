@@ -69,7 +69,7 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 					modelParameters.cloneWithAdjustedExternalTemperature(temperature);
 
 	    	final DemandWithoutAndWithSetback power = modelDetached ?
-    			HGTRVHPMModelParameterised.computeDetachedDemandW(updateModelParameters, false) :
+    			HGTRVHPMModelParameterised.computeDetachedDemandW(updateModelParameters) :
 				HGTRVHPMModelParameterised.computeBungalowDemandW(updateModelParameters);
 
 	    	heatDemandNSB += power.noSetback().heatDemand();

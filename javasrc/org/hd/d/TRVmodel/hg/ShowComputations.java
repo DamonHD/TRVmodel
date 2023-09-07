@@ -118,7 +118,7 @@ public final class ShowComputations
 
 		// 7 major towns/cities x 10Y, bungalow and detached (ABAB and AABB as sensitivity measure).
         System.out.println("");
-        System.out.println("7 towns/cites, 10Y hourly data (201x), bungalow and detached:");
+        System.out.println(String.format("7 towns/cites, 10Y hourly data (201x, %d hours), bungalow and detached, two room heating patterns:", DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA));
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
 			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));

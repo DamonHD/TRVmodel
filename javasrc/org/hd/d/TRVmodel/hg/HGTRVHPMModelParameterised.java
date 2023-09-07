@@ -377,6 +377,16 @@ public final class HGTRVHPMModelParameterised
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
+     * @return  demand in watts, finite and non-negative
+     */
+    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)
+    	{ return(computeDetachedDemandW(params, false)); }
+
+    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).
+     * The calculation uses constants from HGTRVHPMModel as far as possible,
+     * substituting in parameters and new calculation where needed.
+     *
+     * @param params  the variable model parameters
      * @param keepAsBungalow  if true, compute as 4-room bungalow to cross-check with original calculation
      * @return  demand in watts, finite and non-negative
      */
