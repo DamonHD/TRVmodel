@@ -129,12 +129,21 @@ public final class ShowComputations
             if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
             	{ throw new IOException("bad record count"); }
 
-
-			// TODO
 			for(final boolean detached : new boolean[]{false, true})
 				{
 				for(final boolean abab : new boolean[]{true, false})
 					{
+			    	final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
+		    			new HGTRVHPMModelParameterised.ModelParameters(
+		            			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+		            			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+		            			abab,
+		            			ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C),
+		    			temperatures201X);
+			    	final ScenarioResult result201X = scenario201X.runScenario();
+
+
+
 					// TODO
 
 					}
