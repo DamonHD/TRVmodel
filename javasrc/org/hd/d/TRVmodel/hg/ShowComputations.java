@@ -131,8 +131,12 @@ public final class ShowComputations
 
 			for(final boolean detached : new boolean[]{false, true})
 				{
+		        final String archetype = detached ? "detached" : "bungalow";
+				System.out.println("  Archetype " + archetype);
 				for(final boolean abab : new boolean[]{true, false})
 					{
+			        final String layout = abab ? "ABAB" : "AABB";
+					System.out.println("    Layout " + layout);
 			    	final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
 		    			new HGTRVHPMModelParameterised.ModelParameters(
 		            			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
