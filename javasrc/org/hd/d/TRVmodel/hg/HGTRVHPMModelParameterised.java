@@ -390,18 +390,11 @@ public final class HGTRVHPMModelParameterised
     	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
 
 
-//        // FIXME: do not allow model to be run *except* in bungalow-like mode yet.
-//    	if(!keepAsBungalow)
-//	    	{ throw new RuntimeException("NOT IMPLEMENTED"); }
-
-
     	// Roof area: as for bungalow.
     	final double roofAreaM2 = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
 
     	// Number of rooms.
     	final int numRooms = keepAsBungalow ? 4 : 8;
-//    	// Number of A rooms.
-//    	final int numARooms = numRooms / 2;
 
     	// External wall area: as for bungalow in bungalow mode, else double.
     	final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *
