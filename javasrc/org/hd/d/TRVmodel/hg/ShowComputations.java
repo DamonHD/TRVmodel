@@ -128,7 +128,6 @@ public final class ShowComputations
 					htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
             if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
             	{ throw new IOException("bad record count"); }
-
 			for(final boolean detached : new boolean[]{false, true})
 				{
 		        final String archetype = detached ? "detached" : "bungalow";
@@ -150,11 +149,11 @@ public final class ShowComputations
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
 			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-			    			heatNoSetbackGlasgow2018, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
+			    			heatNoSetback201X, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
 			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
 			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
 			    	System.out.println(String.format("      Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-			    			powerNoSetbackGlasgow2018, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
+			    			powerNoSetback201X, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
 			        System.out.println(String.format("      Percentage of hours that room setback raises heat pump demand: %.0f%%",
 			        		100f * result201X.hoursFractionSetbackRaisesDemand()));
 					}
