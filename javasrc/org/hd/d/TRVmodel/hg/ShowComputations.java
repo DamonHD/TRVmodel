@@ -161,14 +161,45 @@ public final class ShowComputations
 		}
 
 
-	/**Generate the main summary model results table for 7 places, 10 years, in (X)HTML5; non-null. */
-	public static String generateHTMLMainSummaryTable()
+	/**Generate the main summary model results table for 7 places, 10 years, in (X)HTML5; non-null.
+	 * Attempts to remain at least slightly human readable.
+	 * <p>
+	 * The table class at least should be fixed up manually.
+	 */
+	public static String generateHTMLMainSummaryTable() throws IOException
 		{
-		// Organise as two parts vertically: bungalow and detached.
 		// Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.
+		// Each by bungalow/detatched.
 		final StringBuilder result = new StringBuilder();
-		result.append("<table class=\"yourTableStyle\">");
+		result.append("<table class=\"yourTableStyle\">\n");
 
+		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
+			{
+			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
+	    	// Load temperature data for this station.
+			final DDNTemperatureDataCSV temperatures201X =
+				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
+					htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
+	        if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
+	        	{ throw new IOException("bad record count"); }
+			for(final boolean detached : new boolean[]{false, true})
+				{
+		        final String archetype = detached ? "detached" : "bungalow";
+				System.out.println("  Archetype " + archetype);
+				for(final boolean abab : new boolean[]{true, false})
+					{
+			        final String layout = abab ? "ABAB" : "AABB";
+			    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
+							ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+							ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+							abab,
+							ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
+					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
+		    			modelParameters,
+		    			temperatures201X);
+					}
+				}
+			}
 
 		// TODO
 
@@ -177,11 +208,15 @@ public final class ShowComputations
 		return(result.toString());
 		}
 
-	/**Generate the main full model results table for 7 places, 10 years, in (X)HTML5; non-null. */
-	public static String generateHTMLMainFullTable()
+	/**Generate the main full model results table for 7 places, 10 years, in (X)HTML5; non-null.
+	 * Attempts to remain at least slightly human readable.
+	 * <p>
+	 * The table class at least should be fixed up manually.
+	 */
+	public static String generateHTMLMainFullTable() throws IOException
 		{
 		final StringBuilder result = new StringBuilder();
-		result.append("<table class=\"yourHugeTableStyle\">");
+		result.append("<table class=\"yourHugeTableStyle\">\n");
 
 
 		// TODO

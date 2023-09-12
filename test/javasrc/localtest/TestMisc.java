@@ -33,7 +33,7 @@ public final class TestMisc extends TestCase
     public static void testShowCalcs() throws IOException { ShowComputations.showCalcs(); }
 
     /**Test HTML table generation basics. */
-    public static void testHTMLTableBasics()
+    public static void testHTMLTableBasics() throws IOException
 	    {
 	    assertTrue(ShowComputations.generateHTMLMainSummaryTable().startsWith("<table"));
 	    assertTrue(ShowComputations.generateHTMLMainSummaryTable().endsWith("</table>"));
