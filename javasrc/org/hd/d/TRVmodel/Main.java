@@ -30,13 +30,13 @@ public final class Main
         System.err.println("    This summary/help.");
         System.err.println("  -hg");
         System.err.println("    Show Heat Geek TRV/HP model and variants.");
+//      System.err.println("  -htmltable XXX");
+//      System.err.println("    Write HTML table XXX to out.html.");
+//      System.err.println("    XXX can be one of: main, summary");
         }
 
     /**Accepts command-line arguments.
-     *
-     * Accepts the following commands:
-     * <ul>
-     * </ul>
+     * See {@link #printOptions()}.
      */
     public static void main(final String[] args)
         {

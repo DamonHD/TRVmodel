@@ -193,7 +193,8 @@ public final class ShowComputations
 		result.append("<tbody>\n");
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
-//			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
+			result.append("<tr>");
+			result.append(String.format("<td>%s (weather station at %s)</td>", htdd.conurbation(), htdd.station()));
 	    	// Load temperature data for this station.
 			final DDNTemperatureDataCSV temperatures201X =
 				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
@@ -224,6 +225,7 @@ public final class ShowComputations
 
 					}
 				}
+			result.append("</tr>\n");
 			}
 		result.append("</tbody>\n");
 		result.append("</table>");
