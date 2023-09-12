@@ -172,10 +172,12 @@ public final class ShowComputations
 		// Each by bungalow/detatched.
 		final StringBuilder result = new StringBuilder();
 		result.append("<table class=\"yourTableStyle\">\n");
+		result.append("<caption>Caption FIXME</caption>\n");
+		result.append("<thead><tr><th>Location / Weather Station</th><th>Home Heat Demand delta</th><th>ABAB heat-pump demand delta</th><th>AABB heat-pump demand delta</th></tr></thead>\n");
 
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
-			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
+//			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
 	    	// Load temperature data for this station.
 			final DDNTemperatureDataCSV temperatures201X =
 				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
@@ -185,7 +187,7 @@ public final class ShowComputations
 			for(final boolean detached : new boolean[]{false, true})
 				{
 		        final String archetype = detached ? "detached" : "bungalow";
-				System.out.println("  Archetype " + archetype);
+//				System.out.println("  Archetype " + archetype);
 				for(final boolean abab : new boolean[]{true, false})
 					{
 			        final String layout = abab ? "ABAB" : "AABB";

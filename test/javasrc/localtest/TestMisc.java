@@ -17,8 +17,16 @@ Licensed under the Apache License, Version 2.0 (the "License");
 package localtest;
 
 import java.io.IOException;
+import java.io.StringReader;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.hd.d.TRVmodel.hg.ShowComputations;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import junit.framework.TestCase;
 
@@ -32,12 +40,26 @@ public final class TestMisc extends TestCase
     /**Ensure that showCalcs() can run without crashing! */
     public static void testShowCalcs() throws IOException { ShowComputations.showCalcs(); }
 
-    /**Test HTML table generation basics. */
-    public static void testHTMLTableBasics() throws IOException
+    /**Test HTML table generation basics.
+     * <ul>
+     * <li>Does it look like a table?</li>
+     * <li>Does it parse as (X)HTML, ie XML?</li>
+     * </ul>
+     */
+    public static void testHTMLTableBasics() throws IOException, ParserConfigurationException, SAXException
 	    {
-	    assertTrue(ShowComputations.generateHTMLMainSummaryTable().startsWith("<table"));
-	    assertTrue(ShowComputations.generateHTMLMainSummaryTable().endsWith("</table>"));
-	    assertTrue(ShowComputations.generateHTMLMainFullTable().startsWith("<table"));
-	    assertTrue(ShowComputations.generateHTMLMainFullTable().endsWith("</table>"));
+	    final String table1 = ShowComputations.generateHTMLMainSummaryTable();
+		assertTrue(table1.startsWith("<table"));
+	    assertTrue(table1.endsWith("</table>"));
+	    final DocumentBuilder builder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	    final Document doc1 = builder1.parse(new InputSource(new StringReader(table1)));
+	    assertTrue(doc1.hasChildNodes());
+
+	    final String table2 = ShowComputations.generateHTMLMainFullTable();
+		assertTrue(table2.startsWith("<table"));
+	    assertTrue(table2.endsWith("</table>"));
+	    final DocumentBuilder builder2 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	    final Document doc2 = builder2.parse(new InputSource(new StringReader(table2)));
+	    assertTrue(doc2.hasChildNodes());
 	    }
     }
