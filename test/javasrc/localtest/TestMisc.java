@@ -28,7 +28,16 @@ public final class TestMisc extends TestCase
     {
     /**Verify that test harness is sane... */
     public static void testSanity() { }
-    
+
     /**Ensure that showCalcs() can run without crashing! */
     public static void testShowCalcs() throws IOException { ShowComputations.showCalcs(); }
+
+    /**Test HTML table generation basics. */
+    public static void testHTMLTableBasics()
+	    {
+	    assertTrue(ShowComputations.generateHTMLMainSummaryTable().startsWith("<table"));
+	    assertTrue(ShowComputations.generateHTMLMainSummaryTable().endsWith("</table>"));
+	    assertTrue(ShowComputations.generateHTMLMainFullTable().startsWith("<table"));
+	    assertTrue(ShowComputations.generateHTMLMainFullTable().endsWith("</table>"));
+	    }
     }
