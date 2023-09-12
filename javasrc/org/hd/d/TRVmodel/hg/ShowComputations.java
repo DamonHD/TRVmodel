@@ -169,13 +169,28 @@ public final class ShowComputations
 	public static String generateHTMLMainSummaryTable() throws IOException
 		{
 		// Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.
-		// Each by bungalow/detatched.
+		// Each by bungalow/detached.
 		final StringBuilder result = new StringBuilder();
 		result.append("<table class=\"yourTableStyle\">\n");
-		result.append(String.format("<caption>Summary of change with selected-room setback of whole-home heat demand and of heat-pump electrical demand in high and low internal loss room setback arrangements for 1- and 2- storey configurations for %d UK locations</caption>\n",
+		result.append(String.format("""
+			<caption>\
+			Summary of change with selected-room setback\s\
+			of whole-home heat demand and of heat-pump electrical demand\s\
+			in high and low internal loss room setback arrangements for 1- and 2- storey (bungalow and detached)\s\
+			home configurations for %d UK locations\
+			</caption>
+			""",
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
-		result.append("<thead><tr><th>Location / Weather Station</th><th>Home Heat Demand delta</th><th>ABAB heat-pump demand delta</th><th>AABB heat-pump demand delta</th></tr></thead>\n");
+		result.append("""
+			<thead><tr>\
+			<th>Location / Weather Station</th><th>Archetype</th>\
+			<th>Home Heat Demand delta</th>\
+			<th>ABAB heat-pump demand delta</th>\
+			<th>AABB heat-pump demand delta</th>\
+			</tr></thead>
+			""");
 
+		result.append("<tbody>\n");
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
 //			System.out.println(String.format("%s (weather station at %s):", htdd.conurbation(), htdd.station()));
@@ -200,13 +215,17 @@ public final class ShowComputations
 					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
 		    			modelParameters,
 		    			temperatures201X);
+
+
+
+					// TODO
+
+
+
 					}
 				}
 			}
-
-		// TODO
-
-
+		result.append("</tbody>\n");
 		result.append("</table>");
 		return(result.toString());
 		}
