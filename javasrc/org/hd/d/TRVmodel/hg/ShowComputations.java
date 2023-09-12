@@ -164,13 +164,31 @@ public final class ShowComputations
 	/**Generate the main summary table for 7 places, 10 years, in (X)HTML5; non-null. */
 	public static String generateHTMLMainSummaryTable()
 		{
-return(""); // FIXME
+		// Organise as two parts vertically: bungalow and detached.
+		// Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.
+		final StringBuilder result = new StringBuilder();
+		result.append("<table class=\"yourTableStyle\">");
+
+
+		// TODO
+
+
+		result.append("</table>");
+		return(result.toString());
 		}
 
 	/**Generate the main full table for 7 places, 10 years, in (X)HTML5; non-null. */
 	public static String generateHTMLMainFullTable()
 		{
-return(""); // FIXME
+		final StringBuilder result = new StringBuilder();
+		result.append("<table class=\"yourHugeTableStyle\">");
+
+
+		// TODO
+
+
+		result.append("</table>");
+		return(result.toString());
 		}
 
 	}
