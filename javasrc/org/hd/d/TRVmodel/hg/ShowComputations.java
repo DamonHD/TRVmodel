@@ -161,7 +161,7 @@ public final class ShowComputations
 		}
 
 
-	/**Generate the main summary table for 7 places, 10 years, in (X)HTML5; non-null. */
+	/**Generate the main summary model results table for 7 places, 10 years, in (X)HTML5; non-null. */
 	public static String generateHTMLMainSummaryTable()
 		{
 		// Organise as two parts vertically: bungalow and detached.
@@ -177,7 +177,7 @@ public final class ShowComputations
 		return(result.toString());
 		}
 
-	/**Generate the main full table for 7 places, 10 years, in (X)HTML5; non-null. */
+	/**Generate the main full model results table for 7 places, 10 years, in (X)HTML5; non-null. */
 	public static String generateHTMLMainFullTable()
 		{
 		final StringBuilder result = new StringBuilder();
