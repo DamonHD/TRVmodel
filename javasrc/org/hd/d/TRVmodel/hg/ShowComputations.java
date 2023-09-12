@@ -172,7 +172,8 @@ public final class ShowComputations
 		// Each by bungalow/detatched.
 		final StringBuilder result = new StringBuilder();
 		result.append("<table class=\"yourTableStyle\">\n");
-		result.append("<caption>Caption FIXME</caption>\n");
+		result.append(String.format("<caption>Summary of change with selected-room setback of whole-home heat demand and of heat-pump electrical demand in high and low internal loss room setback arrangements for 1- and 2- storey configurations for %d UK locations</caption>\n",
+				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
 		result.append("<thead><tr><th>Location / Weather Station</th><th>Home Heat Demand delta</th><th>ABAB heat-pump demand delta</th><th>AABB heat-pump demand delta</th></tr></thead>\n");
 
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
