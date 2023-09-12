@@ -16,7 +16,7 @@ public final class ShowComputations
 	/**Prevent creation of an instance. */
     private ShowComputations() { }
 
-    /**Print computations on stdout.
+    /**Print key computations/results on stdout.
      * @throws IOException
      */
 	public static void showCalcs() throws IOException
@@ -45,7 +45,6 @@ public final class ShowComputations
 
         System.out.println();
         System.out.println("Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...");
-//        final double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C;
         for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 10.0; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
 	        {
         	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
@@ -160,4 +159,18 @@ public final class ShowComputations
 				}
 			}
 		}
+
+
+	/**Generate the main summary table for 7 places, 10 years, in (X)HTML5; non-null. */
+	public static String generateHTMLMainSummaryTable()
+		{
+return(""); // FIXME
+		}
+
+	/**Generate the main full table for 7 places, 10 years, in (X)HTML5; non-null. */
+	public static String generateHTMLMainFullTable()
+		{
+return(""); // FIXME
+		}
+
 	}
