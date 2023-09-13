@@ -16,6 +16,11 @@ Licensed under the Apache License, Version 2.0 (the "License");
 
 package org.hd.d.TRVmodel;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+
 import org.hd.d.TRVmodel.hg.ShowComputations;
 
 /**Main (command-line) entry-point for the data handler.
@@ -30,10 +35,13 @@ public final class Main
         System.err.println("    This summary/help.");
         System.err.println("  -hg");
         System.err.println("    Show Heat Geek TRV/HP model and variants.");
-//      System.err.println("  -htmltable XXX");
-//      System.err.println("    Write HTML table XXX to out.html.");
-//      System.err.println("    XXX can be one of: main, summary");
+        System.err.println("  -htmltable XXX");
+        System.err.println("    Write HTML table XXX to out.html for debugging.");
+        System.err.println("    XXX can be one of: main, summary");
         }
+
+    /**Default name of output file for debugging HTML table generation; non-null. */
+    public static final File DEFAULT_OUTPUT_NAME = new File("out.html");
 
     /**Accepts command-line arguments.
      * See {@link #printOptions()}.
@@ -56,6 +64,28 @@ public final class Main
         		ShowComputations.showCalcs();
         		System.exit(0);
     			}
+
+        	if("-htmltable".equals(args[0]) && (args.length > 1))
+    			{
+        		final String tableHTML;
+
+        		switch(args[1])
+        		{
+        		case "summary": tableHTML = ShowComputations.generateHTMLMainSummaryTable(); break;
+        		default:
+        			System.err.println("unknown table: " + args[1]);
+            		System.exit(1);
+            		return; // Should be unreachable.
+        		}
+
+        		// Write HTML bare, as UTF-8 (though should only be 7-bit ASCII).
+        		// Expects to overwrite any existing file.
+        		try (Writer w = new FileWriter(DEFAULT_OUTPUT_NAME, StandardCharsets.UTF_8))
+	        		{ w.write(tableHTML); }
+
+        		System.exit(0);
+    			}
+
             }
         catch(final Throwable e)
             {
