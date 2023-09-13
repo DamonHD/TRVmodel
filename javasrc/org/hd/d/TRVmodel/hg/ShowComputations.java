@@ -177,13 +177,13 @@ public final class ShowComputations
 			Summary of change with selected-room setback\s\
 			of whole-home heat demand and of heat-pump electrical demand\s\
 			in high and low internal loss room setback arrangements for 1- and 2- storey (bungalow and detached)\s\
-			home configurations for %d UK locations\
+			home configurations for %d UK locations, hourly temperature data for years 201X.\
 			</caption>
 			""",
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
 		result.append("""
 			<thead><tr>\
-			<th>Location / Weather Station</th><th>Archetype</th>\
+			<th>Location (Weather Station)</th><th>Archetype</th>\
 			<th>Home Heat Demand delta</th>\
 			<th>ABAB heat-pump demand delta</th>\
 			<th>AABB heat-pump demand delta</th>\
@@ -203,7 +203,7 @@ public final class ShowComputations
 				{
 				result.append("<tr>");
 				if(!detached)
-				    { result.append(String.format("<td rowspan=\"2\">%s (weather station at %s)</td>", htdd.conurbation(), htdd.station())); }
+				    { result.append(String.format("<td rowspan=\"2\">%s (%s)</td>", htdd.conurbation(), htdd.station())); }
 
 		        final String archetype = detached ? "detached" : "bungalow";
 		        result.append(String.format("<td>%s</td>", archetype));
@@ -218,7 +218,22 @@ public final class ShowComputations
 					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
 		    			modelParameters,
 		    			temperatures201X);
+			    	final ScenarioResult result201X = scenario201X.runScenario(detached);
+			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
+			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
+			    	// Overall home heat demand is not affected by room setback layout, so only show once.
+			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
+			    	if(abab)
+			            { result.append(String.format("<td>%.1f%%</td>", heatDelta201X)); }
 
+//			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+//			    			heatNoSetback201X, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
+//			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
+//			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
+//			    	System.out.println(String.format("      Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+//			    			powerNoSetback201X, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
+//			        System.out.println(String.format("      Percentage of hours that room setback raises heat pump demand: %.0f%%",
+//			        		100f * result201X.hoursFractionSetbackRaisesDemand()));
 
 
 					// TODO
