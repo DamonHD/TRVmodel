@@ -171,7 +171,7 @@ public final class ShowComputations
 		// Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.
 		// Each by bungalow/detached.
 		final StringBuilder result = new StringBuilder();
-		result.append("<table class=\"yourTableStyle\">\n");
+		result.append("<table style=\"border:1px solid\" class=\"yourTableStyle\">\n");
 		result.append(String.format("""
 			<caption>\
 			Summary of change with selected-room setback\s\
@@ -193,8 +193,6 @@ public final class ShowComputations
 		result.append("<tbody>\n");
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
-			result.append("<tr>");
-			result.append(String.format("<td>%s (weather station at %s)</td>", htdd.conurbation(), htdd.station()));
 	    	// Load temperature data for this station.
 			final DDNTemperatureDataCSV temperatures201X =
 				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
@@ -203,8 +201,12 @@ public final class ShowComputations
 	        	{ throw new IOException("bad record count"); }
 			for(final boolean detached : new boolean[]{false, true})
 				{
+				result.append("<tr>");
+				if(!detached)
+				    { result.append(String.format("<td rowspan=\"2\">%s (weather station at %s)</td>", htdd.conurbation(), htdd.station())); }
+
 		        final String archetype = detached ? "detached" : "bungalow";
-//				System.out.println("  Archetype " + archetype);
+		        result.append(String.format("<td>%s</td>", archetype));
 				for(final boolean abab : new boolean[]{true, false})
 					{
 			        final String layout = abab ? "ABAB" : "AABB";
@@ -224,8 +226,8 @@ public final class ShowComputations
 
 
 					}
+				result.append("</tr>\n");
 				}
-			result.append("</tr>\n");
 			}
 		result.append("</tbody>\n");
 		result.append("</table>");
