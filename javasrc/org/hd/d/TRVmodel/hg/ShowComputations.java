@@ -243,22 +243,21 @@ public final class ShowComputations
 		return(result.toString());
 		}
 
-	/**Generate the main full model results table for 7 places, 10 years, in (X)HTML5; non-null.
-	 * Attempts to remain at least slightly human readable.
-	 * <p>
-	 * The table class at least should be fixed up manually.
-	 */
-	public static String generateHTMLMainFullTable() throws IOException
-		{
-		final StringBuilder result = new StringBuilder();
-		result.append("<table class=\"yourHugeTableStyle\">\n");
-
-
-		// TODO
-
-
-		result.append("</table>");
-		return(result.toString());
-		}
-
+//	/**Generate the main full model results table for 7 places, 10 years, in (X)HTML5; non-null.
+//	 * Attempts to remain at least slightly human readable.
+//	 * <p>
+//	 * The table class at least should be fixed up manually.
+//	 */
+//	public static String generateHTMLMainFullTable() throws IOException
+//		{
+//		final StringBuilder result = new StringBuilder();
+//		result.append("<table class=\"yourHugeTableStyle\">\n");
+//
+//
+//		// TODO
+//
+//
+//		result.append("</table>");
+//		return(result.toString());
+//		}
 	}

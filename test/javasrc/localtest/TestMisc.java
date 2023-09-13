@@ -54,12 +54,12 @@ public final class TestMisc extends TestCase
 	    final DocumentBuilder builder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 	    final Document doc1 = builder1.parse(new InputSource(new StringReader(table1)));
 	    assertTrue(doc1.hasChildNodes());
-
-	    final String table2 = ShowComputations.generateHTMLMainFullTable();
-		assertTrue(table2.startsWith("<table"));
-	    assertTrue(table2.endsWith("</table>"));
-	    final DocumentBuilder builder2 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-	    final Document doc2 = builder2.parse(new InputSource(new StringReader(table2)));
-	    assertTrue(doc2.hasChildNodes());
+//
+//	    final String table2 = ShowComputations.generateHTMLMainFullTable();
+//		assertTrue(table2.startsWith("<table"));
+//	    assertTrue(table2.endsWith("</table>"));
+//	    final DocumentBuilder builder2 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+//	    final Document doc2 = builder2.parse(new InputSource(new StringReader(table2)));
+//	    assertTrue(doc2.hasChildNodes());
 	    }
     }
