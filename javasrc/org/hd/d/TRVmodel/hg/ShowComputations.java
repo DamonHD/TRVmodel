@@ -174,10 +174,14 @@ public final class ShowComputations
 		result.append("<table style=\"border:1px solid\" class=\"yourTableStyle\">\n");
 		result.append(String.format("""
 			<caption>\
-			Summary of change with selected-room setback\s\
-			of whole-home heat demand and of heat-pump electrical demand\s\
-			in high and low internal loss room setback arrangements for 1- and 2- storey (bungalow and detached)\s\
-			home configurations for %d UK locations, hourly temperature data for years 201X.\
+			Summary of mean power change with selected-room setback of\s\
+			(1) whole-home heat demand and of\s\
+			(2) heat-pump electrical demand\s\
+			(3) in high ABAB and low AABB internal loss room setback arrangements\s\
+			(4) for 1- and 2- storey (bungalow and detached)\s\
+			home archetypes\s\
+			for %d UK locations.\s\
+			Based on hourly temperature data for years 201X.\
 			</caption>
 			""",
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
@@ -224,7 +228,7 @@ public final class ShowComputations
 			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
 			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
 			    	if(!detached && abab)
-			            { result.append(String.format("<td rowspan=\"2\">%.1f%%</td>", heatDelta201X)); }
+			            { result.append(String.format("<td rowspan=\"2\" style=\"text-align:right\">%.1f%%</td>", heatDelta201X)); }
 
 //			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
 //			    			heatNoSetback201X, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
