@@ -221,10 +221,10 @@ public final class ShowComputations
 			    	final ScenarioResult result201X = scenario201X.runScenario(detached);
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
-			    	// Overall home heat demand is not affected by room setback layout, so only show once.
+			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
 			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
-			    	if(abab)
-			            { result.append(String.format("<td>%.1f%%</td>", heatDelta201X)); }
+			    	if(!detached && abab)
+			            { result.append(String.format("<td rowspan=\"2\">%.1f%%</td>", heatDelta201X)); }
 
 //			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
 //			    			heatNoSetback201X, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
