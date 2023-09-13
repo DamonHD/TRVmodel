@@ -229,21 +229,11 @@ public final class ShowComputations
 			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
 			    	if(!detached && abab)
 			            { result.append(String.format("<td rowspan=\"2\" style=\"text-align:right\">%.1f%%</td>", heatDelta201X)); }
-
-//			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-//			    			heatNoSetback201X, heatWithSetback201X, 100*((heatWithSetback201X/heatNoSetback201X)-1)));
-//			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
-//			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
-//			    	System.out.println(String.format("      Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-//			    			powerNoSetback201X, powerWithSetback201X, 100*((powerWithSetback201X/powerNoSetback201X)-1)));
-//			        System.out.println(String.format("      Percentage of hours that room setback raises heat pump demand: %.0f%%",
-//			        		100f * result201X.hoursFractionSetbackRaisesDemand()));
-
-
-					// TODO
-
-
-
+			    	// Heat-pump power demand delta.
+			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
+			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
+			    	final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);
+			    	result.append(String.format("<td style=\"text-align:right\">%.1f%%</td>", powerDelta201X));
 					}
 				result.append("</tr>\n");
 				}
