@@ -259,7 +259,7 @@ public final class HGTRVHPMModelParameterised
 
     	// IFAabHL: internal floor/ceiling heat loss per Kelvin (W/K).
         final double IFAabHL =
-        		HGTRVHPMModel.PER_A_FLOOR_AREA_M2 * HGTRVHPMModel.INTERNAL_FLOOR_U_WpM2K;
+    		HGTRVHPMModelExtensions.PER_A_FLOOR_AREA_M2 * HGTRVHPMModelExtensions.INTERNAL_FLOOR_U_WpM2K;
 
         // IFAabHLW: internal floor/ceiling heat loss per A room (W).
         final double IFAabHLW =
@@ -401,18 +401,18 @@ public final class HGTRVHPMModelParameterised
 
 
     	// Roof area: as for bungalow.
-    	final double roofAreaM2 = HGTRVHPMModel.HOME_TOTAL_ROOF_AREA_M2;
+    	final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;
 
     	// Number of rooms.
     	final int numRooms = keepAsBungalow ? 4 : 8;
 
     	// External wall area: as for bungalow in bungalow mode, else double.
     	final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *
-    			HGTRVHPMModel.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
+    			HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
 
         // Wall heat loss per K temperature differential between inside and out.
     	final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *
-    			HGTRVHPMModel.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;
+    			HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;
 
     	// DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
         final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *

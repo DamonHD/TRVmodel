@@ -17,6 +17,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 package localtest;
 
 import org.hd.d.TRVmodel.hg.HGTRVHPMModel;
+import org.hd.d.TRVmodel.hg.HGTRVHPMModelExtensions;
 
 import junit.framework.TestCase;
 
@@ -87,11 +88,11 @@ public final class TestHGTRVHPModel extends TestCase
 		}
 
     /**Test extrapolated/implied properties of basic setup. */
-    public static void testBasicModelExtrapolations()
+    public static void testBasicModelExtensions()
 	    {
-        assertEquals(64.0, HGTRVHPMModel.HOME_TOTAL_FLOOR_AREA_M2, 0.1);
-        assertEquals(73.6, HGTRVHPMModel.HOME_TOTAL_EXTERNAL_WALL_AREA_M2, 0.1);
-        assertEquals(1.13, HGTRVHPMModel.HOME_LOSSLESS_FLOOR_AND_ROOF_EXTERNAL_WALL_U_WpM2K, 0.01);
-        assertEquals(0.61, HGTRVHPMModel.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K, 0.01);
+        assertEquals(64.0, HGTRVHPMModelExtensions.HOME_TOTAL_FLOOR_AREA_M2, 0.1);
+        assertEquals(73.6, HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2, 0.1);
+        assertEquals(1.13, HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_AND_ROOF_EXTERNAL_WALL_U_WpM2K, 0.01);
+        assertEquals(0.61, HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K, 0.01);
 	    }
     }
