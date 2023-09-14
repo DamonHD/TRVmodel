@@ -181,7 +181,11 @@ public final class ShowComputations
 			(4) for 1- and 2- storey (bungalow and detached)\s\
 			home archetypes\s\
 			for %d UK locations.\s\
-			Based on hourly temperature data for years 201X.\
+			Based on hourly temperature data for the ten years 201X.\s\
+			When B rooms are set back overall home heat demand does fall,\s\
+			but in the ABAB layout that maximises internal losses,\s\
+			heat-pump electricity demand rises, in all scenarios,\s\
+			especially in the detached house cases.\
 			</caption>
 			""",
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
