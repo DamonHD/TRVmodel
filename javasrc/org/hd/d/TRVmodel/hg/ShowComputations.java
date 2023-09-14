@@ -177,7 +177,7 @@ public final class ShowComputations
 			Summary of mean power change with selected-room setback of\s\
 			(1) whole-home heat demand and of\s\
 			(2) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\
-			(3) for 1- and 2- storey (bungalow and detached) archetypes\s\
+			(3) for 1- and 2- storey (bungalow and detached) archetypes, \s\
 			for %d UK locations.\s\
 			Based on hourly temperature data for the ten years 201X.\s\
 			When B rooms are set back overall home heat demand does fall,\s\
