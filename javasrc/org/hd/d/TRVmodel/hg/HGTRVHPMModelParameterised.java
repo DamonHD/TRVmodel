@@ -252,9 +252,31 @@ public final class HGTRVHPMModelParameterised
      * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)
      * each A room will lose each <em>either</em> to a B room below or above (not both).
      * Heat loss in each direction (up or down) is treated as the same.
+     * <p>
+     * Assumes that A room is at 'normal' temperature and B room is at setback temperature.
+     *
+     * @param params  model parameters; non-null
      */
 	private static double ifHeatLossPerA2Storey(final ModelParameters params)
 		{
+		return(ifHeatLossPerA2Storey(params, HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
+		}
+
+    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.
+     * Only applies when a B room is directly above or below.
+     * <p>
+     * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)
+     * each A room will lose each <em>either</em> to a B room below or above (not both).
+     * Heat loss in each direction (up or down) is treated as the same.
+     *
+     * @param params  model parameters; non-null
+     * @param tempA  temperature of A room, must be no lower than B room setback.
+     */
+	private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)
+		{
+		if(!Double.isFinite(tempA)) { throw new IllegalArgumentException(); }
+		if(tempA < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C) { throw new IllegalArgumentException("A must not be colder than B"); }
+
 		if(!params.roomsAlternatingABAB) { return(0); }
 
     	// IFAabHL: internal floor/ceiling heat loss per Kelvin (W/K).
@@ -264,7 +286,7 @@ public final class HGTRVHPMModelParameterised
         // IFAabHLW: internal floor/ceiling heat loss per A room (W).
         final double IFAabHLW =
     		IFAabHL *
-    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+    			(tempA - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
 
 		return(IFAabHLW);
 		}
