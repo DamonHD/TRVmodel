@@ -492,4 +492,111 @@ public final class HGTRVHPMModelParameterised
         // Return everything at once.
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
 	    }
+
+
+
+
+
+
+
+
+    /**Compute raw heat and heat-pump electricity demand with and without setback, for 'soft' A temperature regulation (W).
+     * This lets the A room temperature droop during B-room setback,
+     * and does not raise the flow temperature.
+     * <p>
+     * This assumes that:
+     * <ul>
+     * <li>B room temperatures (and A room temperatures) are 'normal' (21C) without setback.</li>
+     * <li>B room temperatures are the expected 18C when set back.</li>
+     * <li>Flow temperature is fixed during setback at the temperature
+     *     that maintained A and B rooms at 'normal' temperature without setback,
+     *     ie as if the flow temperature is entirely driven by external temperature
+     *     and thus weather compensation.</li>
+     * </ul>
+     *
+     * @param params  the variable model parameters
+     * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached
+     * @return  demand in watts, finite and non-negative
+     */
+    public static DemandWithoutAndWithSetback computeSoftATempDemandW(final ModelParameters params,
+    		final boolean bungalow)
+	    {
+    	Objects.requireNonNull(params);
+
+    	// Do not allow model to be run with potentially implausible parameters.
+    	if(params.externalAirTemperatureC >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)
+    	    { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }
+
+
+    	// Roof area: as for bungalow.
+    	final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;
+
+    	// Number of rooms.
+    	final int numRooms = bungalow ? 4 : 8;
+
+    	// External wall area: as for bungalow in bungalow mode, else double.
+    	final double extWallAreaM2 = (bungalow ? 1 : 2) *
+    			HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
+
+        // Wall heat loss per K temperature differential between inside and out.
+    	final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *
+    			HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;
+
+    	// DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
+        final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+        		homeHeatLossPerK;
+    	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
+        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
+        		homeHeatLossPerK;
+        // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
+        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
+		final double DradWnsb = DHHLnsb / numRooms;
+//System.out.println(String.format("DradWnbs = %f", DradWnsb));
+
+		// HEAT LOSS 1
+		// Internal wall heat loss/transfer per A room (W).
+    	final double DIWAabHLW = iwHeatLossPerA(params);
+		// Internal floor/ceiling heat loss/transfer per A room (W).
+    	// None if a bungalow or if AABB arrangement on both floors,
+    	// ie no A and B share a ceiling/floor.
+    	final double DIFAabHLW =
+			(bungalow || !params.roomsAlternatingABAB) ? 0 :
+				ifHeatLossPerA2Storey(params);
+        // All internal heat losses per A room (W).
+    	final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;
+
+
+        // HEAT LOSS 2
+        // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
+        final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);
+		// Extension to heat loss 2 to allow for varying external temperatures.
+        final double DradAnsbMW = nsbAMW(DradWnsb);
+
+
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
+
+		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
+        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);
+//System.out.println(String.format("CoPnsb = %f", CoPnsb));
+        final double DHPinWnsb =
+    		DHHLnsb / DCoPnsb;
+
+		// HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
+        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double DCoPsb = computeFlowCoP(DradAsbMW + CoPCorrectionK);
+//System.out.println(String.format("CoPsb = %f", CoPsb));
+        final double DHPinWsb =
+    		DHHLsb / DCoPsb;
+
+
+        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);
+        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, DHPinWsb);
+
+        // Return everything at once.
+    	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
+	    }
+
  	}
