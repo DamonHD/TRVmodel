@@ -291,10 +291,12 @@ public final class HGTRVHPMModelParameterised
 		return(IFAabHLW);
 		}
 
-	/**Extension to heat loss 2 to allow for varying external temperatures.
+	/**radiator mean water temperature in each A room when B NOT set back (C).
+	 * Extension to heat loss 2 to allow for varying external temperatures.
+	 * MW temperature for all room radiators with no setbacks.
 	 *
-	 * @param radWnsb
-	 * @return (radAnsbMW) radiator mean water temperature in each A room when B NOT setback (C)
+	 * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
+	 * @return (radAnsbMW) radiator mean water temperature in each A room when B NOT set back (C)
 	 */
 	public static double nsbAMW(final double radWnsb)
 		{
@@ -464,6 +466,7 @@ public final class HGTRVHPMModelParameterised
         // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);
 		// Extension to heat loss 2 to allow for varying external temperatures.
+		// MW temperature for all room radiators with no setbacks.
         final double DradAnsbMW = nsbAMW(DradWnsb);
 
 
@@ -545,13 +548,41 @@ public final class HGTRVHPMModelParameterised
     	// DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
         final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
-    	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
-        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
-        		homeHeatLossPerK;
+
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
 //System.out.println(String.format("DradWnbs = %f", DradWnsb));
+
+		// Extension to heat loss 2 to allow for varying external temperatures.
+		// MW temperature for all room radiators with no setbacks.
+        final double DradAnsbMW = nsbAMW(DradWnsb);
+
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
+
+		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
+        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
+        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
+        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);
+//System.out.println(String.format("CoPnsb = %f", CoPnsb));
+        final double DHPinWnsb =
+    		DHHLnsb / DCoPnsb;
+
+
+
+
+        // FIXME
+
+
+
+
+
+
+
+
+    	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
+        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
+        		homeHeatLossPerK;
 
 		// HEAT LOSS 1
 		// Internal wall heat loss/transfer per A room (W).
@@ -569,19 +600,6 @@ public final class HGTRVHPMModelParameterised
         // HEAT LOSS 2
         // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);
-		// Extension to heat loss 2 to allow for varying external temperatures.
-        final double DradAnsbMW = nsbAMW(DradWnsb);
-
-
-        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
-
-		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
-        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
-        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
-        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);
-//System.out.println(String.format("CoPnsb = %f", CoPnsb));
-        final double DHPinWnsb =
-    		DHHLnsb / DCoPnsb;
 
 		// HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
         // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
