@@ -291,12 +291,13 @@ public final class HGTRVHPMModelParameterised
 		return(IFAabHLW);
 		}
 
-	/**radiator mean water temperature in each A room when B NOT set back (C).
+	/**Compute radiator mean water temperature in each A room when B is NOT set back (C).
 	 * Extension to heat loss 2 to allow for varying external temperatures.
-	 * MW temperature for all room radiators with no setbacks.
+	 * <p>
+	 * This is in fact the MW temperature for all room radiators when there are no setbacks.
 	 *
 	 * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
-	 * @return (radAnsbMW) radiator mean water temperature in each A room when B NOT set back (C)
+	 * @return (radAnsbMW) radiator mean water temperature in each A room when B is NOT set back (C)
 	 */
 	public static double nsbAMW(final double radWnsb)
 		{
