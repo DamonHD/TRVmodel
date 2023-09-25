@@ -570,6 +570,18 @@ public final class HGTRVHPMModelParameterised
     		DHHLnsb / DCoPnsb;
 
 
+        // A-room temperature step in K.
+        final double tempStepK = 0.1;
+
+        // Try all A room temperatures from setback up to and just above 'normal'
+        // to find XXX
+        for(double tempA = HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C;
+        		tempA <= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + tempStepK;
+        		tempA += tempStepK)
+	        {
+        	System.out.println(String.format("tempA = %.1f", tempA));
+
+	        }
 
 
         // FIXME
