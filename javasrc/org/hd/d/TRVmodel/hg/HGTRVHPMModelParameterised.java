@@ -581,6 +581,18 @@ public final class HGTRVHPMModelParameterised
 	        {
         	System.out.println(String.format("tempA = %.1f", tempA));
 
+        	// Compute mean house temperature and thus whole home heat demand as before.
+        	final double VHmt = (tempA + HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C) / 2;
+        	final double VHHLsb = (VHmt - params.externalAirTemperatureC()) *
+            		homeHeatLossPerK;
+
+
+
+
+
+
+
+
 	        }
 
 
