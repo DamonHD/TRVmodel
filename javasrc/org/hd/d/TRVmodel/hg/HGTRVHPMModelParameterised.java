@@ -609,6 +609,9 @@ public final class HGTRVHPMModelParameterised
         	final double VHHLsb = VAHLsb+VBHLsb;
 System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
 
+			// Losses to outside for each A room.
+			final double VAHLo = VAHLsb / (numRooms / 2);
+
     		// HEAT LOSS 1
     		// Internal wall heat loss/transfer per A room (W).
         	final double VIWAabHLW = iwHeatLossPerA(params, tempA);
@@ -622,7 +625,9 @@ System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
         	final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;
 System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
 
-
+			// Total heat losses from each A room.
+            final double VAHLW = VIFWAabHLW + VAHLo;
+System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 
 
 
