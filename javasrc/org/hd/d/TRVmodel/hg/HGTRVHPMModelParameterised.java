@@ -663,13 +663,15 @@ System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
         		VradWAsbW - VAHLW;
 System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
-            // Stop when gains fail to meet losses.
+            // Abort when gains fail to meet losses,
+			// so returning equilibrium values from previous step.
 			if(VAHLerrW < 0)
-				{
-			    VequilibriumTempA = tempA;
-			    VequilibriumHHLsb = VHHLsb;
-			    break;
-				}
+				{ break; }
+
+			// Record temperature and home heat loss
+			// when room A temperature below equilibrium point.
+			VequilibriumTempA = tempA;
+			VequilibriumHHLsb = VHHLsb;
 	        }
 
         if(VequilibriumHHLsb <= 0)
