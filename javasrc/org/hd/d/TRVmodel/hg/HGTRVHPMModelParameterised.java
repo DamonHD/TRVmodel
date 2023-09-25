@@ -209,9 +209,24 @@ public final class HGTRVHPMModelParameterised
 		return(radAsbMW);
 		}
 
-    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
+    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) with A at 'normal' temperature (W).
+     * This allows an A room temperature other than the initial 'normal' 21C,
+     * though it must still be above the B room setback temperature.
+     *
+     * @param params  the model parameters; never null
+     * @param tempA  the A room temperature in C; no lower than B (and finite)
+     */
 	private static double iwHeatLossPerA(final ModelParameters params)
+		{
+		return(iwHeatLossPerA(params, HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
+		}
+
+    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
+	private static double iwHeatLossPerA(final ModelParameters params, final double tempA)
 	    {
+		Objects.requireNonNull(params);
+		if(!(tempA >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException(); }
+
 		// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
     	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
     	final double IWAabmd =
@@ -225,7 +240,7 @@ public final class HGTRVHPMModelParameterised
         // (INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W)
         final double IWAabHLW =
     		IWAabHL *
-    			(HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+    			(tempA - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
         // IDAabHL: (Heat Loss 1.5) internal door heat loss per door per Kelvin (W/K).
         // (INTERNAL_DOOR_HEAT_LOSS_PER_KELVIN_WpK)
         final double IDAabHL =
@@ -274,8 +289,7 @@ public final class HGTRVHPMModelParameterised
      */
 	private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)
 		{
-		if(!Double.isFinite(tempA)) { throw new IllegalArgumentException(); }
-		if(tempA < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C) { throw new IllegalArgumentException("A must not be colder than B"); }
+		if(!(tempA >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException("A must not be colder than B"); }
 
 		if(!params.roomsAlternatingABAB) { return(0); }
 
@@ -579,12 +593,35 @@ public final class HGTRVHPMModelParameterised
         		tempA <= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + tempStepK;
         		tempA += tempStepK)
 	        {
-        	System.out.println(String.format("tempA = %.1f", tempA));
+        	System.out.println(String.format("tempA = %.1fC", tempA));
 
-        	// Compute mean house temperature and thus whole home heat demand as before.
-        	final double VHmt = (tempA + HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C) / 2;
-        	final double VHHLsb = (VHmt - params.externalAirTemperatureC()) *
-            		homeHeatLossPerK;
+//        	// Compute mean house temperature and thus whole home heat demand for setback as before.
+//        	final double VHmt = (tempA + HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C) / 2;
+//        	final double VHHLsb = (VHmt - params.externalAirTemperatureC()) *
+//            		homeHeatLossPerK;
+//        	System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
+
+        	// Compute losses to outside for A and B rooms separately when B setback.
+        	final double VAHLsb = (tempA - params.externalAirTemperatureC()) *
+            		(homeHeatLossPerK / 2);
+        	final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+            		(homeHeatLossPerK / 2);
+System.out.println(String.format("  VAHLsb+VBHLsb = %.1fW", VAHLsb+VBHLsb));
+
+        	// Compute losses/flow from each A to B rooms around it.
+    		// HEAT LOSS 1
+    		// Internal wall heat loss/transfer per A room (W).
+        	final double VIWAabHLW = iwHeatLossPerA(params, tempA);
+    		// Internal floor/ceiling heat loss/transfer per A room (W).
+        	// None if a bungalow or if AABB arrangement on both floors,
+        	// ie no A and B share a ceiling/floor.
+        	final double VIFAabHLW =
+    			(bungalow || !params.roomsAlternatingABAB) ? 0 :
+    				ifHeatLossPerA2Storey(params, tempA);
+            // All internal heat losses per A room (W).
+        	final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;
+System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
+
 
 
 
