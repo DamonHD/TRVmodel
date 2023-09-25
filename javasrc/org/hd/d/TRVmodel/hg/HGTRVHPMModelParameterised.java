@@ -566,6 +566,7 @@ public final class HGTRVHPMModelParameterised
     	// DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
         final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
+        System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));
 
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
@@ -603,12 +604,6 @@ System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
         		tempA += tempStepK)
 	        {
         	System.out.println(String.format("tempA = %.1fC", tempA));
-
-//        	// Compute mean house temperature and thus whole home heat demand for setback as before.
-//        	final double VHmt = (tempA + HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C) / 2;
-//        	final double VHHLsb = (VHmt - params.externalAirTemperatureC()) *
-//            		homeHeatLossPerK;
-//        	System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
 
         	// Compute losses to outside for A and B rooms separately when B setback.
         	final double VAHLsb = (tempA - params.externalAirTemperatureC()) *

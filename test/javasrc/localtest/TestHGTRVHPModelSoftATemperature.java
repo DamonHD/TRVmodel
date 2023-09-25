@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 public final class TestHGTRVHPModelSoftATemperature extends TestCase
     {
     /**Test bungalow with 'fix' parameters but otherwise original setup, HG vs soft A temperatures. */
-    public static void testWithFixParameters()
+    public static void testWithFixParametersBungalow()
 	    {
     	final HGTRVHPMModelParameterised.ModelParameters fixParams = HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED;
     	final DemandWithoutAndWithSetback originalBungalowDemand = HGTRVHPMModelParameterised.computeBungalowDemandW(fixParams);
@@ -42,6 +42,30 @@ public final class TestHGTRVHPModelSoftATemperature extends TestCase
     	// when B rooms are set back and A rooms have soft temperature regulation (weather compensation).
     	assertTrue(originalBungalowDemand.withSetback().heatDemand() > softBungalowDemand.withSetback().heatDemand());
     	assertTrue(originalBungalowDemand.withSetback().heatPumpElectricity() > softBungalowDemand.withSetback().heatPumpElectricity());
+
+    	// The A-room equilibrium temperature with B set back
+    	// will be lower than the 'normal' temperature and higher than the setback temperature.
+    	assertTrue(equilibriumTemperature[0] > HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+    	assertTrue(equilibriumTemperature[0] < HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C);
+	    }
+
+    /**Test detached with 'fix' parameters but otherwise original setup, HG vs soft A temperatures. */
+    public static void testWithFixParametersDetached()
+	    {
+    	final HGTRVHPMModelParameterised.ModelParameters fixParams = HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED;
+    	final DemandWithoutAndWithSetback originalDetachedDemand = HGTRVHPMModelParameterised.computeDetachedDemandW(fixParams);
+    	final double equilibriumTemperature[] = new double[1];
+    	final DemandWithoutAndWithSetback softDetachedDemand = HGTRVHPMModelParameterised.computeSoftATempDemandW(fixParams, false, equilibriumTemperature);
+
+    	// Both heat demand and heat-pump electricity demand are expected to be identical to the original
+    	// without B rooms set back.
+    	assertEquals(originalDetachedDemand.noSetback().heatDemand(), softDetachedDemand.noSetback().heatDemand(), 1.0);
+    	assertEquals(originalDetachedDemand.noSetback().heatPumpElectricity(), softDetachedDemand.noSetback().heatPumpElectricity(), 1.0);
+
+    	// Both heat demand and heat-pump electricity demand are expected to be strictly lower than the original
+    	// when B rooms are set back and A rooms have soft temperature regulation (weather compensation).
+    	assertTrue(originalDetachedDemand.withSetback().heatDemand() > softDetachedDemand.withSetback().heatDemand());
+    	assertTrue(originalDetachedDemand.withSetback().heatPumpElectricity() > softDetachedDemand.withSetback().heatPumpElectricity());
 
     	// The A-room equilibrium temperature with B set back
     	// will be lower than the 'normal' temperature and higher than the setback temperature.
