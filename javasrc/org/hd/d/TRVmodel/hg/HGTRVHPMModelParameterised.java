@@ -225,7 +225,7 @@ public final class HGTRVHPMModelParameterised
 	private static double iwHeatLossPerA(final ModelParameters params, final double tempA)
 	    {
 		Objects.requireNonNull(params);
-		if(!(tempA >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException(); }
+		if(!(tempA >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException("A must be warmer than B"); }
 
 		// IWAabmd: (Heat Loss 1.2) internal wall area between each A and adjoining B rooms minus appropriate amount of door (m^2).
     	// (INTERNAL_WALL_AREA_FROM_EACH_A_TO_B_ROOMS_MINUS_DOOR_M2)
@@ -289,7 +289,7 @@ public final class HGTRVHPMModelParameterised
      */
 	private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)
 		{
-		if(!(tempA >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException("A must not be colder than B"); }
+		if(!(tempA >= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException("A must be warmer than B"); }
 
 		if(!params.roomsAlternatingABAB) { return(0); }
 
@@ -571,7 +571,7 @@ public final class HGTRVHPMModelParameterised
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
-//System.out.println(String.format("DradWnbs = %f", DradWnsb));
+System.out.println(String.format("DradWnbs = %f", DradWnsb));
 
 		// Extension to heat loss 2 to allow for varying external temperatures.
 		// MW temperature for all room radiators with no setbacks.
