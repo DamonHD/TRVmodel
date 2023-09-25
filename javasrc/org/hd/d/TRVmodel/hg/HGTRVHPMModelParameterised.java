@@ -572,6 +572,7 @@ public final class HGTRVHPMModelParameterised
 		// Extension to heat loss 2 to allow for varying external temperatures.
 		// MW temperature for all room radiators with no setbacks.
         final double DradAnsbMW = nsbAMW(DradWnsb);
+System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
 
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
 
@@ -629,6 +630,10 @@ System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
             final double VAHLW = VIFWAabHLW + VAHLo;
 System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 
+
+            // Input power from radiator to each A room given:
+            //   * A room temperature
+            //   * same (weather-compensated) MW/flow temperature as without setbacks
 
 
 
