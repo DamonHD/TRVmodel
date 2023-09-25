@@ -580,16 +580,21 @@ System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
         final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);
-//System.out.println(String.format("CoPnsb = %f", CoPnsb));
+        final double VCoPsb = DCoPnsb;
+System.out.println(String.format("DCoPnsb = VCoPsb = %f", DCoPnsb));
         final double DHPinWnsb =
     		DHHLnsb / DCoPnsb;
+System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
 
 
         // A-room temperature step in K.
         final double tempStepK = 0.1;
 
         // Try all A room temperatures from setback up to and just above 'normal'
-        // to find XXX
+        // to find the minimum A room temperture where heat gains equal or exceed losses
+        // and the whole house heat loss at that point.
+        double VequilibriumTempA = 0;
+        double VequilibriumHHLsb = 0;
         for(double tempA = HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C;
         		tempA <= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + tempStepK;
         		tempA += tempStepK)
@@ -658,77 +663,26 @@ System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
         		VradWAsbW - VAHLW;
 System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
-
-
-
-///**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
-//public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
-///**radW: pre-setback radiator output (W). */
-//public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
-///**radMWATdT: no-setback Mean Water to Air Temperature delta T (K). */
-//public static final double RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K = 25;
-
-
-
-//// (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-//final double radWAmult =
-//	radWAsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-//// radAsbdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
-//// (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-//final double radAsbdTmult =
-//	Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
-//// radAsbdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
-//// (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
-//final double radAsbdT =
-//	HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAsbdTmult;
-
-
-
-
+            // Stop when gains fail to meet losses.
+			if(VAHLerrW < 0)
+				{
+			    VequilibriumTempA = tempA;
+			    VequilibriumHHLsb = VHHLsb;
+			    break;
+				}
 	        }
 
+        if(VequilibriumHHLsb <= 0)
+            { throw new RuntimeException("Failed to find solution"); }
 
-        // FIXME
-
-
-
-
-
-
-
-
-    	// HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).
-        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *
-        		homeHeatLossPerK;
-
-		// HEAT LOSS 1
-		// Internal wall heat loss/transfer per A room (W).
-    	final double DIWAabHLW = iwHeatLossPerA(params);
-		// Internal floor/ceiling heat loss/transfer per A room (W).
-    	// None if a bungalow or if AABB arrangement on both floors,
-    	// ie no A and B share a ceiling/floor.
-    	final double DIFAabHLW =
-			(bungalow || !params.roomsAlternatingABAB) ? 0 :
-				ifHeatLossPerA2Storey(params);
-        // All internal heat losses per A room (W).
-    	final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;
-
-
-        // HEAT LOSS 2
-        // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
-        final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);
-
-		// HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
-        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)
-        // Note that flow and mean temperatures seem to be being mixed here in the HG page.
-        final double DCoPsb = computeFlowCoP(DradAsbMW + CoPCorrectionK);
-//System.out.println(String.format("CoPsb = %f", CoPsb));
-        final double DHPinWsb =
-    		DHHLsb / DCoPsb;
-
+        // Compute electrical energy in given non-setback flow temperature CoP.
+        final double VHPinWsb =
+    		VequilibriumHHLsb / VCoPsb;
+System.out.println(String.format("VHPinWsb = %.1fW", VHPinWsb));
+System.out.println(String.format("DHPinWnsb = %.1fW", DHPinWnsb));
 
         final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);
-        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, DHPinWsb);
+        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(VequilibriumHHLsb, VHPinWsb);
 
         // Return everything at once.
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
