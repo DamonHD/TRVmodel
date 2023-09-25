@@ -639,9 +639,19 @@ System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 			final double VradAsbdT = DradAnsbMW - tempA;
 System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
             // Ratio to original HG model delta, with 500W input, room at 21C and MW at
-            final double VardAsbdTr = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-System.out.println(String.format("  VardAsbdTr = %.2f", VardAsbdTr));
-
+            final double VardAsbdTmult = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
+            final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
+			// Power output from rad in A room.
+            final double VradWAmult =
+        		VardAsbdTmult *
+            		Math.pow(VardAsbdTmult, dtToWexp);
+System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
+			// Power output from rad in A room.
+			// (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
+			final double VradWAsb =
+				VradWAmult * HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+System.out.println(String.format("  VradWAsb = %.1fW", VradWAsb));
 
 
 
