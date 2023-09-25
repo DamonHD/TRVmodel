@@ -534,10 +534,13 @@ public final class HGTRVHPMModelParameterised
      *
      * @param params  the variable model parameters
      * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached
+     * @param equilibriumTemperature  if not null and not zero length,
+     *     used to return the A-room equilibrium temperature
      * @return  demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeSoftATempDemandW(final ModelParameters params,
-    		final boolean bungalow)
+    		final boolean bungalow,
+    		final double[] equilibriumTemperature)
 	    {
     	Objects.requireNonNull(params);
 
@@ -676,6 +679,10 @@ System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
         if(VequilibriumHHLsb <= 0)
             { throw new RuntimeException("Failed to find solution"); }
+
+        // Return equilibrium temperature if possible.
+        if((null != equilibriumTemperature) && (0 != equilibriumTemperature.length))
+        	{ equilibriumTemperature[0] = VequilibriumTempA; }
 
         // Compute electrical energy in given non-setback flow temperature CoP.
         final double VHPinWsb =
