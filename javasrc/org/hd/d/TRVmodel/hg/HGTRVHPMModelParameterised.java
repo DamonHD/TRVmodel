@@ -649,9 +649,14 @@ System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
 System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
 			// Power output from rad in A room.
 			// (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
-			final double VradWAsb =
+			final double VradWAsbW =
 				VradWAmult * HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-System.out.println(String.format("  VradWAsb = %.1fW", VradWAsb));
+System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
+
+            // Compute the error in A heat gains and losses (+ve means excess heat in).
+            final double VAHLerrW =
+        		VradWAsbW - VAHLW;
+System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
 
 
