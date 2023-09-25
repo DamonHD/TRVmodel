@@ -634,10 +634,24 @@ System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
             // Input power from radiator to each A room given:
             //   * A room temperature
             //   * same (weather-compensated) MW/flow temperature as without setbacks
+            //
+            // Delta between radiator mean water (MW) and A room air.
 			final double VradAsbdT = DradAnsbMW - tempA;
 System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
+            // Ratio to original HG model delta, with 500W input, room at 21C and MW at
+            final double VardAsbdTr = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
+System.out.println(String.format("  VardAsbdTr = %.2f", VardAsbdTr));
 
 
+
+
+
+///**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
+//public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
+///**radW: pre-setback radiator output (W). */
+//public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
+///**radMWATdT: no-setback Mean Water to Air Temperature delta T (K). */
+//public static final double RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K = 25;
 
 
 
