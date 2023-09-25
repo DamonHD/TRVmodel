@@ -634,8 +634,24 @@ System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
             // Input power from radiator to each A room given:
             //   * A room temperature
             //   * same (weather-compensated) MW/flow temperature as without setbacks
+			final double VradAsbdT = DradAnsbMW - tempA;
+System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
 
 
+
+
+
+//// (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+//final double radWAmult =
+//	radWAsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
+//// radAsbdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
+//// (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
+//final double radAsbdTmult =
+//	Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
+//// radAsbdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
+//// (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
+//final double radAsbdT =
+//	HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAsbdTmult;
 
 
 
