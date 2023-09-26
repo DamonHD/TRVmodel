@@ -43,9 +43,16 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 
 	/**Run scenario on model and temperature data; never null.
 	 * @param modelDetached  iff true, model detached house
-	 *         (else model original 4-room bungalow)
+	 *     (else model original 4-room bungalow)
+	 * @param softATemp  iff true run with soft temperature regulation
+	 *     (pure weather compensation) in A rooms,
+	 *     else run with original 'still' regulation
+     * @param equilibriumTemperatureMin  if not null and not zero length,
+     *     used to return the minimum A-room equilibrium temperature
 	 */
-	public ScenarioResult runScenario(final boolean modelDetached)
+	public ScenarioResult runScenario(final boolean modelDetached,
+			final boolean softATemp,
+			final double[] equilibriumTemperatureMin)
 		{
 		final int hourCount = temperatures.data().size();
 //		assert(hourCount > 0);
@@ -58,6 +65,10 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 		double heatDemandSB = 0;
 		double heatPumpElectricitySB = 0;
 
+		if(null != equilibriumTemperatureMin)
+		    { equilibriumTemperatureMin[0] = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C; }
+		final double equilibriumTemperature[] = new double[1];
+
 		for(final List<String> row : temperatures.data())
 			{
 			final double temperature = Double.parseDouble(row.get(DDNTemperatureDataCSV.INDEX_OF_TEMPERATURE));
@@ -68,9 +79,13 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 			final HGTRVHPMModelParameterised.ModelParameters updateModelParameters =
 					modelParameters.cloneWithAdjustedExternalTemperature(temperature);
 
-	    	final DemandWithoutAndWithSetback power = modelDetached ?
-    			HGTRVHPMModelParameterised.computeDetachedDemandW(updateModelParameters) :
-				HGTRVHPMModelParameterised.computeBungalowDemandW(updateModelParameters);
+		    equilibriumTemperature[0] = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C;
+	    	final DemandWithoutAndWithSetback power = softATemp ?
+				HGTRVHPMModelParameterised.computeSoftATempDemandW(updateModelParameters, !modelDetached, equilibriumTemperature) :
+    			HGTRVHPMModelParameterised.computeDetachedDemandW(updateModelParameters, !modelDetached);
+			if((null != equilibriumTemperatureMin) &&
+					(equilibriumTemperature[0] < equilibriumTemperatureMin[0]))
+				{ equilibriumTemperatureMin[0] = equilibriumTemperature[0]; }
 
 	    	heatDemandNSB += power.noSetback().heatDemand();
 	    	heatPumpElectricityNSB += power.noSetback().heatPumpElectricity();

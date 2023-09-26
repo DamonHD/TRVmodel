@@ -66,21 +66,21 @@ public final class ShowComputations
         System.out.println("");
         System.out.println("Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...");
         System.out.println("London (EGLL) 2018 hourly temperatures");
-    	final DDNTemperatureDataCSV temperaturesLondon2018 =
-    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
-    	final HGTRVHPMModelByHour scenarioLondon2018 = new HGTRVHPMModelByHour(
-    			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesLondon2018);
-    	final ScenarioResult resultLondon2018 = scenarioLondon2018.runScenario(false);
-        System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
-        		100 * resultLondon2018.hoursFractionSetbackRaisesDemand()));
-    	final double heatNoSetbackLondon2018 = resultLondon2018.demand().noSetback().heatDemand();
-    	final double heatWithSetbackLondon2018 = resultLondon2018.demand().withSetback().heatDemand();
-    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-    			heatNoSetbackLondon2018, heatWithSetbackLondon2018, 100*((heatWithSetbackLondon2018/heatNoSetbackLondon2018)-1)));
-    	final double powerNoSetbackLondon2018 = resultLondon2018.demand().noSetback().heatPumpElectricity();
-    	final double powerWithSetbackLondon2018 = resultLondon2018.demand().withSetback().heatPumpElectricity();
-    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-    			powerNoSetbackLondon2018, powerWithSetbackLondon2018, 100*((powerWithSetbackLondon2018/powerNoSetbackLondon2018)-1)));
+//    	final DDNTemperatureDataCSV temperaturesLondon2018 =
+//    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
+//    	final HGTRVHPMModelByHour scenarioLondon2018 = new HGTRVHPMModelByHour(
+//    			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesLondon2018);
+//    	final ScenarioResult resultLondon2018 = scenarioLondon2018.runScenario(false, false, null);
+//        System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
+//        		100 * resultLondon2018.hoursFractionSetbackRaisesDemand()));
+//    	final double heatNoSetbackLondon2018 = resultLondon2018.demand().noSetback().heatDemand();
+//    	final double heatWithSetbackLondon2018 = resultLondon2018.demand().withSetback().heatDemand();
+//    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+//    			heatNoSetbackLondon2018, heatWithSetbackLondon2018, 100*((heatWithSetbackLondon2018/heatNoSetbackLondon2018)-1)));
+//    	final double powerNoSetbackLondon2018 = resultLondon2018.demand().noSetback().heatPumpElectricity();
+//    	final double powerWithSetbackLondon2018 = resultLondon2018.demand().withSetback().heatPumpElectricity();
+//    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+//    			powerNoSetbackLondon2018, powerWithSetbackLondon2018, 100*((powerWithSetbackLondon2018/powerNoSetbackLondon2018)-1)));
 
         System.out.println("");
         System.out.println("Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...");
@@ -89,7 +89,7 @@ public final class ShowComputations
     			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGPF_2018);
     	final HGTRVHPMModelByHour scenarioGlasgow2018 = new HGTRVHPMModelByHour(
     			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesGlasgow2018);
-    	final ScenarioResult resultGlasgow2018 = scenarioGlasgow2018.runScenario(false);
+    	final ScenarioResult resultGlasgow2018 = scenarioGlasgow2018.runScenario(false, false, null);
         System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
         		100 * resultGlasgow2018.hoursFractionSetbackRaisesDemand()));
     	final double heatNoSetbackGlasgow2018 = resultGlasgow2018.demand().noSetback().heatDemand();
@@ -144,7 +144,7 @@ public final class ShowComputations
 		    			modelParameters,
 		    			temperatures201X);
 			    	System.out.println("      Scenario base model parameters: " + modelParameters);
-			    	final ScenarioResult result201X = scenario201X.runScenario(detached);
+			    	final ScenarioResult result201X = scenario201X.runScenario(detached, false, null);
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
 			    	System.out.println(String.format("      Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
@@ -189,6 +189,30 @@ public final class ShowComputations
 	    	System.out.println(String.format("  Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
 	    			powerNoSetbackBungalowSoft, powerWithSetbackBungalowSoft, 100*((powerWithSetbackBungalowSoft/powerNoSetbackBungalowSoft)-1)));
         	}
+
+
+        System.out.println("");
+        System.out.println("Parameterised model, soft regulation, fixes applied for doors and CoP temperature, external air temperature varied...");
+        System.out.println("London (EGLL) 2018 hourly temperatures");
+        // TODO
+    	final double equilibriumTemperatureMinLondon2018Soft[] = new double[1];
+    	final DDNTemperatureDataCSV temperaturesLondon2018Soft =
+    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
+    	final HGTRVHPMModelByHour scenarioLondon2018Soft = new HGTRVHPMModelByHour(
+    			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesLondon2018Soft);
+    	final ScenarioResult resultLondon2018Soft = scenarioLondon2018Soft.runScenario(false, true, equilibriumTemperatureMinLondon2018Soft);
+        System.out.println(String.format("Minimum A-room temperature %.1fC", equilibriumTemperatureMinLondon2018Soft[0]));
+        System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
+        		100 * resultLondon2018Soft.hoursFractionSetbackRaisesDemand()));
+    	final double heatNoSetbackLondon2018Soft = resultLondon2018Soft.demand().noSetback().heatDemand();
+    	final double heatWithSetbackLondon2018Soft = resultLondon2018Soft.demand().withSetback().heatDemand();
+    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+    			heatNoSetbackLondon2018Soft, heatWithSetbackLondon2018Soft, 100*((heatWithSetbackLondon2018Soft/heatNoSetbackLondon2018Soft)-1)));
+    	final double powerNoSetbackLondon2018Soft = resultLondon2018Soft.demand().noSetback().heatPumpElectricity();
+    	final double powerWithSetbackLondon2018Soft = resultLondon2018Soft.demand().withSetback().heatPumpElectricity();
+    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
+    			powerNoSetbackLondon2018Soft, powerWithSetbackLondon2018Soft, 100*((powerWithSetbackLondon2018Soft/powerNoSetbackLondon2018Soft)-1)));
+
 		}
 
 
@@ -255,7 +279,7 @@ public final class ShowComputations
 					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
 		    			modelParameters,
 		    			temperatures201X);
-			    	final ScenarioResult result201X = scenario201X.runScenario(detached);
+			    	final ScenarioResult result201X = scenario201X.runScenario(detached, false, null);
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
 			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
