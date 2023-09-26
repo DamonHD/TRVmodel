@@ -1,5 +1,5 @@
 Show HG TRV/HP model computations.
-Date/time: Tue Sep 26 11:48:12 BST 2023
+Date/time: Tue Sep 26 16:07:57 BST 2023
 
 Hardwired model, electricity demand normal / setback: 769W / 815W
 Parameterised model, all default parameters, electricity demand normal / setback: 769W / 815W
@@ -231,3 +231,16 @@ Original conditions, detached demand, with 'stiff' A-room temperature regulation
 Original conditions, detached demand, with 'soft' A-room temperature regulation at 18.6C:
   Heat mean demand: with no setback 3070W, with setback 2724W; -11% change with setback
   Heat pump mean power: with no setback 1131W, with setback 1003W; -11% change with setback
+
+Parameterised model, bungalow, soft regulation, fixes applied for doors and CoP temperature, external air temperature varied...
+London (EGLL) 2018 hourly temperatures
+Layout ABAB
+  Minimum A-room temperature 18.2C
+  Percentage of hours that room setback raises heat pump demand: 0.0%
+  Heat mean demand: with no setback 719W, with setback 559W; -22.2% change with setback
+  Heat pump mean power: with no setback 246W, with setback 193W; -21.6% change with setback
+Layout AABB
+  Minimum A-room temperature 18.2C
+  Percentage of hours that room setback raises heat pump demand: 0.0%
+  Heat mean demand: with no setback 719W, with setback 561W; -22.0% change with setback
+  Heat pump mean power: with no setback 246W, with setback 193W; -21.4% change with setback
