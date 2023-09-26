@@ -178,11 +178,6 @@ public final class HGTRVHPMModelParameterised
      * @return (radAsbMW) mean water temperature in each A room when B setback (C)
      */
 	public static double sbAMW(final double HHLsb, final double radWnsb, final double IWAabHLW)
-
-
-	// FIXME
-
-
 		{
 		// radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W).
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
@@ -316,15 +311,9 @@ public final class HGTRVHPMModelParameterised
 	 * This is in fact the MW temperature for all room radiators when there are no setbacks.
 	 *
 	 * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
-	 * @param tempA  temperature of A room
 	 * @return (radAnsbMW) radiator mean water temperature in each A room when B is NOT set back (C)
 	 */
 	public static double nsbAMW(final double radWnsb)
-
-
-	// FIXME
-
-
 		{
 		// Extension to heat loss 2 to allow for varying external temperatures.
         // Compute, for when B rooms are not set back:
@@ -668,8 +657,8 @@ public final class HGTRVHPMModelParameterised
         		VradWAsbW - VAHLW;
 //System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
-            // Abort when gains fail to meet losses,
-			// so returning equilibrium values from previous step.
+            // Abort when A-room gains fail to meet (or exceed) losses,
+			// thus returning (conservative, near) equilibrium values from previous step.
 			if(VAHLerrW < 0)
 				{ break; }
 
