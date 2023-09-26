@@ -50,27 +50,6 @@ package org.hd.d.TRVmodel.hg;
  * <p>
  * For step 2 the B rooms are lowered to the setback temperature (18&deg;C).
  * The mean home temperature is verified to be 19.5&deg;C as stated, with testTMeanWhenSetback().
- * <p>
- * ...
- * <p>
- * (The <q>Let's say those rooms with a setback temperature of 18&deg;C only drop to 19°C.</q>
- * seems spurious: the room is either at 18&deg;C or it is not.)
- * <p>
- * ...
- * <p>
- * (Not clear why only one door is allowed for in each pair of walls:
- * having one door per wall would increase the effect being described here,
- * and is not consistent with the other text.)
- * <p>
- * ...
- * <p>
- * TO DO - alternatives to test in parameterised version of model:
- * <ul>
- * <li>Setback of 19&deg;C.</li>
- * <li>Swap A rooms to be adjacent and reduce internal heat losses.</li>
- * <li>Use one door per internal wall, not per pair.</li>
- * <li>Different internal and external wall U-values.</li>
- * </ul>
  */
 public final class HGTRVHPMModel
  	{
