@@ -163,7 +163,7 @@ public final class ShowComputations
         // Pure weather-compensated comparison.
         System.out.println("");
         System.out.println(String.format("Original bungalow demand, with 'stiff' A-room temperature regulation:"));
-    	final DemandWithoutAndWithSetback originalBungalowDemand = HGTRVHPMModelParameterised.computeBungalowDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED);
+    	final DemandWithoutAndWithSetback originalBungalowDemand = HGTRVHPMModelParameterised.computeDetachedDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, true);
     	final double equilibriumTemperatureSoftBungalow[] = new double[1];
     	final DemandWithoutAndWithSetback softBungalowDemand = HGTRVHPMModelParameterised.computeSoftATempDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, true, equilibriumTemperatureSoftBungalow);
     	final double heatNoSetbackBungalowStiff = originalBungalowDemand.noSetback().heatDemand();
@@ -175,7 +175,7 @@ public final class ShowComputations
     	System.out.println(String.format("  Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
     			powerNoSetbackBungalowStiff, powerWithSetbackBungalowStiff, 100*((powerWithSetbackBungalowStiff/powerNoSetbackBungalowStiff)-1)));
 
-        System.out.println(String.format("Original bungalow demand, with 'soft' A-room temperature regulation:"));
+        System.out.println(String.format("Original bungalow demand, with 'soft' A-room temperature regulation at %.1fC:", equilibriumTemperatureSoftBungalow[0]));
     	final double heatNoSetbackBungalowSoft = softBungalowDemand.noSetback().heatDemand();
     	final double heatWithSetbackBungalowSoft = softBungalowDemand.withSetback().heatDemand();
     	System.out.println(String.format("  Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
