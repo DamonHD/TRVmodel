@@ -677,6 +677,8 @@ public final class HGTRVHPMModelParameterised
         if((null != equilibriumTemperature) && (0 != equilibriumTemperature.length))
         	{ equilibriumTemperature[0] = VequilibriumTempA; }
 
+System.out.println(String.format("VequilibriumTempA = %.1fC @ external %.1fC", VequilibriumTempA, params.externalAirTemperatureC()));
+
         // Compute electrical energy in given non-setback flow temperature CoP.
         final double VHPinWsb =
     		VequilibriumHHLsb / VCoPsb;
