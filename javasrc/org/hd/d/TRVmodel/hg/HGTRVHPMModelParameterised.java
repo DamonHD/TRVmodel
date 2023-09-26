@@ -527,6 +527,10 @@ public final class HGTRVHPMModelParameterised
      *     ie as if the flow temperature is entirely driven by external temperature
      *     and thus weather compensation.</li>
      * </ul>
+     * <p>
+     * Note: this does not allow for the temperature delta across the radiator rising,
+     * and thus the mean water (MW) temperature dropping further from the flow temperature,
+     * as more heat is drawn by an A room below 'normal' temperature.
      *
      * @param params  the variable model parameters
      * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached
@@ -629,7 +633,6 @@ public final class HGTRVHPMModelParameterised
             final double VAHLW = VIFWAabHLW + VAHLo;
 //System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 
-
             // Input power from radiator to each A room given:
             //   * A room temperature
             //   * same (weather-compensated) MW/flow temperature as without setbacks
@@ -637,7 +640,7 @@ public final class HGTRVHPMModelParameterised
             // Delta between radiator mean water (MW) and A room air.
 			final double VradAsbdT = DradAnsbMW - tempA;
 //System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
-            // Ratio to original HG model delta, with 500W input, room at 21C and MW at
+            // Ratio to original HG model delta, with 500W input, room at 21C and MW at 46C,.
             final double VardAsbdTmult = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
 //System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
             final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
@@ -646,13 +649,12 @@ public final class HGTRVHPMModelParameterised
         		VardAsbdTmult *
             		Math.pow(VardAsbdTmult, dtToWexp);
 //System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
-			// Power output from rad in A room.
-			// (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
+			// Power output from rad in A room (with B set back).
 			final double VradWAsbW =
 				VradWAmult * HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
 //System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
 
-            // Compute the error in A heat gains and losses (+ve means excess heat in).
+            // Compute the error in each A-room heat gains and losses (+ve means excess heat in).
             final double VAHLerrW =
         		VradWAsbW - VAHLW;
 //System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
