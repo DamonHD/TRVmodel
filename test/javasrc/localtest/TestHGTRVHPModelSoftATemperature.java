@@ -67,6 +67,10 @@ public final class TestHGTRVHPModelSoftATemperature extends TestCase
     	assertTrue(originalDetachedDemand.withSetback().heatDemand() > softDetachedDemand.withSetback().heatDemand());
     	assertTrue(originalDetachedDemand.withSetback().heatPumpElectricity() > softDetachedDemand.withSetback().heatPumpElectricity());
 
+
+    	// FIXME nsbAMW() sbAMW() need fix
+
+
     	// The A-room equilibrium temperature with B set back
     	// will be lower than the 'normal' temperature and higher than the setback temperature.
     	assertTrue(equilibriumTemperature[0] > HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);

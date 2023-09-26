@@ -178,6 +178,11 @@ public final class HGTRVHPMModelParameterised
      * @return (radAsbMW) mean water temperature in each A room when B setback (C)
      */
 	public static double sbAMW(final double HHLsb, final double radWnsb, final double IWAabHLW)
+
+
+	// FIXME
+
+
 		{
 		// radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W).
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
@@ -249,7 +254,7 @@ public final class HGTRVHPMModelParameterised
         // (INTERNAL_DOOR_HEAT_LOSS_W)
         final double IDAabHLW =
     		IDAabHL *
-    		    (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
+    		    (tempA - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);
         // IDWAabHLW: (Heat Loss 1.7) internal wall and door heat loss per A room (W).
         // (INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W)
         // In the original ABAB arrangement there are two walls from each A room into B rooms.
@@ -311,16 +316,24 @@ public final class HGTRVHPMModelParameterised
 	 * This is in fact the MW temperature for all room radiators when there are no setbacks.
 	 *
 	 * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
+	 * @param tempA  temperature of A room
 	 * @return (radAnsbMW) radiator mean water temperature in each A room when B is NOT set back (C)
 	 */
 	public static double nsbAMW(final double radWnsb)
+
+
+	// FIXME
+
+
 		{
 		// Extension to heat loss 2 to allow for varying external temperatures.
         // Compute, for when B rooms are not set back:
         //   * the needed power for each A radiator
-        //   * thus the implied temperature
-        //   * thus the CoP
-        //   * thus the electricity demand
+        //   * thus the implied radiator mean water temperature
+		//
+		// This then allows computing:
+        //   * the CoP
+        //   * the heat-pump electricity demand
         //
         // Replaces the simple calc;
 //     final double radAMW =
