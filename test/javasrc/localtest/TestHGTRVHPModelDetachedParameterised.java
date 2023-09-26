@@ -119,7 +119,7 @@ public final class TestHGTRVHPModelDetachedParameterised extends TestCase
 	        }
 	    }
 
-    /**Check one test scenario of number for detached (with fixes).
+    /**Check one test scenario (London 2018) for detached (with fixes).
      * @throws IOException
      */
     public static void testDetachedLondon2018() throws IOException
