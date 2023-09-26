@@ -525,12 +525,6 @@ public final class HGTRVHPMModelParameterised
 	    }
 
 
-
-
-
-
-
-
     /**Compute raw heat and heat-pump electricity demand with and without setback, for 'soft' A temperature regulation (W).
      * This lets the A room temperature droop during B-room setback,
      * and does not raise the flow temperature.
@@ -539,7 +533,7 @@ public final class HGTRVHPMModelParameterised
      * <ul>
      * <li>B room temperatures (and A room temperatures) are 'normal' (21C) without setback.</li>
      * <li>B room temperatures are the expected 18C when set back.</li>
-     * <li>Flow temperature is fixed during setback at the temperature
+     * <li>Flow temperature is pinned during setback to the temperature
      *     that maintained A and B rooms at 'normal' temperature without setback,
      *     ie as if the flow temperature is entirely driven by external temperature
      *     and thus weather compensation.</li>
@@ -579,17 +573,17 @@ public final class HGTRVHPMModelParameterised
     	// DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).
         final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		homeHeatLossPerK;
-        System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));
+//System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));
 
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
-System.out.println(String.format("DradWnbs = %f", DradWnsb));
+//System.out.println(String.format("DradWnbs = %f", DradWnsb));
 
 		// Extension to heat loss 2 to allow for varying external temperatures.
 		// MW temperature for all room radiators with no setbacks.
         final double DradAnsbMW = nsbAMW(DradWnsb);
-System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
+//System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
 
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
 
@@ -598,10 +592,10 @@ System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
         final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);
         final double VCoPsb = DCoPnsb;
-System.out.println(String.format("DCoPnsb = VCoPsb = %f", DCoPnsb));
+//System.out.println(String.format("DCoPnsb = VCoPsb = %f", DCoPnsb));
         final double DHPinWnsb =
     		DHHLnsb / DCoPnsb;
-System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
+//System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
 
 
         // A-room temperature step in K.
@@ -616,7 +610,7 @@ System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
         		tempA <= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + tempStepK;
         		tempA += tempStepK)
 	        {
-        	System.out.println(String.format("tempA = %.1fC", tempA));
+//System.out.println(String.format("tempA = %.1fC", tempA));
 
         	// Compute losses to outside for A and B rooms separately when B setback.
         	final double VAHLsb = (tempA - params.externalAirTemperatureC()) *
@@ -624,7 +618,7 @@ System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
         	final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
             		(homeHeatLossPerK / 2);
         	final double VHHLsb = VAHLsb+VBHLsb;
-System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
+//System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
 
 			// Losses to outside for each A room.
 			final double VAHLo = VAHLsb / (numRooms / 2);
@@ -640,11 +634,11 @@ System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
     				ifHeatLossPerA2Storey(params, tempA);
             // All internal heat losses per A room (W).
         	final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;
-System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
+//System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
 
 			// Total heat losses from each A room.
             final double VAHLW = VIFWAabHLW + VAHLo;
-System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
+//System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 
 
             // Input power from radiator to each A room given:
@@ -653,26 +647,26 @@ System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
             //
             // Delta between radiator mean water (MW) and A room air.
 			final double VradAsbdT = DradAnsbMW - tempA;
-System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
+//System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
             // Ratio to original HG model delta, with 500W input, room at 21C and MW at
             final double VardAsbdTmult = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
+//System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
             final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
 			// Power output from rad in A room.
             final double VradWAmult =
         		VardAsbdTmult *
             		Math.pow(VardAsbdTmult, dtToWexp);
-System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
+//System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
 			// Power output from rad in A room.
 			// (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
 			final double VradWAsbW =
 				VradWAmult * HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
+//System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
 
             // Compute the error in A heat gains and losses (+ve means excess heat in).
             final double VAHLerrW =
         		VradWAsbW - VAHLW;
-System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
+//System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
             // Abort when gains fail to meet losses,
 			// so returning equilibrium values from previous step.
@@ -695,8 +689,8 @@ System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
         // Compute electrical energy in given non-setback flow temperature CoP.
         final double VHPinWsb =
     		VequilibriumHHLsb / VCoPsb;
-System.out.println(String.format("VHPinWsb = %.1fW", VHPinWsb));
-System.out.println(String.format("DHPinWnsb = %.1fW", DHPinWnsb));
+//System.out.println(String.format("VHPinWsb = %.1fW", VHPinWsb));
+//System.out.println(String.format("DHPinWnsb = %.1fW", DHPinWnsb));
 
         final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);
         final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(VequilibriumHHLsb, VHPinWsb);

@@ -164,11 +164,10 @@ public final class ShowComputations
         System.out.println("");
         for(final boolean bungalow : new boolean[] {true, false})
         	{
-        	final String archetype = bungalow ? "Original bungalow" : "Detached";
-	        System.out.println(String.format("%s demand, with 'stiff' A-room temperature regulation:", archetype));
+        	final String archetype = bungalow ? "bungalow" : "detached";
+
+	        System.out.println(String.format("Original conditions, %s demand, with 'stiff' A-room temperature regulation:", archetype));
 	    	final DemandWithoutAndWithSetback originalBungalowDemand = HGTRVHPMModelParameterised.computeDetachedDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, bungalow);
-	    	final double equilibriumTemperatureSoftBungalow[] = new double[1];
-	    	final DemandWithoutAndWithSetback softBungalowDemand = HGTRVHPMModelParameterised.computeSoftATempDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, bungalow, equilibriumTemperatureSoftBungalow);
 	    	final double heatNoSetbackBungalowStiff = originalBungalowDemand.noSetback().heatDemand();
 	    	final double heatWithSetbackBungalowStiff = originalBungalowDemand.withSetback().heatDemand();
 	    	System.out.println(String.format("  Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
@@ -178,7 +177,9 @@ public final class ShowComputations
 	    	System.out.println(String.format("  Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
 	    			powerNoSetbackBungalowStiff, powerWithSetbackBungalowStiff, 100*((powerWithSetbackBungalowStiff/powerNoSetbackBungalowStiff)-1)));
 
-	        System.out.println(String.format("%s demand, with 'soft' A-room temperature regulation at %.1fC:", archetype, equilibriumTemperatureSoftBungalow[0]));
+	    	final double equilibriumTemperatureSoftBungalow[] = new double[1];
+	    	final DemandWithoutAndWithSetback softBungalowDemand = HGTRVHPMModelParameterised.computeSoftATempDemandW(HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, bungalow, equilibriumTemperatureSoftBungalow);
+	        System.out.println(String.format("Original conditions, %s demand, with 'soft' A-room temperature regulation at %.1fC:", archetype, equilibriumTemperatureSoftBungalow[0]));
 	    	final double heatNoSetbackBungalowSoft = softBungalowDemand.noSetback().heatDemand();
 	    	final double heatWithSetbackBungalowSoft = softBungalowDemand.withSetback().heatDemand();
 	    	System.out.println(String.format("  Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
