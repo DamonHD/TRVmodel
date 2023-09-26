@@ -194,25 +194,33 @@ public final class ShowComputations
         System.out.println("");
         System.out.println("Parameterised model, soft regulation, fixes applied for doors and CoP temperature, external air temperature varied...");
         System.out.println("London (EGLL) 2018 hourly temperatures");
-        // TODO
-    	final double equilibriumTemperatureMinLondon2018Soft[] = new double[1];
-    	final DDNTemperatureDataCSV temperaturesLondon2018Soft =
-    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
-    	final HGTRVHPMModelByHour scenarioLondon2018Soft = new HGTRVHPMModelByHour(
-    			HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED, temperaturesLondon2018Soft);
-    	final ScenarioResult resultLondon2018Soft = scenarioLondon2018Soft.runScenario(false, true, equilibriumTemperatureMinLondon2018Soft);
-        System.out.println(String.format("Minimum A-room temperature %.1fC", equilibriumTemperatureMinLondon2018Soft[0]));
-        System.out.println(String.format("Percentage of hours that room setback raises heat pump demand: %.0f%%",
-        		100 * resultLondon2018Soft.hoursFractionSetbackRaisesDemand()));
-    	final double heatNoSetbackLondon2018Soft = resultLondon2018Soft.demand().noSetback().heatDemand();
-    	final double heatWithSetbackLondon2018Soft = resultLondon2018Soft.demand().withSetback().heatDemand();
-    	System.out.println(String.format("Heat mean demand: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-    			heatNoSetbackLondon2018Soft, heatWithSetbackLondon2018Soft, 100*((heatWithSetbackLondon2018Soft/heatNoSetbackLondon2018Soft)-1)));
-    	final double powerNoSetbackLondon2018Soft = resultLondon2018Soft.demand().noSetback().heatPumpElectricity();
-    	final double powerWithSetbackLondon2018Soft = resultLondon2018Soft.demand().withSetback().heatPumpElectricity();
-    	System.out.println(String.format("Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.0f%% change with setback",
-    			powerNoSetbackLondon2018Soft, powerWithSetbackLondon2018Soft, 100*((powerWithSetbackLondon2018Soft/powerNoSetbackLondon2018Soft)-1)));
-
+		for(final boolean abab : new boolean[]{true, false})
+			{
+	        final String layout = abab ? "ABAB" : "AABB";
+			System.out.println("Layout " + layout);
+	    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
+					ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+					ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+					abab,
+					ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
+	    	final double equilibriumTemperatureMinLondon2018Soft[] = new double[1];
+	    	final DDNTemperatureDataCSV temperaturesLondon2018Soft =
+	    			DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(DDNTemperatureDataCSV.DATA_EGLL_2018);
+	    	final HGTRVHPMModelByHour scenarioLondon2018Soft = new HGTRVHPMModelByHour(
+	    			modelParameters, temperaturesLondon2018Soft);
+	    	final ScenarioResult resultLondon2018Soft = scenarioLondon2018Soft.runScenario(false, true, equilibriumTemperatureMinLondon2018Soft);
+	        System.out.println(String.format("  Minimum A-room temperature %.1fC", equilibriumTemperatureMinLondon2018Soft[0]));
+	        System.out.println(String.format("  Percentage of hours that room setback raises heat pump demand: %.1f%%",
+	        		100 * resultLondon2018Soft.hoursFractionSetbackRaisesDemand()));
+	    	final double heatNoSetbackLondon2018Soft = resultLondon2018Soft.demand().noSetback().heatDemand();
+	    	final double heatWithSetbackLondon2018Soft = resultLondon2018Soft.demand().withSetback().heatDemand();
+	    	System.out.println(String.format("  Heat mean demand: with no setback %.0fW, with setback %.0fW; %.1f%% change with setback",
+	    			heatNoSetbackLondon2018Soft, heatWithSetbackLondon2018Soft, 100*((heatWithSetbackLondon2018Soft/heatNoSetbackLondon2018Soft)-1)));
+	    	final double powerNoSetbackLondon2018Soft = resultLondon2018Soft.demand().noSetback().heatPumpElectricity();
+	    	final double powerWithSetbackLondon2018Soft = resultLondon2018Soft.demand().withSetback().heatPumpElectricity();
+	    	System.out.println(String.format("  Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.1f%% change with setback",
+	    			powerNoSetbackLondon2018Soft, powerWithSetbackLondon2018Soft, 100*((powerWithSetbackLondon2018Soft/powerNoSetbackLondon2018Soft)-1)));
+			}
 		}
 
 
