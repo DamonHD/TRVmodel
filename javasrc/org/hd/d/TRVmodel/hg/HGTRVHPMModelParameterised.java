@@ -14,6 +14,9 @@ import java.util.Objects;
  * This is a simple model, mirroring the page above.
  * <p>
  * This model is steady-state, ie in temperature equilibrium.
+ * <p>
+ * Note that the calculations are all stateless,
+ * so could be memoised/cached for any particular set of input parameters.
  */
 public final class HGTRVHPMModelParameterised
  	{
@@ -209,19 +212,21 @@ public final class HGTRVHPMModelParameterised
 		return(radAsbMW);
 		}
 
-    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) with A at 'normal' temperature (W).
-     * This allows an A room temperature other than the initial 'normal' 21C,
-     * though it must still be above the B room setback temperature.
-     *
+    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) with A at 'normal' temperature (W).     *
      * @param params  the model parameters; never null
-     * @param tempA  the A room temperature in C; no lower than B (and finite)
      */
 	private static double iwHeatLossPerA(final ModelParameters params)
 		{
 		return(iwHeatLossPerA(params, HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
 		}
 
-    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W). */
+    /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) (W).
+     * This allows an A room temperature other than the initial 'normal' 21C,
+     * though it must still be above the B room setback temperature.
+     *
+     * @param params  the model parameters; never null
+     * @param tempA  the A room temperature in C; no lower than B (and finite)
+     */
 	private static double iwHeatLossPerA(final ModelParameters params, final double tempA)
 	    {
 		Objects.requireNonNull(params);
