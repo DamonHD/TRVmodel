@@ -574,7 +574,6 @@ public final class HGTRVHPMModelParameterised
 //System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));
 
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
-        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
 System.out.println(String.format("*** DradWnsb = %f", DradWnsb));
 
