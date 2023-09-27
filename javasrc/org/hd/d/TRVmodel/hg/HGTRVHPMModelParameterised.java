@@ -595,7 +595,7 @@ public final class HGTRVHPMModelParameterised
         final double tempStepK = 0.1;
 
         // Try all A room temperatures from setback up to and just above 'normal'
-        // to find the minimum A room temperture where heat gains equal or exceed losses
+        // to find the minimum A room temperature where heat gains equal or exceed losses
         // and the whole house heat loss at that point.
         double VequilibriumTempA = 0;
         double VequilibriumHHLsb = 0;
