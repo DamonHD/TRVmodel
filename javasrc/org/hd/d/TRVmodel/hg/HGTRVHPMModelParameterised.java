@@ -469,7 +469,7 @@ public final class HGTRVHPMModelParameterised
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
-//System.out.println(String.format("DradWnbs = %f", DradWnsb));
+//System.out.println(String.format("DradWnsb = %f", DradWnsb));
 
 		// HEAT LOSS 1
 		// Internal wall heat loss/transfer per A room (W).
@@ -576,7 +576,7 @@ public final class HGTRVHPMModelParameterised
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
         // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)
 		final double DradWnsb = DHHLnsb / numRooms;
-//System.out.println(String.format("DradWnbs = %f", DradWnsb));
+System.out.println(String.format("*** DradWnsb = %f", DradWnsb));
 
 		// Extension to heat loss 2 to allow for varying external temperatures.
 		// MW temperature for all room radiators with no setbacks.
@@ -595,6 +595,11 @@ public final class HGTRVHPMModelParameterised
     		DHHLnsb / DCoPnsb;
 //System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));
 
+    	// Compute losses to outside for all B rooms when B setback.
+    	final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
+        		(homeHeatLossPerK / 2);
+System.out.println(String.format("VBHLsb = %.1fW", VBHLsb));
+
 
         // A-room temperature step in K.
         final double tempStepK = 0.1;
@@ -610,16 +615,16 @@ public final class HGTRVHPMModelParameterised
 	        {
 //System.out.println(String.format("tempA = %.1fC", tempA));
 
-        	// Compute losses to outside for A and B rooms separately when B setback.
+        	// Compute losses to outside for all A rooms when B setback.
         	final double VAHLsb = (tempA - params.externalAirTemperatureC()) *
             		(homeHeatLossPerK / 2);
-        	final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
-            		(homeHeatLossPerK / 2);
+System.out.println(String.format("  VAHLsb = %.1fW", VAHLsb));
         	final double VHHLsb = VAHLsb+VBHLsb;
 //System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
 
 			// Losses to outside for each A room.
 			final double VAHLo = VAHLsb / (numRooms / 2);
+System.out.println(String.format("  VAHLo = %.1fW", VAHLo));
 
     		// HEAT LOSS 1
     		// Internal wall heat loss/transfer per A room (W).
@@ -632,11 +637,11 @@ public final class HGTRVHPMModelParameterised
     				ifHeatLossPerA2Storey(params, tempA);
             // All internal heat losses per A room (W).
         	final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;
-//System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
+System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
 
 			// Total heat losses from each A room.
             final double VAHLW = VIFWAabHLW + VAHLo;
-//System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
+System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 
             // Input power from radiator to each A room given:
             //   * A room temperature
@@ -655,13 +660,15 @@ public final class HGTRVHPMModelParameterised
             		Math.pow(VardAsbdTmult, dtToWexp);
 //System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
 			// Power output from rad in A room (with B set back).
-			final double VradWAsbW =
+			final double VradWAsb =
 				VradWAmult * HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-//System.out.println(String.format("  VradWAsbW = %.1fW", VradWAsbW));
+System.out.println(String.format("  *** VradWAsbW = %.1fW", VradWAsb));
+            // When room is cooler than 'normal', radiator output must be higher.
+			assert((VradWAsb > DradWnsb) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
 
             // Compute the error in each A-room heat gains and losses (+ve means excess heat in).
             final double VAHLerrW =
-        		VradWAsbW - VAHLW;
+        		VradWAsb - VAHLW;
 //System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
             // Abort when A-room gains fail to meet (or exceed) losses,
