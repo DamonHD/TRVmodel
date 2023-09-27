@@ -649,10 +649,12 @@ System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
             //
             // Delta between radiator mean water (MW) and A room air.
 			final double VradAsbdT = DradAnsbMW - tempA;
-//System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
+            // When room is cooler than 'normal', delta must be higher.
+			assert((VradAsbdT > HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
+System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
             // Ratio to original HG model delta, with 500W input, room at 21C and MW at 46C,.
             final double VardAsbdTmult = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-//System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
+System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
             final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
 			// Power output from rad in A room.
             final double VradWAmult =
