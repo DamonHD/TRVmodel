@@ -17,6 +17,6 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.hd.d.TRVmodel.Main"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="TRVmodel"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-htmltable summarySoft"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-htmltable sagSoft"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="TRVmodel"/>
 </launchConfiguration>

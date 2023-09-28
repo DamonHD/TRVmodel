@@ -37,7 +37,7 @@ public final class Main
         System.err.println("    Show Heat Geek TRV/HP model and variants.");
         System.err.println("  -htmltable XXX");
         System.err.println("    Write HTML table XXX to out.html for debugging.");
-        System.err.println("    XXX can be one of: summary, summarySoft");
+        System.err.println("    XXX can be one of: summary, summarySoft, sagSoft");
         }
 
     /**Default name of output file for debugging HTML table generation; non-null. */
@@ -73,6 +73,7 @@ public final class Main
         		{
         		case "summary": tableHTML = ShowComputations.generateHTMLMainSummaryTable(true); break;
         		case "summarySoft": tableHTML = ShowComputations.generateHTMLMainSummaryTable(false); break;
+        		case "sagSoft": tableHTML = ShowComputations.generateHTMLSagTable(); break;
         		default:
         			System.err.println("unknown table: " + args[1]);
             		System.exit(1);

@@ -40,17 +40,33 @@ public final class TestMisc extends TestCase
     /**Ensure that showCalcs() can run without crashing! */
     public static void testShowCalcs() throws IOException { ShowComputations.showCalcs(); }
 
-    /**Test HTML table generation basics.
+    /**Test HTML summary table generation basics.
      * <ul>
      * <li>Does it look like a table?</li>
      * <li>Does it parse as (X)HTML, ie XML?</li>
      * </ul>
      */
-    public static void testHTMLTableBasics() throws IOException, ParserConfigurationException, SAXException
+    public static void testHTMLSummaryTableBasics() throws IOException, ParserConfigurationException, SAXException
 	    {
     	// Sufficient to test it for one of the cases for now.
     	final boolean stiff = true;
 	    final String table1 = ShowComputations.generateHTMLMainSummaryTable(stiff);
+		assertTrue(table1.startsWith("<table"));
+	    assertTrue(table1.endsWith("</table>"));
+	    final DocumentBuilder builder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	    final Document doc1 = builder1.parse(new InputSource(new StringReader(table1)));
+	    assertTrue(doc1.hasChildNodes());
+	    }
+
+    /**Test HTML sag table generation basics.
+     * <ul>
+     * <li>Does it look like a table?</li>
+     * <li>Does it parse as (X)HTML, ie XML?</li>
+     * </ul>
+     */
+    public static void testHTMLSagTableBasics() throws IOException, ParserConfigurationException, SAXException
+	    {
+	    final String table1 = ShowComputations.generateHTMLSagTable();
 		assertTrue(table1.startsWith("<table"));
 	    assertTrue(table1.endsWith("</table>"));
 	    final DocumentBuilder builder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
