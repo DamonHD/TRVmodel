@@ -86,10 +86,10 @@ public final class TestHGTRVHPModelSoftATemperature extends TestCase
 		//Parameterised model, bungalow, soft regulation, fixes applied for doors and CoP temperature, external air temperature varied...
 		//London (EGLL) 2018 hourly temperatures
 		//Layout ABAB
-		//  Minimum A-room temperature 18.2C
+		//  Minimum A-room temperature 19.4C
 		//  Percentage of hours that room setback raises heat pump demand: 0.0%
-		//  Heat mean demand: with no setback 719W, with setback 559W; -22.2% change with setback
-		//  Heat pump mean power: with no setback 246W, with setback 193W; -21.6% change with setback
+		//  Heat mean demand: with no setback 719W, with setback 590W; -18.0% change with setback
+		//  Heat pump mean power: with no setback 246W, with setback 203W; -17.6% change with setback
     	final HGTRVHPMModelParameterised.ModelParameters modelParameters = HGTRVHPMModelParameterised.ModelParameters.FIXES_APPLIED;
     	final double equilibriumTemperatureMinLondon2018Soft[] = new double[1];
     	final DDNTemperatureDataCSV temperaturesLondon2018Soft =
@@ -97,12 +97,12 @@ public final class TestHGTRVHPModelSoftATemperature extends TestCase
     	final HGTRVHPMModelByHour scenarioLondon2018Soft = new HGTRVHPMModelByHour(
     			modelParameters, temperaturesLondon2018Soft);
     	final ScenarioResult resultLondon2018Soft = scenarioLondon2018Soft.runScenario(false, true, equilibriumTemperatureMinLondon2018Soft);
-        assertEquals(18.2, equilibriumTemperatureMinLondon2018Soft[0], 0.1);
+        assertEquals(19.4, equilibriumTemperatureMinLondon2018Soft[0], 0.1);
         assertEquals(0, resultLondon2018Soft.hoursFractionSetbackRaisesDemand(), 0.001);
         assertEquals(719, resultLondon2018Soft.demand().noSetback().heatDemand(), 1);
-        assertEquals(559, resultLondon2018Soft.demand().withSetback().heatDemand(), 1);
+        assertEquals(589, resultLondon2018Soft.demand().withSetback().heatDemand(), 1);
         assertEquals(246, resultLondon2018Soft.demand().noSetback().heatPumpElectricity(), 1);
-        assertEquals(193, resultLondon2018Soft.demand().withSetback().heatPumpElectricity(), 1);
+        assertEquals(202, resultLondon2018Soft.demand().withSetback().heatPumpElectricity(), 1);
 	    }
 
     /**Check one test scenario (London 2018) for bungalow AABB (with fixes) and soft regulation.
@@ -113,10 +113,10 @@ public final class TestHGTRVHPModelSoftATemperature extends TestCase
 		//Parameterised model, bungalow, soft regulation, AABB, fixes applied for doors and CoP temperature, external air temperature varied...
 		//London (EGLL) 2018 hourly temperatures
 		//Layout AABB
-		//  Minimum A-room temperature 18.2C
+		//  Minimum A-room temperature 19.6C
 		//  Percentage of hours that room setback raises heat pump demand: 0.0%
-		//  Heat mean demand: with no setback 719W, with setback 561W; -22.0% change with setback
-		//  Heat pump mean power: with no setback 246W, with setback 193W; -21.4% change with setback
+		//  Heat mean demand: with no setback 719W, with setback 596W; -17.2% change with setback
+		//  Heat pump mean power: with no setback 246W, with setback 205W; -16.8% change with setback
     	final HGTRVHPMModelParameterised.ModelParameters modelParameters = HGTRVHPMModelParameterised.ModelParameters.FIXES_AND_AABB;
     	final double equilibriumTemperatureMinLondon2018Soft[] = new double[1];
     	final DDNTemperatureDataCSV temperaturesLondon2018Soft =
@@ -124,11 +124,11 @@ public final class TestHGTRVHPModelSoftATemperature extends TestCase
     	final HGTRVHPMModelByHour scenarioLondon2018Soft = new HGTRVHPMModelByHour(
     			modelParameters, temperaturesLondon2018Soft);
     	final ScenarioResult resultLondon2018Soft = scenarioLondon2018Soft.runScenario(false, true, equilibriumTemperatureMinLondon2018Soft);
-        assertEquals(18.2, equilibriumTemperatureMinLondon2018Soft[0], 0.1);
+        assertEquals(19.6, equilibriumTemperatureMinLondon2018Soft[0], 0.1);
         assertEquals(0, resultLondon2018Soft.hoursFractionSetbackRaisesDemand(), 0.001);
         assertEquals(719, resultLondon2018Soft.demand().noSetback().heatDemand(), 1);
-        assertEquals(561, resultLondon2018Soft.demand().withSetback().heatDemand(), 1);
+        assertEquals(596, resultLondon2018Soft.demand().withSetback().heatDemand(), 1);
         assertEquals(246, resultLondon2018Soft.demand().noSetback().heatPumpElectricity(), 1);
-        assertEquals(193, resultLondon2018Soft.demand().withSetback().heatPumpElectricity(), 1);
+        assertEquals(205, resultLondon2018Soft.demand().withSetback().heatPumpElectricity(), 1);
 	    }
     }

@@ -575,12 +575,15 @@ public final class HGTRVHPMModelParameterised
 
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
 		final double DradWnsb = DHHLnsb / numRooms;
-System.out.println(String.format("*** DradWnsb = %f", DradWnsb));
+//System.out.println(String.format("DradWnsb = %f", DradWnsb));
 
 		// Extension to heat loss 2 to allow for varying external temperatures.
 		// MW temperature for all room radiators with no setbacks.
         final double DradAnsbMW = nsbAMW(DradWnsb);
 //System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
+        // Delta between radiator mean water (MW) and A room air.
+		final double DradAsbdT = DradAnsbMW - HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C;
+//System.out.println(String.format("DradAsbdT = %.1fK", DradAsbdT));
 
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
 
@@ -597,7 +600,7 @@ System.out.println(String.format("*** DradWnsb = %f", DradWnsb));
     	// Compute losses to outside for all B rooms when B setback.
     	final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *
         		(homeHeatLossPerK / 2);
-System.out.println(String.format("VBHLsb = %.1fW", VBHLsb));
+//System.out.println(String.format("VBHLsb = %.1fW (%.1fW per B room))", VBHLsb, VBHLsb / (numRooms / 2)));
 
 
         // A-room temperature step in K.
@@ -617,13 +620,13 @@ System.out.println(String.format("VBHLsb = %.1fW", VBHLsb));
         	// Compute losses to outside for all A rooms when B setback.
         	final double VAHLsb = (tempA - params.externalAirTemperatureC()) *
             		(homeHeatLossPerK / 2);
-System.out.println(String.format("  VAHLsb = %.1fW", VAHLsb));
+//System.out.println(String.format("  VAHLsb = %.1fW", VAHLsb));
         	final double VHHLsb = VAHLsb+VBHLsb;
 //System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));
 
 			// Losses to outside for each A room.
 			final double VAHLo = VAHLsb / (numRooms / 2);
-System.out.println(String.format("  VAHLo = %.1fW", VAHLo));
+//System.out.println(String.format("  VAHLo = %.1fW", VAHLo));
 
     		// HEAT LOSS 1
     		// Internal wall heat loss/transfer per A room (W).
@@ -636,36 +639,36 @@ System.out.println(String.format("  VAHLo = %.1fW", VAHLo));
     				ifHeatLossPerA2Storey(params, tempA);
             // All internal heat losses per A room (W).
         	final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;
-System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
+//System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));
 
 			// Total heat losses from each A room.
             final double VAHLW = VIFWAabHLW + VAHLo;
-System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
+//System.out.println(String.format("  VAHLW = %.1fW", VAHLW));
 
             // Input power from radiator to each A room given:
-            //   * A room temperature
+            //   * the A room temperature
             //   * same (weather-compensated) MW/flow temperature as without setbacks
             //
             // Delta between radiator mean water (MW) and A room air.
 			final double VradAsbdT = DradAnsbMW - tempA;
-            // When room is cooler than 'normal', delta must be higher.
-			assert((VradAsbdT > HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
-System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
-            // Ratio to original HG model delta, with 500W input, room at 21C and MW at 46C,.
-            final double VardAsbdTmult = VradAsbdT / HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;
-System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
+			assert((VradAsbdT > DradAsbdT) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :
+				"When room is cooler than 'normal', delta must be higher.";
+//System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));
+            // Ratio to original non-setback delta.
+            final double VardAsbdTmult = VradAsbdT / DradAsbdT;
+//System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
             final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
 			// Power output from rad in A room.
             final double VradWAmult =
-        		VardAsbdTmult *
-            		Math.pow(VardAsbdTmult, dtToWexp);
+        		VardAsbdTmult * Math.pow(VardAsbdTmult, dtToWexp);
 //System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
 			// Power output from rad in A room (with B set back).
 			final double VradWAsb =
-				VradWAmult * HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
-System.out.println(String.format("  *** VradWAsbW = %.1fW", VradWAsb));
+				VradWAmult * DradWnsb;
+//System.out.println(String.format("  VradWAsb = %.1fW", VradWAsb));
             // When room is cooler than 'normal', radiator output must be higher.
-			assert((VradWAsb > DradWnsb) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));
+			assert((VradWAsb > DradWnsb) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :
+				"When room is cooler than 'normal', radiator output must be higher.";
 
             // Compute the error in each A-room heat gains and losses (+ve means excess heat in).
             final double VAHLerrW =
@@ -690,7 +693,7 @@ System.out.println(String.format("  *** VradWAsbW = %.1fW", VradWAsb));
         if((null != equilibriumTemperature) && (0 != equilibriumTemperature.length))
         	{ equilibriumTemperature[0] = VequilibriumTempA; }
 
-System.out.println(String.format("VequilibriumTempA = %.1fC @ external %.1fC", VequilibriumTempA, params.externalAirTemperatureC()));
+//System.out.println(String.format("VequilibriumTempA = %.1fC @ external %.1fC", VequilibriumTempA, params.externalAirTemperatureC()));
 
         // Compute electrical energy in given non-setback flow temperature CoP.
         final double VHPinWsb =
