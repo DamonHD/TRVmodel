@@ -229,7 +229,7 @@ public final class ShowComputations
 	 * <p>
 	 * The table class at least should be fixed up manually.
 	 */
-	public static String generateHTMLMainSummaryTable() throws IOException
+	public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException
 		{
 		// Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.
 		// Each by bungalow/detached.
@@ -237,10 +237,11 @@ public final class ShowComputations
 		result.append("<table style=\"border:1px solid\" class=\"yourTableStyle\">\n");
 		result.append(String.format("""
 			<caption>\
-			Summary of mean power change with selected-room setback of\s\
-			(1) whole-home heat demand and of\s\
-			(2) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\
-			(3) for 1- and 2- storey (bungalow and detached) archetypes, \s\
+			%s mode: summary of mean power change with selected-room setback of\s\
+			(1) %s temperature regulation in A rooms\s\
+			(2) whole-home heat demand and of\s\
+			(3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\
+			(4) for 1- and 2- storey (bungalow and detached) archetypes, \s\
 			for %d UK locations.\s\
 			Based on hourly temperature data for the ten years 201X.\s\
 			When B rooms are set back overall home heat demand does fall,\s\
@@ -249,6 +250,8 @@ public final class ShowComputations
 			especially in the detached house cases.\
 			</caption>
 			""",
+			    stiff ? "Stiff" : "Soft",
+			    stiff ? "stiff" : "soft",
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
 		result.append("""
 			<thead><tr>\
@@ -287,7 +290,7 @@ public final class ShowComputations
 					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
 		    			modelParameters,
 		    			temperatures201X);
-			    	final ScenarioResult result201X = scenario201X.runScenario(detached, false, null);
+			    	final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
 			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.

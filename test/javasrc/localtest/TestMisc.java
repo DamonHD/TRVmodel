@@ -48,18 +48,13 @@ public final class TestMisc extends TestCase
      */
     public static void testHTMLTableBasics() throws IOException, ParserConfigurationException, SAXException
 	    {
-	    final String table1 = ShowComputations.generateHTMLMainSummaryTable();
+    	// Sufficient to test it for one of the cases for now.
+    	final boolean stiff = true;
+	    final String table1 = ShowComputations.generateHTMLMainSummaryTable(stiff);
 		assertTrue(table1.startsWith("<table"));
 	    assertTrue(table1.endsWith("</table>"));
 	    final DocumentBuilder builder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 	    final Document doc1 = builder1.parse(new InputSource(new StringReader(table1)));
 	    assertTrue(doc1.hasChildNodes());
-//
-//	    final String table2 = ShowComputations.generateHTMLMainFullTable();
-//		assertTrue(table2.startsWith("<table"));
-//	    assertTrue(table2.endsWith("</table>"));
-//	    final DocumentBuilder builder2 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//	    final Document doc2 = builder2.parse(new InputSource(new StringReader(table2)));
-//	    assertTrue(doc2.hasChildNodes());
 	    }
     }
