@@ -221,6 +221,27 @@ public final class ShowComputations
 	    	System.out.println(String.format("  Heat pump mean power: with no setback %.0fW, with setback %.0fW; %.1f%% change with setback",
 	    			powerNoSetbackLondon2018Soft, powerWithSetbackLondon2018Soft, 100*((powerWithSetbackLondon2018Soft/powerNoSetbackLondon2018Soft)-1)));
 			}
+
+
+        System.out.println();
+        System.out.println("Parameterised model, bungalow, soft A temperature regulation, fixes applied for doors and CoP temperature, external air temperature varied...");
+        for(double eat = HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - 10.0; eat < HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C; eat += 1.0)
+	        {
+        	final HGTRVHPMModelParameterised.ModelParameters params = new ModelParameters(
+        			ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+        			ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+        			ModelParameters.DEFAULT_ARRANGEMENT_ABAB,
+        			eat);
+        	if(Math.abs(HGTRVHPMModel.EXTERNAL_AIR_TEMPERATURE_C - eat) < 0.1)
+	        	{
+        		System.out.println(String.format(" *** original external air temperature, ie %.1fC", eat));
+	        	}
+        	final double equilibriumTemperature[] = new double[1];
+        	HGTRVHPMModelParameterised.computeSoftATempDemandW(params, true, equilibriumTemperature);
+        	final double sag = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - equilibriumTemperature[0];
+        	System.out.println(String.format("  temperature sag %.1fK @ %.1fC",
+        			sag, eat));
+	        }
 		}
 
 
