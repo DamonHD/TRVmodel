@@ -375,18 +375,8 @@ public final class ShowComputations
 		    			temperatures201X);
 					final double equilibriumTemperatureMin[] = new double[1];
 			    	final ScenarioResult result201X = scenario201X.runScenario(detached, true, equilibriumTemperatureMin);
-////			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
-////			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
-//			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
-//			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
-////			    	if(!detached && abab)
-////			            { result.append(String.format("<td rowspan=\"2\" style=\"text-align:right\">%.1f%%</td>", heatDelta201X)); }
-//			    	// Heat-pump power demand delta.
-//			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
-//			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
-//			    	final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);
 			    	final double sag = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - equilibriumTemperatureMin[0];
-			    	result.append(String.format("<td style=\"text-align:right\">%.1f&deg;C</td>", sag));
+			    	result.append(String.format("<td style=\"text-align:right\">%.1fK</td>", sag));
 					}
 				result.append("</tr>\n");
 				}
