@@ -1,0 +1,39 @@
+ALL SIGNIFICANT RELEASES AND BRANCHES
+
+
+This document is used to record all significant releases and branches
+in the code tree.
+
+Follow agreed procedures before creating (or deleting) branches
+or release/freeze points.
+
+
+
+
+SIGNIFICANT CHANGES SINCE LAST RELEASE
+======================================
+
+
+PENDING:
+
+
+
+
+
+
+
+
+
+
+SIGNIFICANT RELEASES (newest first)
+===================================
+
+
+20231112:
+    freezepoint name: V0.9.4
+    branch name: HEAD
+    Deployed where: Zenodo
+    Changes since last freezepoint (developer/mgr initials and brief description):
+    Previous significant freezepoint: V0.9.3
+    DHD20231112: deployed to Zenodo via automated GutHub link for a DOI.
+
