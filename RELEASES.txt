@@ -32,7 +32,7 @@ SIGNIFICANT RELEASES (newest first)
 20231112:
     freezepoint name: V0.9.4
     branch name: HEAD
-    Deployed where: Zenodo
+    Deployed where: https://zenodo.org/doi/10.5281/zenodo.10116280
     Changes since last freezepoint (developer/mgr initials and brief description):
     Previous significant freezepoint: V0.9.3
     DHD20231112: deployed to Zenodo via automated GutHub link for a DOI.
