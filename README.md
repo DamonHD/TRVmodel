@@ -34,7 +34,7 @@ checking against different external temperatures and an additional building arch
 This extended model is then checked against a decade of hourly temperature data
 at seven representative locations around the UK.
 
-A copy of a full calculation run is checked in.
+A copy of the output of a full calculation run is checked in.
 
 
 ## Acknowledgements
