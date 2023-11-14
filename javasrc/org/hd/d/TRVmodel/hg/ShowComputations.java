@@ -278,7 +278,7 @@ public final class ShowComputations
 			<thead><tr>\
 			<th>Location (Weather Station)</th>\
 			<th>Archetype</th>\
-			<th>Home Heat Demand delta</th>\
+			<th>Home heat demand delta</th>\
 			<th>ABAB heat-pump demand delta</th>\
 			<th>AABB heat-pump demand delta</th>\
 			</tr></thead>
@@ -367,7 +367,7 @@ public final class ShowComputations
         result.append(""
         		+ "\\textbf{Location (Weather Station)} & "
         		+ "\\textbf{Archetype} & "
-        		+ "\\textbf{Home Heat Demand delta} & "
+        		+ "\\textbf{Home heat demand delta} & "
         		+ "\\textbf{ABAB heat-pump demand delta} & "
         		+ "\\textbf{AABB heat-pump demand delta}"
         		+ "\\\\\n"
