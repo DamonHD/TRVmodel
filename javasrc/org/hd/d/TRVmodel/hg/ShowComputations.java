@@ -355,14 +355,14 @@ public final class ShowComputations
 			but in the ABAB layout that maximises internal losses,\s\
 			heat-pump electricity demand rises, in all scenarios,\s\
 			especially in the detached house cases.\
-			}\
+			\\label{t-summary}}\
 			""",
 			    stiff ? "Stiff" : "Soft",
 			    stiff ? "stiff" : "soft",
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
         result.append("\\begin{adjustwidth}{-\\extralength}{0cm}\n"
         		+ "                \\newcolumntype{C}{>{\\centering\\arraybackslash}X}\n"
-        		+ "                \\begin{tabularx}{\\fulllength}{CCCC}\n"
+        		+ "                \\begin{tabularx}{\\fulllength}{CCCCC}\n"
         		+ "                        \\toprule\n"
         		+ "");
 
