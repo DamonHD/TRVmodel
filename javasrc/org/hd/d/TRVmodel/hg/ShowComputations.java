@@ -276,7 +276,8 @@ public final class ShowComputations
 				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
 		result.append("""
 			<thead><tr>\
-			<th>Location (Weather Station)</th><th>Archetype</th>\
+			<th>Location (Weather Station)</th>\
+			<th>Archetype</th>\
 			<th>Home Heat Demand delta</th>\
 			<th>ABAB heat-pump demand delta</th>\
 			<th>AABB heat-pump demand delta</th>\
@@ -365,6 +366,15 @@ public final class ShowComputations
         		+ "                \\begin{tabularx}{\\fulllength}{CCCCC}\n"
         		+ "                        \\toprule\n"
         		+ "");
+        result.append(""
+        		+ "\\textbf{Location (Weather Station)} & "
+        		+ "\\textbf{Archetype} & "
+        		+ "\\textbf{Home Heat Demand delta} & "
+        		+ "\\textbf{ABAB heat-pump demand delta} & "
+        		+ "\\textbf{AABB heat-pump demand delta}"
+        		+ "\\\\\n"
+        		+ "");
+        result.append("                        \\midrule\n");
 
 
 
