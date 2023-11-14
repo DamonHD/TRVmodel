@@ -372,12 +372,6 @@ public final class ShowComputations
         		+ "\\textbf{AABB heat-pump demand delta}"
         		+ "\\\\\n"
         		+ "");
-        result.append("                        \\midrule\n");
-
-
-
-
-
 
 		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 			{
@@ -391,7 +385,8 @@ public final class ShowComputations
 				{
 //				result.append("<tr>");
 				if(!detached)
-				    { result.append(String.format("\\multirow[m]{2}{*}{%s (%s)} & ", htdd.conurbation(), htdd.station())); }
+				    { result.append(String.format("\\midrule\\multirow[m]{2}{*}{%s (%s)}", htdd.conurbation(), htdd.station())); }
+				result.append(" & ");
 
 		        final String archetype = detached ? "detached" : "bungalow";
 		        result.append(String.format("%s & ", archetype));
@@ -411,7 +406,8 @@ public final class ShowComputations
 			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
 			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
 			    	if(!detached && abab)
-			            { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%} & ", heatDelta201X)); }
+			            { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%}", heatDelta201X)); }
+					result.append(" & ");
 			    	// Heat-pump power demand delta.
 			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
 			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
@@ -421,11 +417,6 @@ public final class ShowComputations
 				result.append("\\\\\n");
 				}
 			}
-
-
-
-
-
 
         result.append("                        \\bottomrule\n"
         		+ "                \\end{tabularx}\n"
