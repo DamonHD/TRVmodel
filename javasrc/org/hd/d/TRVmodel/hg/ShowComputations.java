@@ -303,7 +303,6 @@ public final class ShowComputations
 		        result.append(String.format("<td>%s</td>", archetype));
 				for(final boolean abab : new boolean[]{true, false})
 					{
-			        final String layout = abab ? "ABAB" : "AABB";
 			    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
 							ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
 							ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
@@ -312,7 +311,6 @@ public final class ShowComputations
 					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
 		    			modelParameters,
 		    			temperatures201X);
-//					final double equilibriumTemperatureMin[] = new double[1];
 			    	final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);
 			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
 			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
@@ -381,7 +379,48 @@ public final class ShowComputations
 
 
 
-	    // TODO
+		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
+			{
+	    	// Load temperature data for this station.
+			final DDNTemperatureDataCSV temperatures201X =
+				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
+					htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
+	        if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
+	        	{ throw new IOException("bad record count"); }
+			for(final boolean detached : new boolean[]{false, true})
+				{
+//				result.append("<tr>");
+				if(!detached)
+				    { result.append(String.format("\\multirow[m]{2}{*}{%s (%s)} & ", htdd.conurbation(), htdd.station())); }
+
+		        final String archetype = detached ? "detached" : "bungalow";
+		        result.append(String.format("%s & ", archetype));
+				for(final boolean abab : new boolean[]{true, false})
+					{
+			    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
+							ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+							ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+							abab,
+							ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
+					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
+		    			modelParameters,
+		    			temperatures201X);
+			    	final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);
+			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
+			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
+			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
+			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
+			    	if(!detached && abab)
+			            { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%} & ", heatDelta201X)); }
+			    	// Heat-pump power demand delta.
+			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
+			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
+			    	final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);
+			    	result.append(String.format("%.1f\\%% ", powerDelta201X));
+					}
+				result.append("\\\\\n");
+				}
+			}
 
 
 
