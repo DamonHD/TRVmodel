@@ -38,10 +38,16 @@ public final class Main
         System.err.println("  -htmltable XXX");
         System.err.println("    Write HTML table XXX to out.html for debugging.");
         System.err.println("    XXX can be one of: summary, summarySoft, sagSoft");
-        }
+        System.err.println("  -LaTeXtable XXX");
+        System.err.println("    Write LaTeX table XXX to out.html for debugging.");
+        System.err.println("    XXX can be one of: summary, summarySoft, sagSoft");
+       }
 
-    /**Default name of output file for debugging HTML table generation; non-null. */
-    public static final File DEFAULT_OUTPUT_NAME = new File("out.html");
+    /**Default name of output file for HTML table generation; non-null. */
+    public static final File DEFAULT_OUTPUT_NAME_HTML = new File("out.html");
+
+    /**Default name of output file for LaTeX table generation; non-null. */
+    public static final File DEFAULT_OUTPUT_NAME_LaTeX = new File("out.tex");
 
     /**Accepts command-line arguments.
      * See {@link #printOptions()}.
@@ -82,8 +88,31 @@ public final class Main
 
         		// Write HTML bare, as UTF-8 (though should only be 7-bit ASCII).
         		// Expects to overwrite any existing file.
-        		try (Writer w = new FileWriter(DEFAULT_OUTPUT_NAME, StandardCharsets.UTF_8))
+        		try (Writer w = new FileWriter(DEFAULT_OUTPUT_NAME_HTML, StandardCharsets.UTF_8))
 	        		{ w.write(tableHTML); }
+
+        		System.exit(0);
+    			}
+
+        	if("-LaTeXtable".equals(args[0]) && (args.length > 1))
+    			{
+        		final String tableLaTeX;
+
+        		switch(args[1])
+        		{
+        		case "summary": tableLaTeX = ShowComputations.generateLaTeXMainSummaryTable(true); break;
+//        		case "summarySoft": tableHTML = ShowComputations.generateHTMLMainSummaryTable(false); break;
+//        		case "sagSoft": tableHTML = ShowComputations.generateHTMLSagTable(); break;
+        		default:
+        			System.err.println("unknown table: " + args[1]);
+            		System.exit(1);
+            		return; // Should be unreachable.
+        		}
+
+        		// Write HTML bare, as UTF-8 (though should only be 7-bit ASCII).
+        		// Expects to overwrite any existing file.
+        		try (Writer w = new FileWriter(DEFAULT_OUTPUT_NAME_LaTeX, StandardCharsets.UTF_8))
+	        		{ w.write(tableLaTeX); }
 
         		System.exit(0);
     			}

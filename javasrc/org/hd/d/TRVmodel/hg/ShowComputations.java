@@ -333,6 +333,59 @@ public final class ShowComputations
 		return(result.toString());
 		}
 
+	/**Generate the main summary model results table for 7 places, 10 years, in LaTeX non-null.
+	 * Attempts to remain at least slightly human readable.
+	 * <p>
+	 * Some details may need to be fixed up manually, including the label.
+	 */
+	public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException
+		{
+		final StringBuilder result = new StringBuilder();
+		result.append("\\begin{table}[H]\n");
+	    result.append(String.format("""
+	        \\caption{\
+			%s mode: summary of mean power change with selected-room setback of\s\
+			(1) %s temperature regulation in A rooms\s\
+			(2) whole-home heat demand and of\s\
+			(3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\
+			(4) for 1- and 2- storey (bungalow and detached) archetypes, \s\
+			for %d UK locations.\s\
+			Based on hourly temperature data for the ten years 201X.\s\
+			When B rooms are set back overall home heat demand does fall,\s\
+			but in the ABAB layout that maximises internal losses,\s\
+			heat-pump electricity demand rises, in all scenarios,\s\
+			especially in the detached house cases.\
+			}\
+			""",
+			    stiff ? "Stiff" : "Soft",
+			    stiff ? "stiff" : "soft",
+				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
+        result.append("\\begin{adjustwidth}{-\\extralength}{0cm}\n"
+        		+ "                \\newcolumntype{C}{>{\\centering\\arraybackslash}X}\n"
+        		+ "                \\begin{tabularx}{\\fulllength}{CCCC}\n"
+        		+ "                        \\toprule\n"
+        		+ "");
+
+
+
+
+
+
+	    // TODO
+
+
+
+
+
+
+        result.append("                        \\bottomrule\n"
+        		+ "                \\end{tabularx}\n"
+        		+ "        \\end{adjustwidth}\n"
+        		+ "");
+		result.append("\\end{table}");
+		return(result.toString());
+		}
+
 
 	/**Generate the temperature sag model results table for 7 places, 10 years, in (X)HTML5; non-null.
 	 * Attempts to remain at least slightly human readable.
