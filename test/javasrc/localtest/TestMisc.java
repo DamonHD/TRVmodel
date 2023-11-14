@@ -58,6 +58,20 @@ public final class TestMisc extends TestCase
 	    assertTrue(doc1.hasChildNodes());
 	    }
 
+    /**Test LaTeX summary table generation basics.
+     * <ul>
+     * <li>Does it look like a table?</li>
+     * </ul>
+     */
+    public static void testLaTeXSummaryTableBasics() throws IOException, ParserConfigurationException, SAXException
+	    {
+    	// Sufficient to test it for one of the cases for now.
+    	final boolean stiff = true;
+	    final String table1 = ShowComputations.generateLaTeXMainSummaryTable(stiff);
+		assertTrue(table1.startsWith("\\begin{table}"));
+	    assertTrue(table1.endsWith("\\end{table}"));
+	    }
+
     /**Test HTML sag table generation basics.
      * <ul>
      * <li>Does it look like a table?</li>
