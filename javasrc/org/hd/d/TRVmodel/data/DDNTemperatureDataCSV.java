@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 /**Wraps degreedays.net hourly temperature CSV data to make it clear what it is; data cannot be null.
- * Note that no rows not fields can be null, but may be empty.
+ * Note that neither rows nor fields can be null, but may be empty.
  * <p>
  * Data sample:
 <pre>
