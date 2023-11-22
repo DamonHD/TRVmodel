@@ -49,7 +49,9 @@ package org.hd.d.TRVmodel.hg;
  * For step 1 the home heat loss is verified to be 83.3W/K as stated, with testHLWpK().
  * <p>
  * For step 2 the B rooms are lowered to the setback temperature (18&deg;C).
- * The mean home temperature is verified to be 19.5&deg;C as stated, with testTMeanWhenSetback().
+ * The mean home temperature is verified to be 19.5&deg;C as stated.
+ * <p>
+ * Each of the following parts is likewise replicated and verified with JUnit tests.
  */
 public final class HGTRVHPMModel
  	{
