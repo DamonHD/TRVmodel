@@ -26,14 +26,15 @@ package org.hd.d.TRVmodel.hg;
  * controlling the radiator heat emitters in each room.
  * <p>
  * (Note that this arrangement maximises internal heat transfers between rooms
- * when Bs are at setback temperature; swap any horizontal or vertical pair to minimise instead.)
+ * when Bs are at setback temperature.
+ * Swap any horizontal or vertical pair to minimise instead.)
  * <p>
  * The rooms can be considered to be in a horizontal plane,
  * with the area outside the rooms being at exterior temperature.
  * <p>
  * The external walls are of different construction to
  * the internal walls between the A and B rooms.
- * Heat flow through these walls is modelled.
+ * Heat flow through internal walls is modelled.
  * <p>
  * Heat loss through ceilings and floors and all other routes is ignored.
  * <p>
