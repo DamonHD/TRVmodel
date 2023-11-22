@@ -105,7 +105,7 @@ public final class HGTRVHPMModel
      * See: https://www.diydata.com/information/u_values/u_values.php
      */
     public static final double INTERNAL_WALL_U_WpM2K = 2;
-    /**IWD: (Heat Loss 1.0) internal door U value (W/m^2K).
+    /**IDU: (Heat Loss 1.0) internal door U value (W/m^2K).
      * Possibly a bit high (solid wood external door ~3.0), but may not be shut tight for example.
      * <p>
      * See: https://www.bregroup.com/wp-content/uploads/2019/10/BR443-October-2019_consult.pdf
