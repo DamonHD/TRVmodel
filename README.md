@@ -39,6 +39,6 @@ A copy of the output of a full calculation run is checked in.
 
 ## Acknowledgements
 
-Thanks to Heat Geek for the thought experiment!
+Thanks to Heat Geek for the clear worked example and the thought experiment!
 
 Thanks to https://www.degreedays.net/ for temperature data to support modelling!
