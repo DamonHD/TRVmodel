@@ -260,7 +260,7 @@ public final class HGTRVHPMModelParameterised
         // In the original ABAB arrangement there are two walls from each A room into B rooms.
         // In the alternate AABB arrangement there is one wall from each A room into a B room.
         // Thus AABB has half the internal heat loss of ABAB.
-        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *
+        final double IDWAabHLW = ((params.roomsAlternatingABAB()) ? 1 : 0.5) *
     		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
 
 		return(IDWAabHLW);
@@ -433,11 +433,11 @@ public final class HGTRVHPMModelParameterised
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
-     * @param keepAsBungalow  if true, compute as 4-room bungalow to cross-check with original calculation
+     * @param asBungalow  if true, compute as 4-room bungalow to cross-check with original calculation
      * @return  demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params,
-    		final boolean keepAsBungalow)
+    		final boolean asBungalow)
 	    {
     	Objects.requireNonNull(params);
 
@@ -450,10 +450,10 @@ public final class HGTRVHPMModelParameterised
     	final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;
 
     	// Number of rooms.
-    	final int numRooms = keepAsBungalow ? 4 : 8;
+    	final int numRooms = asBungalow ? 4 : 8;
 
     	// External wall area: as for bungalow in bungalow mode, else double.
-    	final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *
+    	final double extWallAreaM2 = (asBungalow ? 1 : 2) *
     			HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;
 
         // Wall heat loss per K temperature differential between inside and out.
@@ -478,7 +478,7 @@ public final class HGTRVHPMModelParameterised
     	// None if a bungalow or if AABB arrangement on both floors,
     	// ie no A and B share a ceiling/floor.
     	final double DIFAabHLW =
-			(keepAsBungalow || !params.roomsAlternatingABAB) ? 0 :
+			(asBungalow || !params.roomsAlternatingABAB) ? 0 :
 				ifHeatLossPerA2Storey(params);
         // All internal heat losses per A room (W).
     	final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;
