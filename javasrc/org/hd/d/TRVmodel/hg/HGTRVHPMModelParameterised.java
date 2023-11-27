@@ -261,7 +261,9 @@ public final class HGTRVHPMModelParameterised
         // In the alternate AABB arrangement there is one wall from each A room into a B room.
         // Thus AABB has half the internal heat loss of ABAB.
         final double IDWAabHLW = ((params.roomsAlternatingABAB()) ? 1 : 0.5) *
-    		IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);
+			(IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW));
+
+// DHD20231127: bug present in V0.9.4 ie missing brackets around wall and door terms // ((params.roomsAlternatingABAB()) ? 1 : 0.5) * /*(*/ IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW) /*)*/;
 
 		return(IDWAabHLW);
 	    }
