@@ -17,7 +17,7 @@ public final class HGTRVHPMModelExtensions
     /**TFA: approximate total floor area ignoring wall thickness (m^2). */
     public static final double HOME_TOTAL_FLOOR_AREA_M2 =
 		HGTRVHPMModelExtensions.PER_A_FLOOR_AREA_M2 * 4;
-    /**TRAL approximate total roof area ignoring wall thickness (m^2). */
+    /**TERA approximate total roof area ignoring wall thickness (m^2). */
     public static final double HOME_TOTAL_ROOF_AREA_M2 =
 		HOME_TOTAL_FLOOR_AREA_M2;
     /**TEWL: approximate external wall length (ignoring wall thickness (m). */
