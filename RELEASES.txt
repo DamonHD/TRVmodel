@@ -17,7 +17,7 @@ SIGNIFICANT CHANGES SINCE LAST RELEASE
 PENDING:
     DHD20231115: fixing comments including formulae variable names.
     DHD20231115: added (output) javadoc tree to repo.
-    DHD20231127: POTENTIAL bug fix in IWAabHLW calculation in iwHeatLossPerA().
+    DHD20231127: bug fix in IWAabHLW calculation in iwHeatLossPerA().
 
 
 
