@@ -101,7 +101,7 @@ public final class Main
         		switch(args[1])
         		{
         		case "summary": tableLaTeX = ShowComputations.generateLaTeXMainSummaryTable(true); break;
-//        		case "summarySoft": tableHTML = ShowComputations.generateHTMLMainSummaryTable(false); break;
+        		case "summarySoft": tableLaTeX = ShowComputations.generateLaTeXMainSummaryTable(false); break;
 //        		case "sagSoft": tableHTML = ShowComputations.generateHTMLSagTable(); break;
         		default:
         			System.err.println("unknown table: " + args[1]);
