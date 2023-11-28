@@ -1,10 +1,10 @@
 Show HG TRV/HP model computations.
-Date/time: Thu Sep 28 16:44:33 BST 2023
+Date/time: Mon Nov 27 16:40:39 GMT 2023
 
 Hardwired model, electricity demand normal / setback: 769W / 815W
 Parameterised model, all default parameters, electricity demand normal / setback: 769W / 815W
 Parameterised model, fixes applied for doors and CoP temperature, electricity demand normal / setback: 812W / 895W
-Parameterised model, fixes applied and AABB lower-loss arrangement, electricity demand normal / setback: 812W / 860W
+Parameterised model, fixes applied and AABB lower-loss arrangement, electricity demand normal / setback: 812W / 824W
 
 Parameterised model, fixes applied for doors and CoP temperature, external air temperature varied...
   ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-13.0], electricity demand normal / setback: 1386W / 1593W
@@ -67,8 +67,8 @@ Belfast (weather station at EGAA):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 940W, with setback 830W; -12% change with setback
-      Heat pump mean power: with no setback 324W, with setback 322W; -1% change with setback
-      Percentage of hours that room setback raises heat pump demand: 36%
+      Heat pump mean power: with no setback 324W, with setback 309W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 4%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -78,8 +78,8 @@ Belfast (weather station at EGAA):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1442W, with setback 1273W; -12% change with setback
-      Heat pump mean power: with no setback 469W, with setback 465W; -1% change with setback
-      Percentage of hours that room setback raises heat pump demand: 32%
+      Heat pump mean power: with no setback 469W, with setback 447W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 4%
 Manchester (weather station at EGCC):
   Archetype bungalow
     Layout ABAB
@@ -90,8 +90,8 @@ Manchester (weather station at EGCC):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 875W, with setback 772W; -12% change with setback
-      Heat pump mean power: with no setback 302W, with setback 300W; -1% change with setback
-      Percentage of hours that room setback raises heat pump demand: 33%
+      Heat pump mean power: with no setback 302W, with setback 288W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 5%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -101,8 +101,8 @@ Manchester (weather station at EGCC):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1344W, with setback 1186W; -12% change with setback
-      Heat pump mean power: with no setback 437W, with setback 433W; -1% change with setback
-      Percentage of hours that room setback raises heat pump demand: 29%
+      Heat pump mean power: with no setback 437W, with setback 417W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 4%
 Cardiff (weather station at EGFF):
   Archetype bungalow
     Layout ABAB
@@ -113,8 +113,8 @@ Cardiff (weather station at EGFF):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 800W, with setback 700W; -13% change with setback
-      Heat pump mean power: with no setback 271W, with setback 267W; -2% change with setback
-      Percentage of hours that room setback raises heat pump demand: 26%
+      Heat pump mean power: with no setback 271W, with setback 257W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 3%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -124,8 +124,8 @@ Cardiff (weather station at EGFF):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1229W, with setback 1075W; -13% change with setback
-      Heat pump mean power: with no setback 394W, with setback 388W; -2% change with setback
-      Percentage of hours that room setback raises heat pump demand: 22%
+      Heat pump mean power: with no setback 394W, with setback 373W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 2%
 London (weather station at EGLL):
   Archetype bungalow
     Layout ABAB
@@ -136,8 +136,8 @@ London (weather station at EGLL):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 743W, with setback 652W; -12% change with setback
-      Heat pump mean power: with no setback 253W, with setback 250W; -1% change with setback
-      Percentage of hours that room setback raises heat pump demand: 26%
+      Heat pump mean power: with no setback 253W, with setback 240W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 3%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -147,8 +147,8 @@ London (weather station at EGLL):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1140W, with setback 1000W; -12% change with setback
-      Heat pump mean power: with no setback 368W, with setback 363W; -1% change with setback
-      Percentage of hours that room setback raises heat pump demand: 22%
+      Heat pump mean power: with no setback 368W, with setback 349W; -5% change with setback
+      Percentage of hours that room setback raises heat pump demand: 3%
 Newcastle (weather station at EGNT):
   Archetype bungalow
     Layout ABAB
@@ -159,8 +159,8 @@ Newcastle (weather station at EGNT):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 954W, with setback 846W; -11% change with setback
-      Heat pump mean power: with no setback 331W, with setback 331W; -0% change with setback
-      Percentage of hours that room setback raises heat pump demand: 39%
+      Heat pump mean power: with no setback 331W, with setback 318W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 6%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -170,8 +170,8 @@ Newcastle (weather station at EGNT):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1465W, with setback 1298W; -11% change with setback
-      Heat pump mean power: with no setback 479W, with setback 477W; -0% change with setback
-      Percentage of hours that room setback raises heat pump demand: 35%
+      Heat pump mean power: with no setback 479W, with setback 458W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 5%
 Glasgow (weather station at EGPF):
   Archetype bungalow
     Layout ABAB
@@ -182,8 +182,8 @@ Glasgow (weather station at EGPF):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 954W, with setback 845W; -11% change with setback
-      Heat pump mean power: with no setback 332W, with setback 331W; -0% change with setback
-      Percentage of hours that room setback raises heat pump demand: 37%
+      Heat pump mean power: with no setback 332W, with setback 318W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 6%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -193,8 +193,8 @@ Glasgow (weather station at EGPF):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1465W, with setback 1297W; -11% change with setback
-      Heat pump mean power: with no setback 479W, with setback 477W; -0% change with setback
-      Percentage of hours that room setback raises heat pump demand: 33%
+      Heat pump mean power: with no setback 479W, with setback 459W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 6%
 Edinburgh (weather station at EGPH):
   Archetype bungalow
     Layout ABAB
@@ -205,8 +205,8 @@ Edinburgh (weather station at EGPH):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 970W, with setback 859W; -11% change with setback
-      Heat pump mean power: with no setback 337W, with setback 337W; -0% change with setback
-      Percentage of hours that room setback raises heat pump demand: 38%
+      Heat pump mean power: with no setback 337W, with setback 323W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 6%
   Archetype detached
     Layout ABAB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=true, externalAirTemperatureC=-3.0]
@@ -216,8 +216,8 @@ Edinburgh (weather station at EGPH):
     Layout AABB
       Scenario base model parameters: ModelParameters[doorsPerInternalWall=1.0, correctCoPForFlowVsMW=true, roomsAlternatingABAB=false, externalAirTemperatureC=-3.0]
       Heat mean demand: with no setback 1488W, with setback 1319W; -11% change with setback
-      Heat pump mean power: with no setback 487W, with setback 485W; -0% change with setback
-      Percentage of hours that room setback raises heat pump demand: 35%
+      Heat pump mean power: with no setback 487W, with setback 466W; -4% change with setback
+      Percentage of hours that room setback raises heat pump demand: 5%
 
 Original conditions, bungalow demand, with 'stiff' A-room temperature regulation:
   Heat mean demand: with no setback 2000W, with setback 1875W; -6% change with setback
@@ -240,10 +240,10 @@ Layout ABAB
   Heat mean demand: with no setback 719W, with setback 590W; -18.0% change with setback
   Heat pump mean power: with no setback 246W, with setback 203W; -17.6% change with setback
 Layout AABB
-  Minimum A-room temperature 19.6C
+  Minimum A-room temperature 19.9C
   Percentage of hours that room setback raises heat pump demand: 0.0%
-  Heat mean demand: with no setback 719W, with setback 596W; -17.2% change with setback
-  Heat pump mean power: with no setback 246W, with setback 205W; -16.8% change with setback
+  Heat mean demand: with no setback 719W, with setback 604W; -16.0% change with setback
+  Heat pump mean power: with no setback 246W, with setback 208W; -15.7% change with setback
 
 Parameterised model, bungalow, soft A temperature regulation, fixes applied for doors and CoP temperature, external air temperature varied...
   temperature sag 1.4K @ -13.0C
