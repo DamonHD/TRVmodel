@@ -66,7 +66,7 @@ public final class HGTRVHPMModel
     /**HLDT: design temperature (cold winter day) for heat loss calculations (Kelvin). */
     public static final double HOME_HEAT_LOSS_DESIGN_TEMPERATURE_DELTA_K =
 		(NORMAL_ROOM_TEMPERATURE_C - EXTERNAL_AIR_TEMPERATURE_C);
-    /**hlW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
+    /**HLW: (Flow Temperature, step 1) heat loss with all rooms at normal internal temperature (W). */
     public static final double HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W = 2000;
     /**radW: pre-setback radiator output (W). */
     public static final double RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W = 500;
