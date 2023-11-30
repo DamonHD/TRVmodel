@@ -677,8 +677,9 @@ public final class HGTRVHPMModelParameterised
         		VradWAsb - VAHLW;
 //System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
-            // Abort when A-room gains fail to meet (or exceed) losses,
-			// thus returning (conservative, near) equilibrium values from previous step.
+            // Stop when A-room gains exceed losses,
+			// thus returning (conservative, near) equilibrium values
+            // from the previous step.
 			if(VAHLerrW < 0)
 				{ break; }
 
