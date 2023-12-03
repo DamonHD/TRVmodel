@@ -114,7 +114,7 @@
 <span class="source-line-no">101</span><span id="line-101">                        switch(args[1])</span>
 <span class="source-line-no">102</span><span id="line-102">                        {</span>
 <span class="source-line-no">103</span><span id="line-103">                        case "summary": tableLaTeX = ShowComputations.generateLaTeXMainSummaryTable(true); break;</span>
-<span class="source-line-no">104</span><span id="line-104">//                      case "summarySoft": tableHTML = ShowComputations.generateHTMLMainSummaryTable(false); break;</span>
+<span class="source-line-no">104</span><span id="line-104">                        case "summarySoft": tableLaTeX = ShowComputations.generateLaTeXMainSummaryTable(false); break;</span>
 <span class="source-line-no">105</span><span id="line-105">//                      case "sagSoft": tableHTML = ShowComputations.generateHTMLSagTable(); break;</span>
 <span class="source-line-no">106</span><span id="line-106">                        default:</span>
 <span class="source-line-no">107</span><span id="line-107">                                System.err.println("unknown table: " + args[1]);</span>

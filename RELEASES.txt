@@ -30,6 +30,17 @@ SIGNIFICANT RELEASES (newest first)
 ===================================
 
 
+20231203:
+    freezepoint name: V0.9.5
+    branch name: HEAD
+    Deployed where: https://zenodo.org/doi/10.5281/zenodo.XXX
+    Changes since last freezepoint (developer/mgr initials and brief description):
+    Previous significant freezepoint: V0.9.4
+    DHD20231115: fixing comments including formulae variable names.
+    DHD20231115: added (output) javadoc tree to repo.
+    DHD20231127: bug fix in IWAabHLW calculation in iwHeatLossPerA().
+
+
 20231112:
     freezepoint name: V0.9.4
     branch name: HEAD

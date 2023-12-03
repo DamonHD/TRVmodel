@@ -273,455 +273,458 @@
 <span class="source-line-no">260</span><span id="line-260">        // In the original ABAB arrangement there are two walls from each A room into B rooms.</span>
 <span class="source-line-no">261</span><span id="line-261">        // In the alternate AABB arrangement there is one wall from each A room into a B room.</span>
 <span class="source-line-no">262</span><span id="line-262">        // Thus AABB has half the internal heat loss of ABAB.</span>
-<span class="source-line-no">263</span><span id="line-263">        final double IDWAabHLW = ((params.roomsAlternatingABAB) ? 1 : 0.5) *</span>
-<span class="source-line-no">264</span><span id="line-264">                IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW);</span>
+<span class="source-line-no">263</span><span id="line-263">        final double IDWAabHLW = ((params.roomsAlternatingABAB()) ? 1 : 0.5) *</span>
+<span class="source-line-no">264</span><span id="line-264">                        (IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW));</span>
 <span class="source-line-no">265</span><span id="line-265"></span>
-<span class="source-line-no">266</span><span id="line-266">                return(IDWAabHLW);</span>
-<span class="source-line-no">267</span><span id="line-267">            }</span>
-<span class="source-line-no">268</span><span id="line-268"></span>
-<span class="source-line-no">269</span><span id="line-269">    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.</span>
-<span class="source-line-no">270</span><span id="line-270">     * Only applies when a B room is directly above or below.</span>
-<span class="source-line-no">271</span><span id="line-271">     * &lt;p&gt;</span>
-<span class="source-line-no">272</span><span id="line-272">     * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)</span>
-<span class="source-line-no">273</span><span id="line-273">     * each A room will lose each &lt;em&gt;either&lt;/em&gt; to a B room below or above (not both).</span>
-<span class="source-line-no">274</span><span id="line-274">     * Heat loss in each direction (up or down) is treated as the same.</span>
-<span class="source-line-no">275</span><span id="line-275">     * &lt;p&gt;</span>
-<span class="source-line-no">276</span><span id="line-276">     * Assumes that A room is at 'normal' temperature and B room is at setback temperature.</span>
-<span class="source-line-no">277</span><span id="line-277">     *</span>
-<span class="source-line-no">278</span><span id="line-278">     * @param params  model parameters; non-null</span>
-<span class="source-line-no">279</span><span id="line-279">     */</span>
-<span class="source-line-no">280</span><span id="line-280">        private static double ifHeatLossPerA2Storey(final ModelParameters params)</span>
-<span class="source-line-no">281</span><span id="line-281">                {</span>
-<span class="source-line-no">282</span><span id="line-282">                return(ifHeatLossPerA2Storey(params, HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));</span>
-<span class="source-line-no">283</span><span id="line-283">                }</span>
-<span class="source-line-no">284</span><span id="line-284"></span>
-<span class="source-line-no">285</span><span id="line-285">    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.</span>
-<span class="source-line-no">286</span><span id="line-286">     * Only applies when a B room is directly above or below.</span>
-<span class="source-line-no">287</span><span id="line-287">     * &lt;p&gt;</span>
-<span class="source-line-no">288</span><span id="line-288">     * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)</span>
-<span class="source-line-no">289</span><span id="line-289">     * each A room will lose each &lt;em&gt;either&lt;/em&gt; to a B room below or above (not both).</span>
-<span class="source-line-no">290</span><span id="line-290">     * Heat loss in each direction (up or down) is treated as the same.</span>
-<span class="source-line-no">291</span><span id="line-291">     *</span>
-<span class="source-line-no">292</span><span id="line-292">     * @param params  model parameters; non-null</span>
-<span class="source-line-no">293</span><span id="line-293">     * @param tempA  temperature of A room, must be no lower than B room setback.</span>
-<span class="source-line-no">294</span><span id="line-294">     */</span>
-<span class="source-line-no">295</span><span id="line-295">        private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)</span>
-<span class="source-line-no">296</span><span id="line-296">                {</span>
-<span class="source-line-no">297</span><span id="line-297">                if(!(tempA &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException("A must be warmer than B"); }</span>
-<span class="source-line-no">298</span><span id="line-298"></span>
-<span class="source-line-no">299</span><span id="line-299">                if(!params.roomsAlternatingABAB) { return(0); }</span>
+<span class="source-line-no">266</span><span id="line-266">// DHD20231127: bug present in V0.9.4 ie missing brackets around wall and door terms // ((params.roomsAlternatingABAB()) ? 1 : 0.5) * /*(*/ IWAabHLW + (2 * params.doorsPerInternalWall() * IDAabHLW) /*)*/;</span>
+<span class="source-line-no">267</span><span id="line-267"></span>
+<span class="source-line-no">268</span><span id="line-268">                return(IDWAabHLW);</span>
+<span class="source-line-no">269</span><span id="line-269">            }</span>
+<span class="source-line-no">270</span><span id="line-270"></span>
+<span class="source-line-no">271</span><span id="line-271">    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.</span>
+<span class="source-line-no">272</span><span id="line-272">     * Only applies when a B room is directly above or below.</span>
+<span class="source-line-no">273</span><span id="line-273">     * &lt;p&gt;</span>
+<span class="source-line-no">274</span><span id="line-274">     * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)</span>
+<span class="source-line-no">275</span><span id="line-275">     * each A room will lose each &lt;em&gt;either&lt;/em&gt; to a B room below or above (not both).</span>
+<span class="source-line-no">276</span><span id="line-276">     * Heat loss in each direction (up or down) is treated as the same.</span>
+<span class="source-line-no">277</span><span id="line-277">     * &lt;p&gt;</span>
+<span class="source-line-no">278</span><span id="line-278">     * Assumes that A room is at 'normal' temperature and B room is at setback temperature.</span>
+<span class="source-line-no">279</span><span id="line-279">     *</span>
+<span class="source-line-no">280</span><span id="line-280">     * @param params  model parameters; non-null</span>
+<span class="source-line-no">281</span><span id="line-281">     */</span>
+<span class="source-line-no">282</span><span id="line-282">        private static double ifHeatLossPerA2Storey(final ModelParameters params)</span>
+<span class="source-line-no">283</span><span id="line-283">                {</span>
+<span class="source-line-no">284</span><span id="line-284">                return(ifHeatLossPerA2Storey(params, HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C));</span>
+<span class="source-line-no">285</span><span id="line-285">                }</span>
+<span class="source-line-no">286</span><span id="line-286"></span>
+<span class="source-line-no">287</span><span id="line-287">    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.</span>
+<span class="source-line-no">288</span><span id="line-288">     * Only applies when a B room is directly above or below.</span>
+<span class="source-line-no">289</span><span id="line-289">     * &lt;p&gt;</span>
+<span class="source-line-no">290</span><span id="line-290">     * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)</span>
+<span class="source-line-no">291</span><span id="line-291">     * each A room will lose each &lt;em&gt;either&lt;/em&gt; to a B room below or above (not both).</span>
+<span class="source-line-no">292</span><span id="line-292">     * Heat loss in each direction (up or down) is treated as the same.</span>
+<span class="source-line-no">293</span><span id="line-293">     *</span>
+<span class="source-line-no">294</span><span id="line-294">     * @param params  model parameters; non-null</span>
+<span class="source-line-no">295</span><span id="line-295">     * @param tempA  temperature of A room, must be no lower than B room setback.</span>
+<span class="source-line-no">296</span><span id="line-296">     */</span>
+<span class="source-line-no">297</span><span id="line-297">        private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)</span>
+<span class="source-line-no">298</span><span id="line-298">                {</span>
+<span class="source-line-no">299</span><span id="line-299">                if(!(tempA &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)) { throw new IllegalArgumentException("A must be warmer than B"); }</span>
 <span class="source-line-no">300</span><span id="line-300"></span>
-<span class="source-line-no">301</span><span id="line-301">        // IFAabHL: internal floor/ceiling heat loss per Kelvin (W/K).</span>
-<span class="source-line-no">302</span><span id="line-302">        final double IFAabHL =</span>
-<span class="source-line-no">303</span><span id="line-303">                HGTRVHPMModelExtensions.PER_A_FLOOR_AREA_M2 * HGTRVHPMModelExtensions.INTERNAL_FLOOR_U_WpM2K;</span>
-<span class="source-line-no">304</span><span id="line-304"></span>
-<span class="source-line-no">305</span><span id="line-305">        // IFAabHLW: internal floor/ceiling heat loss per A room (W).</span>
-<span class="source-line-no">306</span><span id="line-306">        final double IFAabHLW =</span>
-<span class="source-line-no">307</span><span id="line-307">                IFAabHL *</span>
-<span class="source-line-no">308</span><span id="line-308">                        (tempA - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);</span>
-<span class="source-line-no">309</span><span id="line-309"></span>
-<span class="source-line-no">310</span><span id="line-310">                return(IFAabHLW);</span>
-<span class="source-line-no">311</span><span id="line-311">                }</span>
-<span class="source-line-no">312</span><span id="line-312"></span>
-<span class="source-line-no">313</span><span id="line-313">        /**Compute radiator mean water temperature in each A room when B is NOT set back (C).</span>
-<span class="source-line-no">314</span><span id="line-314">         * Extension to heat loss 2 to allow for varying external temperatures.</span>
-<span class="source-line-no">315</span><span id="line-315">         * &lt;p&gt;</span>
-<span class="source-line-no">316</span><span id="line-316">         * This is in fact the MW temperature for all room radiators when there are no setbacks.</span>
-<span class="source-line-no">317</span><span id="line-317">         *</span>
-<span class="source-line-no">318</span><span id="line-318">         * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)</span>
-<span class="source-line-no">319</span><span id="line-319">         * @return (radAnsbMW) radiator mean water temperature in each A room when B is NOT set back (C)</span>
-<span class="source-line-no">320</span><span id="line-320">         */</span>
-<span class="source-line-no">321</span><span id="line-321">        public static double nsbAMW(final double radWnsb)</span>
-<span class="source-line-no">322</span><span id="line-322">                {</span>
-<span class="source-line-no">323</span><span id="line-323">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
-<span class="source-line-no">324</span><span id="line-324">        // Compute, for when B rooms are not set back:</span>
-<span class="source-line-no">325</span><span id="line-325">        //   * the needed power for each A radiator</span>
-<span class="source-line-no">326</span><span id="line-326">        //   * thus the implied radiator mean water temperature</span>
-<span class="source-line-no">327</span><span id="line-327">                //</span>
-<span class="source-line-no">328</span><span id="line-328">                // This then allows computing:</span>
-<span class="source-line-no">329</span><span id="line-329">        //   * the CoP</span>
-<span class="source-line-no">330</span><span id="line-330">        //   * the heat-pump electricity demand</span>
-<span class="source-line-no">331</span><span id="line-331">        //</span>
-<span class="source-line-no">332</span><span id="line-332">        // Replaces the simple calc;</span>
-<span class="source-line-no">333</span><span id="line-333">//     final double radAMW =</span>
-<span class="source-line-no">334</span><span id="line-334">//         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;</span>
-<span class="source-line-no">335</span><span id="line-335">        //</span>
-<span class="source-line-no">336</span><span id="line-336">        // radWAnsbmult: (Heat Loss 2.1) radiator output (possibly &lt; 1) multiplier in each A room when B is not setback.</span>
-<span class="source-line-no">337</span><span id="line-337">        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)</span>
-<span class="source-line-no">338</span><span id="line-338">        final double radWAnsbmult =</span>
-<span class="source-line-no">339</span><span id="line-339">                radWnsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;</span>
-<span class="source-line-no">340</span><span id="line-340">//System.out.println(String.format("radWAnsbmult = %f", radWAnsbmult));</span>
-<span class="source-line-no">341</span><span id="line-341"></span>
-<span class="source-line-no">342</span><span id="line-342">                // radAnsbdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.</span>
-<span class="source-line-no">343</span><span id="line-343">                final double radAnsbdTmult =</span>
-<span class="source-line-no">344</span><span id="line-344">                        Math.pow(radWAnsbmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);</span>
-<span class="source-line-no">345</span><span id="line-345">                // radAnsbdT: radiator MW-AT delta-T in each A room when B NOT setback (K).</span>
-<span class="source-line-no">346</span><span id="line-346">                final double radAnsbdT =</span>
-<span class="source-line-no">347</span><span id="line-347">                        HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAnsbdTmult;</span>
-<span class="source-line-no">348</span><span id="line-348">                // radAnsbMW: radiator mean water temperature in each A room when B NOT setback (C).</span>
-<span class="source-line-no">349</span><span id="line-349">                final double radAnsbMW =</span>
-<span class="source-line-no">350</span><span id="line-350">                        HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnsbdT;</span>
-<span class="source-line-no">351</span><span id="line-351">//System.out.println(String.format("radAnbsMW = %.1f", radAnbsMW));</span>
-<span class="source-line-no">352</span><span id="line-352">                return(radAnsbMW);</span>
-<span class="source-line-no">353</span><span id="line-353">                }</span>
-<span class="source-line-no">354</span><span id="line-354"></span>
-<span class="source-line-no">355</span><span id="line-355">    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W).</span>
-<span class="source-line-no">356</span><span id="line-356">     * The calculation uses constants from HGTRVHPMModel as far as possible,</span>
-<span class="source-line-no">357</span><span id="line-357">     * substituting in parameters and new calculation where needed.</span>
-<span class="source-line-no">358</span><span id="line-358">     *</span>
-<span class="source-line-no">359</span><span id="line-359">     * @param params  the variable model parameters</span>
-<span class="source-line-no">360</span><span id="line-360">     * @return  demand in watts, finite and non-negative</span>
-<span class="source-line-no">361</span><span id="line-361">     */</span>
-<span class="source-line-no">362</span><span id="line-362">    public static DemandWithoutAndWithSetback computeBungalowDemandW(final ModelParameters params)</span>
-<span class="source-line-no">363</span><span id="line-363">            {</span>
-<span class="source-line-no">364</span><span id="line-364">        Objects.requireNonNull(params);</span>
-<span class="source-line-no">365</span><span id="line-365"></span>
-<span class="source-line-no">366</span><span id="line-366"></span>
-<span class="source-line-no">367</span><span id="line-367">        // Do not allow model to be run with potentially implausible parameters.</span>
-<span class="source-line-no">368</span><span id="line-368">        if(params.externalAirTemperatureC &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)</span>
-<span class="source-line-no">369</span><span id="line-369">            { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }</span>
-<span class="source-line-no">370</span><span id="line-370"></span>
-<span class="source-line-no">371</span><span id="line-371"></span>
-<span class="source-line-no">372</span><span id="line-372">        // HHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).</span>
-<span class="source-line-no">373</span><span id="line-373">        final double HHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">374</span><span id="line-374">                        HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;</span>
-<span class="source-line-no">375</span><span id="line-375">        // HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).</span>
-<span class="source-line-no">376</span><span id="line-376">        final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">377</span><span id="line-377">                        HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;</span>
-<span class="source-line-no">378</span><span id="line-378">                // radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).</span>
-<span class="source-line-no">379</span><span id="line-379">        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)</span>
-<span class="source-line-no">380</span><span id="line-380">                final double radWnsb = HHLnsb / 4;</span>
-<span class="source-line-no">381</span><span id="line-381"></span>
-<span class="source-line-no">382</span><span id="line-382"></span>
-<span class="source-line-no">383</span><span id="line-383">        // HEAT LOSS 1</span>
-<span class="source-line-no">384</span><span id="line-384">                // Internal wall heat loss/transfer per A room (W).</span>
-<span class="source-line-no">385</span><span id="line-385">        final double IDWAabHLW = iwHeatLossPerA(params);</span>
-<span class="source-line-no">386</span><span id="line-386"></span>
-<span class="source-line-no">387</span><span id="line-387"></span>
-<span class="source-line-no">388</span><span id="line-388">        // HEAT LOSS 2</span>
-<span class="source-line-no">389</span><span id="line-389">        // radAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).</span>
-<span class="source-line-no">390</span><span id="line-390">        final double radAsbMW = sbAMW(HHLsb, radWnsb, IDWAabHLW);</span>
-<span class="source-line-no">391</span><span id="line-391">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
-<span class="source-line-no">392</span><span id="line-392">        final double radAnsbMW = nsbAMW(radWnsb);</span>
-<span class="source-line-no">393</span><span id="line-393"></span>
-<span class="source-line-no">394</span><span id="line-394"></span>
-<span class="source-line-no">395</span><span id="line-395">        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;</span>
+<span class="source-line-no">301</span><span id="line-301">                if(!params.roomsAlternatingABAB) { return(0); }</span>
+<span class="source-line-no">302</span><span id="line-302"></span>
+<span class="source-line-no">303</span><span id="line-303">        // IFAabHL: internal floor/ceiling heat loss per Kelvin (W/K).</span>
+<span class="source-line-no">304</span><span id="line-304">        final double IFAabHL =</span>
+<span class="source-line-no">305</span><span id="line-305">                HGTRVHPMModelExtensions.PER_A_FLOOR_AREA_M2 * HGTRVHPMModelExtensions.INTERNAL_FLOOR_U_WpM2K;</span>
+<span class="source-line-no">306</span><span id="line-306"></span>
+<span class="source-line-no">307</span><span id="line-307">        // IFAabHLW: internal floor/ceiling heat loss per A room (W).</span>
+<span class="source-line-no">308</span><span id="line-308">        final double IFAabHLW =</span>
+<span class="source-line-no">309</span><span id="line-309">                IFAabHL *</span>
+<span class="source-line-no">310</span><span id="line-310">                        (tempA - HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C);</span>
+<span class="source-line-no">311</span><span id="line-311"></span>
+<span class="source-line-no">312</span><span id="line-312">                return(IFAabHLW);</span>
+<span class="source-line-no">313</span><span id="line-313">                }</span>
+<span class="source-line-no">314</span><span id="line-314"></span>
+<span class="source-line-no">315</span><span id="line-315">        /**Compute radiator mean water temperature in each A room when B is NOT set back (C).</span>
+<span class="source-line-no">316</span><span id="line-316">         * Extension to heat loss 2 to allow for varying external temperatures.</span>
+<span class="source-line-no">317</span><span id="line-317">         * &lt;p&gt;</span>
+<span class="source-line-no">318</span><span id="line-318">         * This is in fact the MW temperature for all room radiators when there are no setbacks.</span>
+<span class="source-line-no">319</span><span id="line-319">         *</span>
+<span class="source-line-no">320</span><span id="line-320">         * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)</span>
+<span class="source-line-no">321</span><span id="line-321">         * @return (radAnsbMW) radiator mean water temperature in each A room when B is NOT set back (C)</span>
+<span class="source-line-no">322</span><span id="line-322">         */</span>
+<span class="source-line-no">323</span><span id="line-323">        public static double nsbAMW(final double radWnsb)</span>
+<span class="source-line-no">324</span><span id="line-324">                {</span>
+<span class="source-line-no">325</span><span id="line-325">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
+<span class="source-line-no">326</span><span id="line-326">        // Compute, for when B rooms are not set back:</span>
+<span class="source-line-no">327</span><span id="line-327">        //   * the needed power for each A radiator</span>
+<span class="source-line-no">328</span><span id="line-328">        //   * thus the implied radiator mean water temperature</span>
+<span class="source-line-no">329</span><span id="line-329">                //</span>
+<span class="source-line-no">330</span><span id="line-330">                // This then allows computing:</span>
+<span class="source-line-no">331</span><span id="line-331">        //   * the CoP</span>
+<span class="source-line-no">332</span><span id="line-332">        //   * the heat-pump electricity demand</span>
+<span class="source-line-no">333</span><span id="line-333">        //</span>
+<span class="source-line-no">334</span><span id="line-334">        // Replaces the simple calc;</span>
+<span class="source-line-no">335</span><span id="line-335">//     final double radAMW =</span>
+<span class="source-line-no">336</span><span id="line-336">//         HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K;</span>
+<span class="source-line-no">337</span><span id="line-337">        //</span>
+<span class="source-line-no">338</span><span id="line-338">        // radWAnsbmult: (Heat Loss 2.1) radiator output (possibly &lt; 1) multiplier in each A room when B is not setback.</span>
+<span class="source-line-no">339</span><span id="line-339">        // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)</span>
+<span class="source-line-no">340</span><span id="line-340">        final double radWAnsbmult =</span>
+<span class="source-line-no">341</span><span id="line-341">                radWnsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;</span>
+<span class="source-line-no">342</span><span id="line-342">//System.out.println(String.format("radWAnsbmult = %f", radWAnsbmult));</span>
+<span class="source-line-no">343</span><span id="line-343"></span>
+<span class="source-line-no">344</span><span id="line-344">                // radAnsbdTmult: radiator MW-AT delta-T multiplier in each A room when B NOT setback.</span>
+<span class="source-line-no">345</span><span id="line-345">                final double radAnsbdTmult =</span>
+<span class="source-line-no">346</span><span id="line-346">                        Math.pow(radWAnsbmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);</span>
+<span class="source-line-no">347</span><span id="line-347">                // radAnsbdT: radiator MW-AT delta-T in each A room when B NOT setback (K).</span>
+<span class="source-line-no">348</span><span id="line-348">                final double radAnsbdT =</span>
+<span class="source-line-no">349</span><span id="line-349">                        HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAnsbdTmult;</span>
+<span class="source-line-no">350</span><span id="line-350">                // radAnsbMW: radiator mean water temperature in each A room when B NOT setback (C).</span>
+<span class="source-line-no">351</span><span id="line-351">                final double radAnsbMW =</span>
+<span class="source-line-no">352</span><span id="line-352">                        HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnsbdT;</span>
+<span class="source-line-no">353</span><span id="line-353">//System.out.println(String.format("radAnbsMW = %.1f", radAnbsMW));</span>
+<span class="source-line-no">354</span><span id="line-354">                return(radAnsbMW);</span>
+<span class="source-line-no">355</span><span id="line-355">                }</span>
+<span class="source-line-no">356</span><span id="line-356"></span>
+<span class="source-line-no">357</span><span id="line-357">    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W).</span>
+<span class="source-line-no">358</span><span id="line-358">     * The calculation uses constants from HGTRVHPMModel as far as possible,</span>
+<span class="source-line-no">359</span><span id="line-359">     * substituting in parameters and new calculation where needed.</span>
+<span class="source-line-no">360</span><span id="line-360">     *</span>
+<span class="source-line-no">361</span><span id="line-361">     * @param params  the variable model parameters</span>
+<span class="source-line-no">362</span><span id="line-362">     * @return  demand in watts, finite and non-negative</span>
+<span class="source-line-no">363</span><span id="line-363">     */</span>
+<span class="source-line-no">364</span><span id="line-364">    public static DemandWithoutAndWithSetback computeBungalowDemandW(final ModelParameters params)</span>
+<span class="source-line-no">365</span><span id="line-365">            {</span>
+<span class="source-line-no">366</span><span id="line-366">        Objects.requireNonNull(params);</span>
+<span class="source-line-no">367</span><span id="line-367"></span>
+<span class="source-line-no">368</span><span id="line-368"></span>
+<span class="source-line-no">369</span><span id="line-369">        // Do not allow model to be run with potentially implausible parameters.</span>
+<span class="source-line-no">370</span><span id="line-370">        if(params.externalAirTemperatureC &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)</span>
+<span class="source-line-no">371</span><span id="line-371">            { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }</span>
+<span class="source-line-no">372</span><span id="line-372"></span>
+<span class="source-line-no">373</span><span id="line-373"></span>
+<span class="source-line-no">374</span><span id="line-374">        // HHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).</span>
+<span class="source-line-no">375</span><span id="line-375">        final double HHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">376</span><span id="line-376">                        HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;</span>
+<span class="source-line-no">377</span><span id="line-377">        // HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).</span>
+<span class="source-line-no">378</span><span id="line-378">        final double HHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">379</span><span id="line-379">                        HGTRVHPMModel.HOME_HEAT_LOSS_PER_KELVIN_WpK;</span>
+<span class="source-line-no">380</span><span id="line-380">                // radWnbs: (Flow Temperature, step 1) pre-setback radiator output based on variable external air temperature (W).</span>
+<span class="source-line-no">381</span><span id="line-381">        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)</span>
+<span class="source-line-no">382</span><span id="line-382">                final double radWnsb = HHLnsb / 4;</span>
+<span class="source-line-no">383</span><span id="line-383"></span>
+<span class="source-line-no">384</span><span id="line-384"></span>
+<span class="source-line-no">385</span><span id="line-385">        // HEAT LOSS 1</span>
+<span class="source-line-no">386</span><span id="line-386">                // Internal wall heat loss/transfer per A room (W).</span>
+<span class="source-line-no">387</span><span id="line-387">        final double IDWAabHLW = iwHeatLossPerA(params);</span>
+<span class="source-line-no">388</span><span id="line-388"></span>
+<span class="source-line-no">389</span><span id="line-389"></span>
+<span class="source-line-no">390</span><span id="line-390">        // HEAT LOSS 2</span>
+<span class="source-line-no">391</span><span id="line-391">        // radAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).</span>
+<span class="source-line-no">392</span><span id="line-392">        final double radAsbMW = sbAMW(HHLsb, radWnsb, IDWAabHLW);</span>
+<span class="source-line-no">393</span><span id="line-393">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
+<span class="source-line-no">394</span><span id="line-394">        final double radAnsbMW = nsbAMW(radWnsb);</span>
+<span class="source-line-no">395</span><span id="line-395"></span>
 <span class="source-line-no">396</span><span id="line-396"></span>
-<span class="source-line-no">397</span><span id="line-397">                // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
-<span class="source-line-no">398</span><span id="line-398">        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)</span>
-<span class="source-line-no">399</span><span id="line-399">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
-<span class="source-line-no">400</span><span id="line-400">        final double CoPnsb = computeFlowCoP(radAnsbMW + CoPCorrectionK);</span>
-<span class="source-line-no">401</span><span id="line-401">//System.out.println(String.format("CoPnsb = %f", CoPnsb));</span>
-<span class="source-line-no">402</span><span id="line-402">        final double HPinWnsb =</span>
-<span class="source-line-no">403</span><span id="line-403">                HHLnsb / CoPnsb;</span>
-<span class="source-line-no">404</span><span id="line-404"></span>
-<span class="source-line-no">405</span><span id="line-405">                // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).</span>
-<span class="source-line-no">406</span><span id="line-406">        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)</span>
-<span class="source-line-no">407</span><span id="line-407">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
-<span class="source-line-no">408</span><span id="line-408">        final double CoPsb = computeFlowCoP(radAsbMW + CoPCorrectionK);</span>
-<span class="source-line-no">409</span><span id="line-409">//System.out.println(String.format("CoPsb = %f", CoPsb));</span>
-<span class="source-line-no">410</span><span id="line-410">        final double HPinWsb =</span>
-<span class="source-line-no">411</span><span id="line-411">                HHLsb / CoPsb;</span>
-<span class="source-line-no">412</span><span id="line-412"></span>
-<span class="source-line-no">413</span><span id="line-413"></span>
-<span class="source-line-no">414</span><span id="line-414">        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(HHLnsb, HPinWnsb);</span>
-<span class="source-line-no">415</span><span id="line-415">        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(HHLsb, HPinWsb);</span>
-<span class="source-line-no">416</span><span id="line-416"></span>
-<span class="source-line-no">417</span><span id="line-417">        // Return everything at once.</span>
-<span class="source-line-no">418</span><span id="line-418">        return(new DemandWithoutAndWithSetback(noSetback, withSetback));</span>
-<span class="source-line-no">419</span><span id="line-419">            }</span>
-<span class="source-line-no">420</span><span id="line-420"></span>
-<span class="source-line-no">421</span><span id="line-421">    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).</span>
-<span class="source-line-no">422</span><span id="line-422">     * The calculation uses constants from HGTRVHPMModel as far as possible,</span>
-<span class="source-line-no">423</span><span id="line-423">     * substituting in parameters and new calculation where needed.</span>
-<span class="source-line-no">424</span><span id="line-424">     *</span>
-<span class="source-line-no">425</span><span id="line-425">     * @param params  the variable model parameters</span>
-<span class="source-line-no">426</span><span id="line-426">     * @return  demand in watts, finite and non-negative</span>
-<span class="source-line-no">427</span><span id="line-427">     */</span>
-<span class="source-line-no">428</span><span id="line-428">    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)</span>
-<span class="source-line-no">429</span><span id="line-429">        { return(computeDetachedDemandW(params, false)); }</span>
-<span class="source-line-no">430</span><span id="line-430"></span>
-<span class="source-line-no">431</span><span id="line-431">    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).</span>
-<span class="source-line-no">432</span><span id="line-432">     * The calculation uses constants from HGTRVHPMModel as far as possible,</span>
-<span class="source-line-no">433</span><span id="line-433">     * substituting in parameters and new calculation where needed.</span>
-<span class="source-line-no">434</span><span id="line-434">     *</span>
-<span class="source-line-no">435</span><span id="line-435">     * @param params  the variable model parameters</span>
-<span class="source-line-no">436</span><span id="line-436">     * @param keepAsBungalow  if true, compute as 4-room bungalow to cross-check with original calculation</span>
-<span class="source-line-no">437</span><span id="line-437">     * @return  demand in watts, finite and non-negative</span>
-<span class="source-line-no">438</span><span id="line-438">     */</span>
-<span class="source-line-no">439</span><span id="line-439">    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params,</span>
-<span class="source-line-no">440</span><span id="line-440">                final boolean keepAsBungalow)</span>
-<span class="source-line-no">441</span><span id="line-441">            {</span>
-<span class="source-line-no">442</span><span id="line-442">        Objects.requireNonNull(params);</span>
-<span class="source-line-no">443</span><span id="line-443"></span>
-<span class="source-line-no">444</span><span id="line-444">        // Do not allow model to be run with potentially implausible parameters.</span>
-<span class="source-line-no">445</span><span id="line-445">        if(params.externalAirTemperatureC &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)</span>
-<span class="source-line-no">446</span><span id="line-446">            { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }</span>
-<span class="source-line-no">447</span><span id="line-447"></span>
-<span class="source-line-no">448</span><span id="line-448"></span>
-<span class="source-line-no">449</span><span id="line-449">        // Roof area: as for bungalow.</span>
-<span class="source-line-no">450</span><span id="line-450">        final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;</span>
-<span class="source-line-no">451</span><span id="line-451"></span>
-<span class="source-line-no">452</span><span id="line-452">        // Number of rooms.</span>
-<span class="source-line-no">453</span><span id="line-453">        final int numRooms = keepAsBungalow ? 4 : 8;</span>
-<span class="source-line-no">454</span><span id="line-454"></span>
-<span class="source-line-no">455</span><span id="line-455">        // External wall area: as for bungalow in bungalow mode, else double.</span>
-<span class="source-line-no">456</span><span id="line-456">        final double extWallAreaM2 = (keepAsBungalow ? 1 : 2) *</span>
-<span class="source-line-no">457</span><span id="line-457">                        HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;</span>
-<span class="source-line-no">458</span><span id="line-458"></span>
-<span class="source-line-no">459</span><span id="line-459">        // Wall heat loss per K temperature differential between inside and out.</span>
-<span class="source-line-no">460</span><span id="line-460">        final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *</span>
-<span class="source-line-no">461</span><span id="line-461">                        HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;</span>
-<span class="source-line-no">462</span><span id="line-462"></span>
-<span class="source-line-no">463</span><span id="line-463">        // DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).</span>
-<span class="source-line-no">464</span><span id="line-464">        final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">465</span><span id="line-465">                        homeHeatLossPerK;</span>
-<span class="source-line-no">466</span><span id="line-466">        // HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).</span>
-<span class="source-line-no">467</span><span id="line-467">        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">468</span><span id="line-468">                        homeHeatLossPerK;</span>
-<span class="source-line-no">469</span><span id="line-469">        // DradWnsb: pre-setback radiator output based on variable external air temperature (W).</span>
-<span class="source-line-no">470</span><span id="line-470">        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)</span>
-<span class="source-line-no">471</span><span id="line-471">                final double DradWnsb = DHHLnsb / numRooms;</span>
-<span class="source-line-no">472</span><span id="line-472">//System.out.println(String.format("DradWnsb = %f", DradWnsb));</span>
-<span class="source-line-no">473</span><span id="line-473"></span>
-<span class="source-line-no">474</span><span id="line-474">                // HEAT LOSS 1</span>
-<span class="source-line-no">475</span><span id="line-475">                // Internal wall heat loss/transfer per A room (W).</span>
-<span class="source-line-no">476</span><span id="line-476">        final double DIWAabHLW = iwHeatLossPerA(params);</span>
-<span class="source-line-no">477</span><span id="line-477">                // Internal floor/ceiling heat loss/transfer per A room (W).</span>
-<span class="source-line-no">478</span><span id="line-478">        // None if a bungalow or if AABB arrangement on both floors,</span>
-<span class="source-line-no">479</span><span id="line-479">        // ie no A and B share a ceiling/floor.</span>
-<span class="source-line-no">480</span><span id="line-480">        final double DIFAabHLW =</span>
-<span class="source-line-no">481</span><span id="line-481">                        (keepAsBungalow || !params.roomsAlternatingABAB) ? 0 :</span>
-<span class="source-line-no">482</span><span id="line-482">                                ifHeatLossPerA2Storey(params);</span>
-<span class="source-line-no">483</span><span id="line-483">        // All internal heat losses per A room (W).</span>
-<span class="source-line-no">484</span><span id="line-484">        final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;</span>
-<span class="source-line-no">485</span><span id="line-485"></span>
-<span class="source-line-no">486</span><span id="line-486"></span>
-<span class="source-line-no">487</span><span id="line-487">        // HEAT LOSS 2</span>
-<span class="source-line-no">488</span><span id="line-488">        // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).</span>
-<span class="source-line-no">489</span><span id="line-489">        final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);</span>
-<span class="source-line-no">490</span><span id="line-490">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
-<span class="source-line-no">491</span><span id="line-491">                // MW temperature for all room radiators with no setbacks.</span>
-<span class="source-line-no">492</span><span id="line-492">        final double DradAnsbMW = nsbAMW(DradWnsb);</span>
-<span class="source-line-no">493</span><span id="line-493"></span>
-<span class="source-line-no">494</span><span id="line-494"></span>
-<span class="source-line-no">495</span><span id="line-495">        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;</span>
+<span class="source-line-no">397</span><span id="line-397">        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;</span>
+<span class="source-line-no">398</span><span id="line-398"></span>
+<span class="source-line-no">399</span><span id="line-399">                // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
+<span class="source-line-no">400</span><span id="line-400">        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)</span>
+<span class="source-line-no">401</span><span id="line-401">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
+<span class="source-line-no">402</span><span id="line-402">        final double CoPnsb = computeFlowCoP(radAnsbMW + CoPCorrectionK);</span>
+<span class="source-line-no">403</span><span id="line-403">//System.out.println(String.format("CoPnsb = %f", CoPnsb));</span>
+<span class="source-line-no">404</span><span id="line-404">        final double HPinWnsb =</span>
+<span class="source-line-no">405</span><span id="line-405">                HHLnsb / CoPnsb;</span>
+<span class="source-line-no">406</span><span id="line-406"></span>
+<span class="source-line-no">407</span><span id="line-407">                // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).</span>
+<span class="source-line-no">408</span><span id="line-408">        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)</span>
+<span class="source-line-no">409</span><span id="line-409">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
+<span class="source-line-no">410</span><span id="line-410">        final double CoPsb = computeFlowCoP(radAsbMW + CoPCorrectionK);</span>
+<span class="source-line-no">411</span><span id="line-411">//System.out.println(String.format("CoPsb = %f", CoPsb));</span>
+<span class="source-line-no">412</span><span id="line-412">        final double HPinWsb =</span>
+<span class="source-line-no">413</span><span id="line-413">                HHLsb / CoPsb;</span>
+<span class="source-line-no">414</span><span id="line-414"></span>
+<span class="source-line-no">415</span><span id="line-415"></span>
+<span class="source-line-no">416</span><span id="line-416">        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(HHLnsb, HPinWnsb);</span>
+<span class="source-line-no">417</span><span id="line-417">        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(HHLsb, HPinWsb);</span>
+<span class="source-line-no">418</span><span id="line-418"></span>
+<span class="source-line-no">419</span><span id="line-419">        // Return everything at once.</span>
+<span class="source-line-no">420</span><span id="line-420">        return(new DemandWithoutAndWithSetback(noSetback, withSetback));</span>
+<span class="source-line-no">421</span><span id="line-421">            }</span>
+<span class="source-line-no">422</span><span id="line-422"></span>
+<span class="source-line-no">423</span><span id="line-423">    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).</span>
+<span class="source-line-no">424</span><span id="line-424">     * The calculation uses constants from HGTRVHPMModel as far as possible,</span>
+<span class="source-line-no">425</span><span id="line-425">     * substituting in parameters and new calculation where needed.</span>
+<span class="source-line-no">426</span><span id="line-426">     *</span>
+<span class="source-line-no">427</span><span id="line-427">     * @param params  the variable model parameters</span>
+<span class="source-line-no">428</span><span id="line-428">     * @return  demand in watts, finite and non-negative</span>
+<span class="source-line-no">429</span><span id="line-429">     */</span>
+<span class="source-line-no">430</span><span id="line-430">    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)</span>
+<span class="source-line-no">431</span><span id="line-431">        { return(computeDetachedDemandW(params, false)); }</span>
+<span class="source-line-no">432</span><span id="line-432"></span>
+<span class="source-line-no">433</span><span id="line-433">    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).</span>
+<span class="source-line-no">434</span><span id="line-434">     * The calculation uses constants from HGTRVHPMModel as far as possible,</span>
+<span class="source-line-no">435</span><span id="line-435">     * substituting in parameters and new calculation where needed.</span>
+<span class="source-line-no">436</span><span id="line-436">     *</span>
+<span class="source-line-no">437</span><span id="line-437">     * @param params  the variable model parameters</span>
+<span class="source-line-no">438</span><span id="line-438">     * @param asBungalow  if true, compute as 4-room bungalow to cross-check with original calculation</span>
+<span class="source-line-no">439</span><span id="line-439">     * @return  demand in watts, finite and non-negative</span>
+<span class="source-line-no">440</span><span id="line-440">     */</span>
+<span class="source-line-no">441</span><span id="line-441">    public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params,</span>
+<span class="source-line-no">442</span><span id="line-442">                final boolean asBungalow)</span>
+<span class="source-line-no">443</span><span id="line-443">            {</span>
+<span class="source-line-no">444</span><span id="line-444">        Objects.requireNonNull(params);</span>
+<span class="source-line-no">445</span><span id="line-445"></span>
+<span class="source-line-no">446</span><span id="line-446">        // Do not allow model to be run with potentially implausible parameters.</span>
+<span class="source-line-no">447</span><span id="line-447">        if(params.externalAirTemperatureC &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)</span>
+<span class="source-line-no">448</span><span id="line-448">            { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }</span>
+<span class="source-line-no">449</span><span id="line-449"></span>
+<span class="source-line-no">450</span><span id="line-450"></span>
+<span class="source-line-no">451</span><span id="line-451">        // Roof area: as for bungalow.</span>
+<span class="source-line-no">452</span><span id="line-452">        final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;</span>
+<span class="source-line-no">453</span><span id="line-453"></span>
+<span class="source-line-no">454</span><span id="line-454">        // Number of rooms.</span>
+<span class="source-line-no">455</span><span id="line-455">        final int numRooms = asBungalow ? 4 : 8;</span>
+<span class="source-line-no">456</span><span id="line-456"></span>
+<span class="source-line-no">457</span><span id="line-457">        // External wall area: as for bungalow in bungalow mode, else double.</span>
+<span class="source-line-no">458</span><span id="line-458">        final double extWallAreaM2 = (asBungalow ? 1 : 2) *</span>
+<span class="source-line-no">459</span><span id="line-459">                        HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;</span>
+<span class="source-line-no">460</span><span id="line-460"></span>
+<span class="source-line-no">461</span><span id="line-461">        // Wall heat loss per K temperature differential between inside and out.</span>
+<span class="source-line-no">462</span><span id="line-462">        final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *</span>
+<span class="source-line-no">463</span><span id="line-463">                        HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;</span>
+<span class="source-line-no">464</span><span id="line-464"></span>
+<span class="source-line-no">465</span><span id="line-465">        // DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).</span>
+<span class="source-line-no">466</span><span id="line-466">        final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">467</span><span id="line-467">                        homeHeatLossPerK;</span>
+<span class="source-line-no">468</span><span id="line-468">        // HHLsb: whole home heat loss with B rooms setback and given external air temperature (W).</span>
+<span class="source-line-no">469</span><span id="line-469">        final double DHHLsb = (HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">470</span><span id="line-470">                        homeHeatLossPerK;</span>
+<span class="source-line-no">471</span><span id="line-471">        // DradWnsb: pre-setback radiator output based on variable external air temperature (W).</span>
+<span class="source-line-no">472</span><span id="line-472">        // (Was: RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W.)</span>
+<span class="source-line-no">473</span><span id="line-473">                final double DradWnsb = DHHLnsb / numRooms;</span>
+<span class="source-line-no">474</span><span id="line-474">//System.out.println(String.format("DradWnsb = %f", DradWnsb));</span>
+<span class="source-line-no">475</span><span id="line-475"></span>
+<span class="source-line-no">476</span><span id="line-476">                // HEAT LOSS 1</span>
+<span class="source-line-no">477</span><span id="line-477">                // Internal wall heat loss/transfer per A room (W).</span>
+<span class="source-line-no">478</span><span id="line-478">        final double DIWAabHLW = iwHeatLossPerA(params);</span>
+<span class="source-line-no">479</span><span id="line-479">                // Internal floor/ceiling heat loss/transfer per A room (W).</span>
+<span class="source-line-no">480</span><span id="line-480">        // None if a bungalow or if AABB arrangement on both floors,</span>
+<span class="source-line-no">481</span><span id="line-481">        // ie no A and B share a ceiling/floor.</span>
+<span class="source-line-no">482</span><span id="line-482">        final double DIFAabHLW =</span>
+<span class="source-line-no">483</span><span id="line-483">                        (asBungalow || !params.roomsAlternatingABAB) ? 0 :</span>
+<span class="source-line-no">484</span><span id="line-484">                                ifHeatLossPerA2Storey(params);</span>
+<span class="source-line-no">485</span><span id="line-485">        // All internal heat losses per A room (W).</span>
+<span class="source-line-no">486</span><span id="line-486">        final double DIFWAabHLW = DIWAabHLW + DIFAabHLW;</span>
+<span class="source-line-no">487</span><span id="line-487"></span>
+<span class="source-line-no">488</span><span id="line-488"></span>
+<span class="source-line-no">489</span><span id="line-489">        // HEAT LOSS 2</span>
+<span class="source-line-no">490</span><span id="line-490">        // DradAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).</span>
+<span class="source-line-no">491</span><span id="line-491">        final double DradAsbMW = sbAMW(DHHLsb, DradWnsb, DIFWAabHLW);</span>
+<span class="source-line-no">492</span><span id="line-492">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
+<span class="source-line-no">493</span><span id="line-493">                // MW temperature for all room radiators with no setbacks.</span>
+<span class="source-line-no">494</span><span id="line-494">        final double DradAnsbMW = nsbAMW(DradWnsb);</span>
+<span class="source-line-no">495</span><span id="line-495"></span>
 <span class="source-line-no">496</span><span id="line-496"></span>
-<span class="source-line-no">497</span><span id="line-497">                // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
-<span class="source-line-no">498</span><span id="line-498">        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)</span>
-<span class="source-line-no">499</span><span id="line-499">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
-<span class="source-line-no">500</span><span id="line-500">        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);</span>
-<span class="source-line-no">501</span><span id="line-501">//System.out.println(String.format("CoPnsb = %f", CoPnsb));</span>
-<span class="source-line-no">502</span><span id="line-502">        final double DHPinWnsb =</span>
-<span class="source-line-no">503</span><span id="line-503">                DHHLnsb / DCoPnsb;</span>
-<span class="source-line-no">504</span><span id="line-504"></span>
-<span class="source-line-no">505</span><span id="line-505">                // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).</span>
-<span class="source-line-no">506</span><span id="line-506">        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)</span>
-<span class="source-line-no">507</span><span id="line-507">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
-<span class="source-line-no">508</span><span id="line-508">        final double DCoPsb = computeFlowCoP(DradAsbMW + CoPCorrectionK);</span>
-<span class="source-line-no">509</span><span id="line-509">//System.out.println(String.format("CoPsb = %f", CoPsb));</span>
-<span class="source-line-no">510</span><span id="line-510">        final double DHPinWsb =</span>
-<span class="source-line-no">511</span><span id="line-511">                DHHLsb / DCoPsb;</span>
-<span class="source-line-no">512</span><span id="line-512"></span>
-<span class="source-line-no">513</span><span id="line-513"></span>
-<span class="source-line-no">514</span><span id="line-514">        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);</span>
-<span class="source-line-no">515</span><span id="line-515">        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, DHPinWsb);</span>
-<span class="source-line-no">516</span><span id="line-516"></span>
-<span class="source-line-no">517</span><span id="line-517">        // Return everything at once.</span>
-<span class="source-line-no">518</span><span id="line-518">        return(new DemandWithoutAndWithSetback(noSetback, withSetback));</span>
-<span class="source-line-no">519</span><span id="line-519">            }</span>
-<span class="source-line-no">520</span><span id="line-520"></span>
-<span class="source-line-no">521</span><span id="line-521"></span>
-<span class="source-line-no">522</span><span id="line-522">    /**Compute raw heat and heat-pump electricity demand with and without setback, for 'soft' A temperature regulation (W).</span>
-<span class="source-line-no">523</span><span id="line-523">     * This lets the A room temperature droop during B-room setback,</span>
-<span class="source-line-no">524</span><span id="line-524">     * and does not raise the flow temperature.</span>
-<span class="source-line-no">525</span><span id="line-525">     * &lt;p&gt;</span>
-<span class="source-line-no">526</span><span id="line-526">     * This assumes that:</span>
-<span class="source-line-no">527</span><span id="line-527">     * &lt;ul&gt;</span>
-<span class="source-line-no">528</span><span id="line-528">     * &lt;li&gt;B room temperatures (and A room temperatures) are 'normal' (21C) without setback.&lt;/li&gt;</span>
-<span class="source-line-no">529</span><span id="line-529">     * &lt;li&gt;B room temperatures are the expected 18C when set back.&lt;/li&gt;</span>
-<span class="source-line-no">530</span><span id="line-530">     * &lt;li&gt;Flow temperature is pinned during setback to the temperature</span>
-<span class="source-line-no">531</span><span id="line-531">     *     that maintained A and B rooms at 'normal' temperature without setback,</span>
-<span class="source-line-no">532</span><span id="line-532">     *     ie as if the flow temperature is entirely driven by external temperature</span>
-<span class="source-line-no">533</span><span id="line-533">     *     and thus weather compensation.&lt;/li&gt;</span>
-<span class="source-line-no">534</span><span id="line-534">     * &lt;/ul&gt;</span>
-<span class="source-line-no">535</span><span id="line-535">     * &lt;p&gt;</span>
-<span class="source-line-no">536</span><span id="line-536">     * Note: this does not allow for the temperature delta across the radiator rising,</span>
-<span class="source-line-no">537</span><span id="line-537">     * and thus the mean water (MW) temperature dropping further from the flow temperature,</span>
-<span class="source-line-no">538</span><span id="line-538">     * as more heat is drawn by an A room below 'normal' temperature.</span>
-<span class="source-line-no">539</span><span id="line-539">     *</span>
-<span class="source-line-no">540</span><span id="line-540">     * @param params  the variable model parameters</span>
-<span class="source-line-no">541</span><span id="line-541">     * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached</span>
-<span class="source-line-no">542</span><span id="line-542">     * @param equilibriumTemperature  if not null and not zero length,</span>
-<span class="source-line-no">543</span><span id="line-543">     *     used to return the A-room equilibrium temperature</span>
-<span class="source-line-no">544</span><span id="line-544">     * @return  demand in watts, finite and non-negative</span>
-<span class="source-line-no">545</span><span id="line-545">     */</span>
-<span class="source-line-no">546</span><span id="line-546">    public static DemandWithoutAndWithSetback computeSoftATempDemandW(final ModelParameters params,</span>
-<span class="source-line-no">547</span><span id="line-547">                final boolean bungalow,</span>
-<span class="source-line-no">548</span><span id="line-548">                final double[] equilibriumTemperature)</span>
-<span class="source-line-no">549</span><span id="line-549">            {</span>
-<span class="source-line-no">550</span><span id="line-550">        Objects.requireNonNull(params);</span>
-<span class="source-line-no">551</span><span id="line-551"></span>
-<span class="source-line-no">552</span><span id="line-552">        // Do not allow model to be run with potentially implausible parameters.</span>
-<span class="source-line-no">553</span><span id="line-553">        if(params.externalAirTemperatureC &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)</span>
-<span class="source-line-no">554</span><span id="line-554">            { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }</span>
-<span class="source-line-no">555</span><span id="line-555"></span>
-<span class="source-line-no">556</span><span id="line-556"></span>
-<span class="source-line-no">557</span><span id="line-557">        // Roof area: as for bungalow.</span>
-<span class="source-line-no">558</span><span id="line-558">        final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;</span>
-<span class="source-line-no">559</span><span id="line-559"></span>
-<span class="source-line-no">560</span><span id="line-560">        // Number of rooms.</span>
-<span class="source-line-no">561</span><span id="line-561">        final int numRooms = bungalow ? 4 : 8;</span>
-<span class="source-line-no">562</span><span id="line-562"></span>
-<span class="source-line-no">563</span><span id="line-563">        // External wall area: as for bungalow in bungalow mode, else double.</span>
-<span class="source-line-no">564</span><span id="line-564">        final double extWallAreaM2 = (bungalow ? 1 : 2) *</span>
-<span class="source-line-no">565</span><span id="line-565">                        HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;</span>
-<span class="source-line-no">566</span><span id="line-566"></span>
-<span class="source-line-no">567</span><span id="line-567">        // Wall heat loss per K temperature differential between inside and out.</span>
-<span class="source-line-no">568</span><span id="line-568">        final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *</span>
-<span class="source-line-no">569</span><span id="line-569">                        HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;</span>
-<span class="source-line-no">570</span><span id="line-570"></span>
-<span class="source-line-no">571</span><span id="line-571">        // DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).</span>
-<span class="source-line-no">572</span><span id="line-572">        final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">573</span><span id="line-573">                        homeHeatLossPerK;</span>
-<span class="source-line-no">574</span><span id="line-574">//System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));</span>
-<span class="source-line-no">575</span><span id="line-575"></span>
-<span class="source-line-no">576</span><span id="line-576">        // DradWnsb: pre-setback radiator output based on variable external air temperature (W).</span>
-<span class="source-line-no">577</span><span id="line-577">                final double DradWnsb = DHHLnsb / numRooms;</span>
-<span class="source-line-no">578</span><span id="line-578">//System.out.println(String.format("DradWnsb = %f", DradWnsb));</span>
-<span class="source-line-no">579</span><span id="line-579"></span>
-<span class="source-line-no">580</span><span id="line-580">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
-<span class="source-line-no">581</span><span id="line-581">                // MW temperature for all room radiators with no setbacks.</span>
-<span class="source-line-no">582</span><span id="line-582">        final double DradAnsbMW = nsbAMW(DradWnsb);</span>
-<span class="source-line-no">583</span><span id="line-583">//System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));</span>
-<span class="source-line-no">584</span><span id="line-584">        // Delta between radiator mean water (MW) and A room air.</span>
-<span class="source-line-no">585</span><span id="line-585">                final double DradAsbdT = DradAnsbMW - HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C;</span>
-<span class="source-line-no">586</span><span id="line-586">//System.out.println(String.format("DradAsbdT = %.1fK", DradAsbdT));</span>
-<span class="source-line-no">587</span><span id="line-587"></span>
-<span class="source-line-no">588</span><span id="line-588">        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;</span>
+<span class="source-line-no">497</span><span id="line-497">        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;</span>
+<span class="source-line-no">498</span><span id="line-498"></span>
+<span class="source-line-no">499</span><span id="line-499">                // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
+<span class="source-line-no">500</span><span id="line-500">        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)</span>
+<span class="source-line-no">501</span><span id="line-501">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
+<span class="source-line-no">502</span><span id="line-502">        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);</span>
+<span class="source-line-no">503</span><span id="line-503">//System.out.println(String.format("CoPnsb = %f", CoPnsb));</span>
+<span class="source-line-no">504</span><span id="line-504">        final double DHPinWnsb =</span>
+<span class="source-line-no">505</span><span id="line-505">                DHHLnsb / DCoPnsb;</span>
+<span class="source-line-no">506</span><span id="line-506"></span>
+<span class="source-line-no">507</span><span id="line-507">                // HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).</span>
+<span class="source-line-no">508</span><span id="line-508">        // (HEAT_PUMP_POWER_IN_B_SETBACK_W)</span>
+<span class="source-line-no">509</span><span id="line-509">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
+<span class="source-line-no">510</span><span id="line-510">        final double DCoPsb = computeFlowCoP(DradAsbMW + CoPCorrectionK);</span>
+<span class="source-line-no">511</span><span id="line-511">//System.out.println(String.format("CoPsb = %f", CoPsb));</span>
+<span class="source-line-no">512</span><span id="line-512">        final double DHPinWsb =</span>
+<span class="source-line-no">513</span><span id="line-513">                DHHLsb / DCoPsb;</span>
+<span class="source-line-no">514</span><span id="line-514"></span>
+<span class="source-line-no">515</span><span id="line-515"></span>
+<span class="source-line-no">516</span><span id="line-516">        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);</span>
+<span class="source-line-no">517</span><span id="line-517">        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(DHHLsb, DHPinWsb);</span>
+<span class="source-line-no">518</span><span id="line-518"></span>
+<span class="source-line-no">519</span><span id="line-519">        // Return everything at once.</span>
+<span class="source-line-no">520</span><span id="line-520">        return(new DemandWithoutAndWithSetback(noSetback, withSetback));</span>
+<span class="source-line-no">521</span><span id="line-521">            }</span>
+<span class="source-line-no">522</span><span id="line-522"></span>
+<span class="source-line-no">523</span><span id="line-523"></span>
+<span class="source-line-no">524</span><span id="line-524">    /**Compute raw heat and heat-pump electricity demand with and without setback, for 'soft' A temperature regulation (W).</span>
+<span class="source-line-no">525</span><span id="line-525">     * This lets the A room temperature droop during B-room setback,</span>
+<span class="source-line-no">526</span><span id="line-526">     * and does not raise the flow temperature.</span>
+<span class="source-line-no">527</span><span id="line-527">     * &lt;p&gt;</span>
+<span class="source-line-no">528</span><span id="line-528">     * This assumes that:</span>
+<span class="source-line-no">529</span><span id="line-529">     * &lt;ul&gt;</span>
+<span class="source-line-no">530</span><span id="line-530">     * &lt;li&gt;B room temperatures (and A room temperatures) are 'normal' (21C) without setback.&lt;/li&gt;</span>
+<span class="source-line-no">531</span><span id="line-531">     * &lt;li&gt;B room temperatures are the expected 18C when set back.&lt;/li&gt;</span>
+<span class="source-line-no">532</span><span id="line-532">     * &lt;li&gt;Flow temperature is pinned during setback to the temperature</span>
+<span class="source-line-no">533</span><span id="line-533">     *     that maintained A and B rooms at 'normal' temperature without setback,</span>
+<span class="source-line-no">534</span><span id="line-534">     *     ie as if the flow temperature is entirely driven by external temperature</span>
+<span class="source-line-no">535</span><span id="line-535">     *     and thus weather compensation.&lt;/li&gt;</span>
+<span class="source-line-no">536</span><span id="line-536">     * &lt;/ul&gt;</span>
+<span class="source-line-no">537</span><span id="line-537">     * &lt;p&gt;</span>
+<span class="source-line-no">538</span><span id="line-538">     * Note: this does not allow for the temperature delta across the radiator rising,</span>
+<span class="source-line-no">539</span><span id="line-539">     * and thus the mean water (MW) temperature dropping further from the flow temperature,</span>
+<span class="source-line-no">540</span><span id="line-540">     * as more heat is drawn by an A room below 'normal' temperature.</span>
+<span class="source-line-no">541</span><span id="line-541">     *</span>
+<span class="source-line-no">542</span><span id="line-542">     * @param params  the variable model parameters</span>
+<span class="source-line-no">543</span><span id="line-543">     * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached</span>
+<span class="source-line-no">544</span><span id="line-544">     * @param equilibriumTemperature  if not null and not zero length,</span>
+<span class="source-line-no">545</span><span id="line-545">     *     used to return the A-room equilibrium temperature</span>
+<span class="source-line-no">546</span><span id="line-546">     * @return  demand in watts, finite and non-negative</span>
+<span class="source-line-no">547</span><span id="line-547">     */</span>
+<span class="source-line-no">548</span><span id="line-548">    public static DemandWithoutAndWithSetback computeSoftATempDemandW(final ModelParameters params,</span>
+<span class="source-line-no">549</span><span id="line-549">                final boolean bungalow,</span>
+<span class="source-line-no">550</span><span id="line-550">                final double[] equilibriumTemperature)</span>
+<span class="source-line-no">551</span><span id="line-551">            {</span>
+<span class="source-line-no">552</span><span id="line-552">        Objects.requireNonNull(params);</span>
+<span class="source-line-no">553</span><span id="line-553"></span>
+<span class="source-line-no">554</span><span id="line-554">        // Do not allow model to be run with potentially implausible parameters.</span>
+<span class="source-line-no">555</span><span id="line-555">        if(params.externalAirTemperatureC &gt;= HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C)</span>
+<span class="source-line-no">556</span><span id="line-556">            { throw new UnsupportedOperationException("model may not work when outside is warmer than setback rooms"); }</span>
+<span class="source-line-no">557</span><span id="line-557"></span>
+<span class="source-line-no">558</span><span id="line-558"></span>
+<span class="source-line-no">559</span><span id="line-559">        // Roof area: as for bungalow.</span>
+<span class="source-line-no">560</span><span id="line-560">        final double roofAreaM2 = HGTRVHPMModelExtensions.HOME_TOTAL_ROOF_AREA_M2;</span>
+<span class="source-line-no">561</span><span id="line-561"></span>
+<span class="source-line-no">562</span><span id="line-562">        // Number of rooms.</span>
+<span class="source-line-no">563</span><span id="line-563">        final int numRooms = bungalow ? 4 : 8;</span>
+<span class="source-line-no">564</span><span id="line-564"></span>
+<span class="source-line-no">565</span><span id="line-565">        // External wall area: as for bungalow in bungalow mode, else double.</span>
+<span class="source-line-no">566</span><span id="line-566">        final double extWallAreaM2 = (bungalow ? 1 : 2) *</span>
+<span class="source-line-no">567</span><span id="line-567">                        HGTRVHPMModelExtensions.HOME_TOTAL_EXTERNAL_WALL_AREA_M2;</span>
+<span class="source-line-no">568</span><span id="line-568"></span>
+<span class="source-line-no">569</span><span id="line-569">        // Wall heat loss per K temperature differential between inside and out.</span>
+<span class="source-line-no">570</span><span id="line-570">        final double homeHeatLossPerK = (roofAreaM2 + extWallAreaM2) *</span>
+<span class="source-line-no">571</span><span id="line-571">                        HGTRVHPMModelExtensions.HOME_LOSSLESS_FLOOR_EXTERNAL_WALL_AND_ROOF_U_WpM2K;</span>
+<span class="source-line-no">572</span><span id="line-572"></span>
+<span class="source-line-no">573</span><span id="line-573">        // DHHLnsb: whole home heat loss with no setback (all rooms same temperature) and given external air temperature (W).</span>
+<span class="source-line-no">574</span><span id="line-574">        final double DHHLnsb = (HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">575</span><span id="line-575">                        homeHeatLossPerK;</span>
+<span class="source-line-no">576</span><span id="line-576">//System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));</span>
+<span class="source-line-no">577</span><span id="line-577"></span>
+<span class="source-line-no">578</span><span id="line-578">        // DradWnsb: pre-setback radiator output based on variable external air temperature (W).</span>
+<span class="source-line-no">579</span><span id="line-579">                final double DradWnsb = DHHLnsb / numRooms;</span>
+<span class="source-line-no">580</span><span id="line-580">//System.out.println(String.format("DradWnsb = %f", DradWnsb));</span>
+<span class="source-line-no">581</span><span id="line-581"></span>
+<span class="source-line-no">582</span><span id="line-582">                // Extension to heat loss 2 to allow for varying external temperatures.</span>
+<span class="source-line-no">583</span><span id="line-583">                // MW temperature for all room radiators with no setbacks.</span>
+<span class="source-line-no">584</span><span id="line-584">        final double DradAnsbMW = nsbAMW(DradWnsb);</span>
+<span class="source-line-no">585</span><span id="line-585">//System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));</span>
+<span class="source-line-no">586</span><span id="line-586">        // Delta between radiator mean water (MW) and A room air.</span>
+<span class="source-line-no">587</span><span id="line-587">                final double DradAsbdT = DradAnsbMW - HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C;</span>
+<span class="source-line-no">588</span><span id="line-588">//System.out.println(String.format("DradAsbdT = %.1fK", DradAsbdT));</span>
 <span class="source-line-no">589</span><span id="line-589"></span>
-<span class="source-line-no">590</span><span id="line-590">                // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
-<span class="source-line-no">591</span><span id="line-591">        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)</span>
-<span class="source-line-no">592</span><span id="line-592">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
-<span class="source-line-no">593</span><span id="line-593">        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);</span>
-<span class="source-line-no">594</span><span id="line-594">        final double VCoPsb = DCoPnsb;</span>
-<span class="source-line-no">595</span><span id="line-595">//System.out.println(String.format("DCoPnsb = VCoPsb = %f", DCoPnsb));</span>
-<span class="source-line-no">596</span><span id="line-596">        final double DHPinWnsb =</span>
-<span class="source-line-no">597</span><span id="line-597">                DHHLnsb / DCoPnsb;</span>
-<span class="source-line-no">598</span><span id="line-598">//System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));</span>
-<span class="source-line-no">599</span><span id="line-599"></span>
-<span class="source-line-no">600</span><span id="line-600">        // Compute losses to outside for all B rooms when B setback.</span>
-<span class="source-line-no">601</span><span id="line-601">        final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">602</span><span id="line-602">                        (homeHeatLossPerK / 2);</span>
-<span class="source-line-no">603</span><span id="line-603">//System.out.println(String.format("VBHLsb = %.1fW (%.1fW per B room))", VBHLsb, VBHLsb / (numRooms / 2)));</span>
-<span class="source-line-no">604</span><span id="line-604"></span>
-<span class="source-line-no">605</span><span id="line-605"></span>
-<span class="source-line-no">606</span><span id="line-606">        // A-room temperature step in K.</span>
-<span class="source-line-no">607</span><span id="line-607">        final double tempStepK = 0.1;</span>
-<span class="source-line-no">608</span><span id="line-608"></span>
-<span class="source-line-no">609</span><span id="line-609">        // Try all A room temperatures from setback up to and just above 'normal'</span>
-<span class="source-line-no">610</span><span id="line-610">        // to find the minimum A room temperature where heat gains equal or exceed losses</span>
-<span class="source-line-no">611</span><span id="line-611">        // and the whole house heat loss at that point.</span>
-<span class="source-line-no">612</span><span id="line-612">        double VequilibriumTempA = 0;</span>
-<span class="source-line-no">613</span><span id="line-613">        double VequilibriumHHLsb = 0;</span>
-<span class="source-line-no">614</span><span id="line-614">        for(double tempA = HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C;</span>
-<span class="source-line-no">615</span><span id="line-615">                        tempA &lt;= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + tempStepK;</span>
-<span class="source-line-no">616</span><span id="line-616">                        tempA += tempStepK)</span>
-<span class="source-line-no">617</span><span id="line-617">                {</span>
-<span class="source-line-no">618</span><span id="line-618">//System.out.println(String.format("tempA = %.1fC", tempA));</span>
-<span class="source-line-no">619</span><span id="line-619"></span>
-<span class="source-line-no">620</span><span id="line-620">                // Compute losses to outside for all A rooms when B setback.</span>
-<span class="source-line-no">621</span><span id="line-621">                final double VAHLsb = (tempA - params.externalAirTemperatureC()) *</span>
-<span class="source-line-no">622</span><span id="line-622">                        (homeHeatLossPerK / 2);</span>
-<span class="source-line-no">623</span><span id="line-623">//System.out.println(String.format("  VAHLsb = %.1fW", VAHLsb));</span>
-<span class="source-line-no">624</span><span id="line-624">                final double VHHLsb = VAHLsb+VBHLsb;</span>
-<span class="source-line-no">625</span><span id="line-625">//System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));</span>
-<span class="source-line-no">626</span><span id="line-626"></span>
-<span class="source-line-no">627</span><span id="line-627">                        // Losses to outside for each A room.</span>
-<span class="source-line-no">628</span><span id="line-628">                        final double VAHLo = VAHLsb / (numRooms / 2);</span>
-<span class="source-line-no">629</span><span id="line-629">//System.out.println(String.format("  VAHLo = %.1fW", VAHLo));</span>
-<span class="source-line-no">630</span><span id="line-630"></span>
-<span class="source-line-no">631</span><span id="line-631">                // HEAT LOSS 1</span>
-<span class="source-line-no">632</span><span id="line-632">                // Internal wall heat loss/transfer per A room (W).</span>
-<span class="source-line-no">633</span><span id="line-633">                final double VIWAabHLW = iwHeatLossPerA(params, tempA);</span>
-<span class="source-line-no">634</span><span id="line-634">                // Internal floor/ceiling heat loss/transfer per A room (W).</span>
-<span class="source-line-no">635</span><span id="line-635">                // None if a bungalow or if AABB arrangement on both floors,</span>
-<span class="source-line-no">636</span><span id="line-636">                // ie no A and B share a ceiling/floor.</span>
-<span class="source-line-no">637</span><span id="line-637">                final double VIFAabHLW =</span>
-<span class="source-line-no">638</span><span id="line-638">                        (bungalow || !params.roomsAlternatingABAB) ? 0 :</span>
-<span class="source-line-no">639</span><span id="line-639">                                ifHeatLossPerA2Storey(params, tempA);</span>
-<span class="source-line-no">640</span><span id="line-640">            // All internal heat losses per A room (W).</span>
-<span class="source-line-no">641</span><span id="line-641">                final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;</span>
-<span class="source-line-no">642</span><span id="line-642">//System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));</span>
-<span class="source-line-no">643</span><span id="line-643"></span>
-<span class="source-line-no">644</span><span id="line-644">                        // Total heat losses from each A room.</span>
-<span class="source-line-no">645</span><span id="line-645">            final double VAHLW = VIFWAabHLW + VAHLo;</span>
-<span class="source-line-no">646</span><span id="line-646">//System.out.println(String.format("  VAHLW = %.1fW", VAHLW));</span>
-<span class="source-line-no">647</span><span id="line-647"></span>
-<span class="source-line-no">648</span><span id="line-648">            // Input power from radiator to each A room given:</span>
-<span class="source-line-no">649</span><span id="line-649">            //   * the A room temperature</span>
-<span class="source-line-no">650</span><span id="line-650">            //   * same (weather-compensated) MW/flow temperature as without setbacks</span>
-<span class="source-line-no">651</span><span id="line-651">            //</span>
-<span class="source-line-no">652</span><span id="line-652">            // Delta between radiator mean water (MW) and A room air.</span>
-<span class="source-line-no">653</span><span id="line-653">                        final double VradAsbdT = DradAnsbMW - tempA;</span>
-<span class="source-line-no">654</span><span id="line-654">                        assert((VradAsbdT &gt; DradAsbdT) || (tempA &gt;= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :</span>
-<span class="source-line-no">655</span><span id="line-655">                                "When room is cooler than 'normal', delta must be higher.";</span>
-<span class="source-line-no">656</span><span id="line-656">//System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));</span>
-<span class="source-line-no">657</span><span id="line-657">            // Ratio to original non-setback delta.</span>
-<span class="source-line-no">658</span><span id="line-658">            final double VardAsbdTmult = VradAsbdT / DradAsbdT;</span>
-<span class="source-line-no">659</span><span id="line-659">//System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));</span>
-<span class="source-line-no">660</span><span id="line-660">            final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;</span>
-<span class="source-line-no">661</span><span id="line-661">                        // Power output from rad in A room.</span>
-<span class="source-line-no">662</span><span id="line-662">            final double VradWAmult =</span>
-<span class="source-line-no">663</span><span id="line-663">                        VardAsbdTmult * Math.pow(VardAsbdTmult, dtToWexp);</span>
-<span class="source-line-no">664</span><span id="line-664">//System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));</span>
-<span class="source-line-no">665</span><span id="line-665">                        // Power output from rad in A room (with B set back).</span>
-<span class="source-line-no">666</span><span id="line-666">                        final double VradWAsb =</span>
-<span class="source-line-no">667</span><span id="line-667">                                VradWAmult * DradWnsb;</span>
-<span class="source-line-no">668</span><span id="line-668">//System.out.println(String.format("  VradWAsb = %.1fW", VradWAsb));</span>
-<span class="source-line-no">669</span><span id="line-669">            // When room is cooler than 'normal', radiator output must be higher.</span>
-<span class="source-line-no">670</span><span id="line-670">                        assert((VradWAsb &gt; DradWnsb) || (tempA &gt;= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :</span>
-<span class="source-line-no">671</span><span id="line-671">                                "When room is cooler than 'normal', radiator output must be higher.";</span>
-<span class="source-line-no">672</span><span id="line-672"></span>
-<span class="source-line-no">673</span><span id="line-673">            // Compute the error in each A-room heat gains and losses (+ve means excess heat in).</span>
-<span class="source-line-no">674</span><span id="line-674">            final double VAHLerrW =</span>
-<span class="source-line-no">675</span><span id="line-675">                        VradWAsb - VAHLW;</span>
-<span class="source-line-no">676</span><span id="line-676">//System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));</span>
-<span class="source-line-no">677</span><span id="line-677"></span>
-<span class="source-line-no">678</span><span id="line-678">            // Abort when A-room gains fail to meet (or exceed) losses,</span>
-<span class="source-line-no">679</span><span id="line-679">                        // thus returning (conservative, near) equilibrium values from previous step.</span>
-<span class="source-line-no">680</span><span id="line-680">                        if(VAHLerrW &lt; 0)</span>
-<span class="source-line-no">681</span><span id="line-681">                                { break; }</span>
-<span class="source-line-no">682</span><span id="line-682"></span>
-<span class="source-line-no">683</span><span id="line-683">                        // Record temperature and home heat loss</span>
-<span class="source-line-no">684</span><span id="line-684">                        // when room A temperature below equilibrium point.</span>
-<span class="source-line-no">685</span><span id="line-685">                        VequilibriumTempA = tempA;</span>
-<span class="source-line-no">686</span><span id="line-686">                        VequilibriumHHLsb = VHHLsb;</span>
-<span class="source-line-no">687</span><span id="line-687">                }</span>
-<span class="source-line-no">688</span><span id="line-688"></span>
-<span class="source-line-no">689</span><span id="line-689">        if(VequilibriumHHLsb &lt;= 0)</span>
-<span class="source-line-no">690</span><span id="line-690">            { throw new RuntimeException("Failed to find solution"); }</span>
+<span class="source-line-no">590</span><span id="line-590">        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;</span>
+<span class="source-line-no">591</span><span id="line-591"></span>
+<span class="source-line-no">592</span><span id="line-592">                // HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
+<span class="source-line-no">593</span><span id="line-593">        // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)</span>
+<span class="source-line-no">594</span><span id="line-594">        // Note that flow and mean temperatures seem to be being mixed here in the HG page.</span>
+<span class="source-line-no">595</span><span id="line-595">        final double DCoPnsb = computeFlowCoP(DradAnsbMW + CoPCorrectionK);</span>
+<span class="source-line-no">596</span><span id="line-596">        final double VCoPsb = DCoPnsb;</span>
+<span class="source-line-no">597</span><span id="line-597">//System.out.println(String.format("DCoPnsb = VCoPsb = %f", DCoPnsb));</span>
+<span class="source-line-no">598</span><span id="line-598">        final double DHPinWnsb =</span>
+<span class="source-line-no">599</span><span id="line-599">                DHHLnsb / DCoPnsb;</span>
+<span class="source-line-no">600</span><span id="line-600">//System.out.println(String.format("DHPinWnsb = %f", DHPinWnsb));</span>
+<span class="source-line-no">601</span><span id="line-601"></span>
+<span class="source-line-no">602</span><span id="line-602">        // Compute losses to outside for all B rooms when B setback.</span>
+<span class="source-line-no">603</span><span id="line-603">        final double VBHLsb = (HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">604</span><span id="line-604">                        (homeHeatLossPerK / 2);</span>
+<span class="source-line-no">605</span><span id="line-605">//System.out.println(String.format("VBHLsb = %.1fW (%.1fW per B room))", VBHLsb, VBHLsb / (numRooms / 2)));</span>
+<span class="source-line-no">606</span><span id="line-606"></span>
+<span class="source-line-no">607</span><span id="line-607"></span>
+<span class="source-line-no">608</span><span id="line-608">        // A-room temperature step in K.</span>
+<span class="source-line-no">609</span><span id="line-609">        final double tempStepK = 0.1;</span>
+<span class="source-line-no">610</span><span id="line-610"></span>
+<span class="source-line-no">611</span><span id="line-611">        // Try all A room temperatures from setback up to and just above 'normal'</span>
+<span class="source-line-no">612</span><span id="line-612">        // to find the minimum A room temperature where heat gains equal or exceed losses</span>
+<span class="source-line-no">613</span><span id="line-613">        // and the whole house heat loss at that point.</span>
+<span class="source-line-no">614</span><span id="line-614">        double VequilibriumTempA = 0;</span>
+<span class="source-line-no">615</span><span id="line-615">        double VequilibriumHHLsb = 0;</span>
+<span class="source-line-no">616</span><span id="line-616">        for(double tempA = HGTRVHPMModel.SETBACK_ROOM_TEMPERATURE_C;</span>
+<span class="source-line-no">617</span><span id="line-617">                        tempA &lt;= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + tempStepK;</span>
+<span class="source-line-no">618</span><span id="line-618">                        tempA += tempStepK)</span>
+<span class="source-line-no">619</span><span id="line-619">                {</span>
+<span class="source-line-no">620</span><span id="line-620">//System.out.println(String.format("tempA = %.1fC", tempA));</span>
+<span class="source-line-no">621</span><span id="line-621"></span>
+<span class="source-line-no">622</span><span id="line-622">                // Compute losses to outside for all A rooms when B setback.</span>
+<span class="source-line-no">623</span><span id="line-623">                final double VAHLsb = (tempA - params.externalAirTemperatureC()) *</span>
+<span class="source-line-no">624</span><span id="line-624">                        (homeHeatLossPerK / 2);</span>
+<span class="source-line-no">625</span><span id="line-625">//System.out.println(String.format("  VAHLsb = %.1fW", VAHLsb));</span>
+<span class="source-line-no">626</span><span id="line-626">                final double VHHLsb = VAHLsb+VBHLsb;</span>
+<span class="source-line-no">627</span><span id="line-627">//System.out.println(String.format("  VHHLsb = %.1fW", VHHLsb));</span>
+<span class="source-line-no">628</span><span id="line-628"></span>
+<span class="source-line-no">629</span><span id="line-629">                        // Losses to outside for each A room.</span>
+<span class="source-line-no">630</span><span id="line-630">                        final double VAHLo = VAHLsb / (numRooms / 2);</span>
+<span class="source-line-no">631</span><span id="line-631">//System.out.println(String.format("  VAHLo = %.1fW", VAHLo));</span>
+<span class="source-line-no">632</span><span id="line-632"></span>
+<span class="source-line-no">633</span><span id="line-633">                // HEAT LOSS 1</span>
+<span class="source-line-no">634</span><span id="line-634">                // Internal wall heat loss/transfer per A room (W).</span>
+<span class="source-line-no">635</span><span id="line-635">                final double VIWAabHLW = iwHeatLossPerA(params, tempA);</span>
+<span class="source-line-no">636</span><span id="line-636">                // Internal floor/ceiling heat loss/transfer per A room (W).</span>
+<span class="source-line-no">637</span><span id="line-637">                // None if a bungalow or if AABB arrangement on both floors,</span>
+<span class="source-line-no">638</span><span id="line-638">                // ie no A and B share a ceiling/floor.</span>
+<span class="source-line-no">639</span><span id="line-639">                final double VIFAabHLW =</span>
+<span class="source-line-no">640</span><span id="line-640">                        (bungalow || !params.roomsAlternatingABAB) ? 0 :</span>
+<span class="source-line-no">641</span><span id="line-641">                                ifHeatLossPerA2Storey(params, tempA);</span>
+<span class="source-line-no">642</span><span id="line-642">            // All internal heat losses per A room (W).</span>
+<span class="source-line-no">643</span><span id="line-643">                final double VIFWAabHLW = VIWAabHLW + VIFAabHLW;</span>
+<span class="source-line-no">644</span><span id="line-644">//System.out.println(String.format("  VIFWAabHLW = %.1fW", VIFWAabHLW));</span>
+<span class="source-line-no">645</span><span id="line-645"></span>
+<span class="source-line-no">646</span><span id="line-646">                        // Total heat losses from each A room.</span>
+<span class="source-line-no">647</span><span id="line-647">            final double VAHLW = VIFWAabHLW + VAHLo;</span>
+<span class="source-line-no">648</span><span id="line-648">//System.out.println(String.format("  VAHLW = %.1fW", VAHLW));</span>
+<span class="source-line-no">649</span><span id="line-649"></span>
+<span class="source-line-no">650</span><span id="line-650">            // Input power from radiator to each A room given:</span>
+<span class="source-line-no">651</span><span id="line-651">            //   * the A room temperature</span>
+<span class="source-line-no">652</span><span id="line-652">            //   * same (weather-compensated) MW/flow temperature as without setbacks</span>
+<span class="source-line-no">653</span><span id="line-653">            //</span>
+<span class="source-line-no">654</span><span id="line-654">            // Delta between radiator mean water (MW) and A room air.</span>
+<span class="source-line-no">655</span><span id="line-655">                        final double VradAsbdT = DradAnsbMW - tempA;</span>
+<span class="source-line-no">656</span><span id="line-656">                        assert((VradAsbdT &gt; DradAsbdT) || (tempA &gt;= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :</span>
+<span class="source-line-no">657</span><span id="line-657">                                "When room is cooler than 'normal', delta must be higher.";</span>
+<span class="source-line-no">658</span><span id="line-658">//System.out.println(String.format("  VradAsbdT = %.1fK", VradAsbdT));</span>
+<span class="source-line-no">659</span><span id="line-659">            // Ratio to original non-setback delta.</span>
+<span class="source-line-no">660</span><span id="line-660">            final double VardAsbdTmult = VradAsbdT / DradAsbdT;</span>
+<span class="source-line-no">661</span><span id="line-661">//System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));</span>
+<span class="source-line-no">662</span><span id="line-662">            final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;</span>
+<span class="source-line-no">663</span><span id="line-663">                        // Power output from rad in A room.</span>
+<span class="source-line-no">664</span><span id="line-664">            final double VradWAmult =</span>
+<span class="source-line-no">665</span><span id="line-665">                        VardAsbdTmult * Math.pow(VardAsbdTmult, dtToWexp);</span>
+<span class="source-line-no">666</span><span id="line-666">//System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));</span>
+<span class="source-line-no">667</span><span id="line-667">                        // Power output from rad in A room (with B set back).</span>
+<span class="source-line-no">668</span><span id="line-668">                        final double VradWAsb =</span>
+<span class="source-line-no">669</span><span id="line-669">                                VradWAmult * DradWnsb;</span>
+<span class="source-line-no">670</span><span id="line-670">//System.out.println(String.format("  VradWAsb = %.1fW", VradWAsb));</span>
+<span class="source-line-no">671</span><span id="line-671">            // When room is cooler than 'normal', radiator output must be higher.</span>
+<span class="source-line-no">672</span><span id="line-672">                        assert((VradWAsb &gt; DradWnsb) || (tempA &gt;= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :</span>
+<span class="source-line-no">673</span><span id="line-673">                                "When room is cooler than 'normal', radiator output must be higher.";</span>
+<span class="source-line-no">674</span><span id="line-674"></span>
+<span class="source-line-no">675</span><span id="line-675">            // Compute the error in each A-room heat gains and losses (+ve means excess heat in).</span>
+<span class="source-line-no">676</span><span id="line-676">            final double VAHLerrW =</span>
+<span class="source-line-no">677</span><span id="line-677">                        VradWAsb - VAHLW;</span>
+<span class="source-line-no">678</span><span id="line-678">//System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));</span>
+<span class="source-line-no">679</span><span id="line-679"></span>
+<span class="source-line-no">680</span><span id="line-680">            // Stop when A-room gains exceed losses,</span>
+<span class="source-line-no">681</span><span id="line-681">                        // thus returning (conservative, near) equilibrium values</span>
+<span class="source-line-no">682</span><span id="line-682">            // from the previous step.</span>
+<span class="source-line-no">683</span><span id="line-683">                        if(VAHLerrW &lt; 0)</span>
+<span class="source-line-no">684</span><span id="line-684">                                { break; }</span>
+<span class="source-line-no">685</span><span id="line-685"></span>
+<span class="source-line-no">686</span><span id="line-686">                        // Record temperature and home heat loss</span>
+<span class="source-line-no">687</span><span id="line-687">                        // when room A temperature below equilibrium point.</span>
+<span class="source-line-no">688</span><span id="line-688">                        VequilibriumTempA = tempA;</span>
+<span class="source-line-no">689</span><span id="line-689">                        VequilibriumHHLsb = VHHLsb;</span>
+<span class="source-line-no">690</span><span id="line-690">                }</span>
 <span class="source-line-no">691</span><span id="line-691"></span>
-<span class="source-line-no">692</span><span id="line-692">        // Return equilibrium temperature if possible.</span>
-<span class="source-line-no">693</span><span id="line-693">        if((null != equilibriumTemperature) &amp;&amp; (0 != equilibriumTemperature.length))</span>
-<span class="source-line-no">694</span><span id="line-694">                { equilibriumTemperature[0] = VequilibriumTempA; }</span>
-<span class="source-line-no">695</span><span id="line-695"></span>
-<span class="source-line-no">696</span><span id="line-696">//System.out.println(String.format("VequilibriumTempA = %.1fC @ external %.1fC", VequilibriumTempA, params.externalAirTemperatureC()));</span>
-<span class="source-line-no">697</span><span id="line-697"></span>
-<span class="source-line-no">698</span><span id="line-698">        // Compute electrical energy in given non-setback flow temperature CoP.</span>
-<span class="source-line-no">699</span><span id="line-699">        final double VHPinWsb =</span>
-<span class="source-line-no">700</span><span id="line-700">                VequilibriumHHLsb / VCoPsb;</span>
-<span class="source-line-no">701</span><span id="line-701">//System.out.println(String.format("VHPinWsb = %.1fW", VHPinWsb));</span>
-<span class="source-line-no">702</span><span id="line-702">//System.out.println(String.format("DHPinWnsb = %.1fW", DHPinWnsb));</span>
-<span class="source-line-no">703</span><span id="line-703"></span>
-<span class="source-line-no">704</span><span id="line-704">        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);</span>
-<span class="source-line-no">705</span><span id="line-705">        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(VequilibriumHHLsb, VHPinWsb);</span>
+<span class="source-line-no">692</span><span id="line-692">        if(VequilibriumHHLsb &lt;= 0)</span>
+<span class="source-line-no">693</span><span id="line-693">            { throw new RuntimeException("Failed to find solution"); }</span>
+<span class="source-line-no">694</span><span id="line-694"></span>
+<span class="source-line-no">695</span><span id="line-695">        // Return equilibrium temperature if possible.</span>
+<span class="source-line-no">696</span><span id="line-696">        if((null != equilibriumTemperature) &amp;&amp; (0 != equilibriumTemperature.length))</span>
+<span class="source-line-no">697</span><span id="line-697">                { equilibriumTemperature[0] = VequilibriumTempA; }</span>
+<span class="source-line-no">698</span><span id="line-698"></span>
+<span class="source-line-no">699</span><span id="line-699">//System.out.println(String.format("VequilibriumTempA = %.1fC @ external %.1fC", VequilibriumTempA, params.externalAirTemperatureC()));</span>
+<span class="source-line-no">700</span><span id="line-700"></span>
+<span class="source-line-no">701</span><span id="line-701">        // Compute electrical energy in given non-setback flow temperature CoP.</span>
+<span class="source-line-no">702</span><span id="line-702">        final double VHPinWsb =</span>
+<span class="source-line-no">703</span><span id="line-703">                VequilibriumHHLsb / VCoPsb;</span>
+<span class="source-line-no">704</span><span id="line-704">//System.out.println(String.format("VHPinWsb = %.1fW", VHPinWsb));</span>
+<span class="source-line-no">705</span><span id="line-705">//System.out.println(String.format("DHPinWnsb = %.1fW", DHPinWnsb));</span>
 <span class="source-line-no">706</span><span id="line-706"></span>
-<span class="source-line-no">707</span><span id="line-707">        // Return everything at once.</span>
-<span class="source-line-no">708</span><span id="line-708">        return(new DemandWithoutAndWithSetback(noSetback, withSetback));</span>
-<span class="source-line-no">709</span><span id="line-709">            }</span>
-<span class="source-line-no">710</span><span id="line-710"></span>
-<span class="source-line-no">711</span><span id="line-711">        }</span>
+<span class="source-line-no">707</span><span id="line-707">        final HeatAndElectricityDemand noSetback = new HeatAndElectricityDemand(DHHLnsb, DHPinWnsb);</span>
+<span class="source-line-no">708</span><span id="line-708">        final HeatAndElectricityDemand withSetback = new HeatAndElectricityDemand(VequilibriumHHLsb, VHPinWsb);</span>
+<span class="source-line-no">709</span><span id="line-709"></span>
+<span class="source-line-no">710</span><span id="line-710">        // Return everything at once.</span>
+<span class="source-line-no">711</span><span id="line-711">        return(new DemandWithoutAndWithSetback(noSetback, withSetback));</span>
+<span class="source-line-no">712</span><span id="line-712">            }</span>
+<span class="source-line-no">713</span><span id="line-713"></span>
+<span class="source-line-no">714</span><span id="line-714">        }</span>
 
 
 
