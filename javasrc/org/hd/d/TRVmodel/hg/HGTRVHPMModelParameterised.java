@@ -606,7 +606,7 @@ public final class HGTRVHPMModelParameterised
 
 
         // A-room temperature step in K.
-        final double tempStepK = 0.1;
+        final double tempStepK = 0.01;
 
         // Try all A room temperatures from setback up to and just above 'normal'
         // to find the minimum A room temperature where heat gains equal or exceed losses

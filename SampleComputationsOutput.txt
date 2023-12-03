@@ -1,5 +1,5 @@
 Show HG TRV/HP model computations.
-Date/time: Mon Nov 27 16:40:39 GMT 2023
+Date/time: Sun Dec 03 15:45:14 GMT 2023
 
 Hardwired model, electricity demand normal / setback: 769W / 815W
 Parameterised model, all default parameters, electricity demand normal / setback: 769W / 815W
@@ -222,28 +222,28 @@ Edinburgh (weather station at EGPH):
 Original conditions, bungalow demand, with 'stiff' A-room temperature regulation:
   Heat mean demand: with no setback 2000W, with setback 1875W; -6% change with setback
   Heat pump mean power: with no setback 812W, with setback 895W; 10% change with setback
-Original conditions, bungalow demand, with 'soft' A-room temperature regulation at 19.5C:
-  Heat mean demand: with no setback 2000W, with setback 1813W; -9% change with setback
-  Heat pump mean power: with no setback 812W, with setback 736W; -9% change with setback
+Original conditions, bungalow demand, with 'soft' A-room temperature regulation at 19.6C:
+  Heat mean demand: with no setback 2000W, with setback 1816W; -9% change with setback
+  Heat pump mean power: with no setback 812W, with setback 737W; -9% change with setback
 Original conditions, detached demand, with 'stiff' A-room temperature regulation:
   Heat mean demand: with no setback 3070W, with setback 2878W; -6% change with setback
   Heat pump mean power: with no setback 1131W, with setback 1348W; 19% change with setback
-Original conditions, detached demand, with 'soft' A-room temperature regulation at 19.1C:
-  Heat mean demand: with no setback 3070W, with setback 2756W; -10% change with setback
-  Heat pump mean power: with no setback 1131W, with setback 1015W; -10% change with setback
+Original conditions, detached demand, with 'soft' A-room temperature regulation at 19.2C:
+  Heat mean demand: with no setback 3070W, with setback 2762W; -10% change with setback
+  Heat pump mean power: with no setback 1131W, with setback 1017W; -10% change with setback
 
 Parameterised model, bungalow, soft regulation, fixes applied for doors and CoP temperature, external air temperature varied...
 London (EGLL) 2018 hourly temperatures
 Layout ABAB
-  Minimum A-room temperature 19.4C
+  Minimum A-room temperature 19.5C
   Percentage of hours that room setback raises heat pump demand: 0.0%
-  Heat mean demand: with no setback 719W, with setback 590W; -18.0% change with setback
-  Heat pump mean power: with no setback 246W, with setback 203W; -17.6% change with setback
+  Heat mean demand: with no setback 719W, with setback 591W; -17.8% change with setback
+  Heat pump mean power: with no setback 246W, with setback 203W; -17.4% change with setback
 Layout AABB
-  Minimum A-room temperature 19.9C
+  Minimum A-room temperature 20.0C
   Percentage of hours that room setback raises heat pump demand: 0.0%
-  Heat mean demand: with no setback 719W, with setback 604W; -16.0% change with setback
-  Heat pump mean power: with no setback 246W, with setback 208W; -15.7% change with setback
+  Heat mean demand: with no setback 719W, with setback 605W; -15.9% change with setback
+  Heat pump mean power: with no setback 246W, with setback 208W; -15.5% change with setback
 
 Parameterised model, bungalow, soft A temperature regulation, fixes applied for doors and CoP temperature, external air temperature varied...
   temperature sag 1.4K @ -13.0C
@@ -254,17 +254,17 @@ Parameterised model, bungalow, soft A temperature regulation, fixes applied for 
   temperature sag 1.4K @ -8.0C
   temperature sag 1.4K @ -7.0C
   temperature sag 1.4K @ -6.0C
-  temperature sag 1.5K @ -5.0C
-  temperature sag 1.5K @ -4.0C
+  temperature sag 1.4K @ -5.0C
+  temperature sag 1.4K @ -4.0C
  *** original external air temperature, ie -3.0C
-  temperature sag 1.5K @ -3.0C
-  temperature sag 1.5K @ -2.0C
-  temperature sag 1.5K @ -1.0C
-  temperature sag 1.5K @ 0.0C
-  temperature sag 1.5K @ 1.0C
-  temperature sag 1.5K @ 2.0C
-  temperature sag 1.5K @ 3.0C
-  temperature sag 1.5K @ 4.0C
+  temperature sag 1.4K @ -3.0C
+  temperature sag 1.4K @ -2.0C
+  temperature sag 1.4K @ -1.0C
+  temperature sag 1.4K @ 0.0C
+  temperature sag 1.4K @ 1.0C
+  temperature sag 1.4K @ 2.0C
+  temperature sag 1.4K @ 3.0C
+  temperature sag 1.4K @ 4.0C
   temperature sag 1.5K @ 5.0C
   temperature sag 1.5K @ 6.0C
   temperature sag 1.5K @ 7.0C
@@ -272,9 +272,9 @@ Parameterised model, bungalow, soft A temperature regulation, fixes applied for 
   temperature sag 1.5K @ 9.0C
   temperature sag 1.5K @ 10.0C
   temperature sag 1.5K @ 11.0C
-  temperature sag 1.6K @ 12.0C
-  temperature sag 1.6K @ 13.0C
-  temperature sag 1.6K @ 14.0C
-  temperature sag 1.6K @ 15.0C
-  temperature sag 1.6K @ 16.0C
+  temperature sag 1.5K @ 12.0C
+  temperature sag 1.5K @ 13.0C
+  temperature sag 1.5K @ 14.0C
+  temperature sag 1.5K @ 15.0C
+  temperature sag 1.5K @ 16.0C
   temperature sag 1.6K @ 17.0C
