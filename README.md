@@ -36,6 +36,8 @@ at seven representative locations around the UK.
 
 A copy of the output of a full calculation run is checked in.
 
+Run in Eclipse 2.3.1300.v20230302-0300 on a MacBook Air M1 macOS Sonoma 14.1.2 with Java GraalVM 19.
+
 
 ## Acknowledgements
 
