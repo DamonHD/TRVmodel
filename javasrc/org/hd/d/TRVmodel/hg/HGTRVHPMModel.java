@@ -80,7 +80,7 @@ public final class HGTRVHPMModel
 
     /**tIntSetback: setback/unused room temperature (Celsius). */
     public static final double SETBACK_ROOM_TEMPERATURE_C = 18;
-    /**tMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */
+    /**tIntMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */
     public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =
 		(NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;
     /**HLsbW: (Flow Temperature, step 3) heat loss with B rooms setback (W). */

@@ -16,6 +16,7 @@ SIGNIFICANT CHANGES SINCE LAST RELEASE
 
 PENDING:
     DHD20231203: adjustment of soft temperature step from 0.1K to 0.01K.
+    DHD20231208: improving variable/parameter names.
 
 
 

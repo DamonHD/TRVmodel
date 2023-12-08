@@ -32,7 +32,7 @@ public final class TestHGTRVHPModel extends TestCase
         }
 
     /**Verify computed mean home temperature when B rooms set back (flow temperature, step 2). */
-    public static void testTMeanWhenSetback()
+    public static void testTIntMeanWhenSetback()
 	    {
 	    assertEquals(19.5, HGTRVHPMModel.MEAN_HOME_TEMPERATURE_WITH_SETBACK_C, 0.05);
         }
