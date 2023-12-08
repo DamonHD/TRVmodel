@@ -192,14 +192,14 @@ public final class HGTRVHPMModelParameterised
 // TODO: why unused: radWBsb
 //        final double radWBsb =
 //    		(HHLsb - 2*radWAsb) / 2;
-        // radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
+        // radWAmultsb: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-        final double radWAmult =
+        final double radWAmultsb =
     		radWAsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
         // radAsbdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
         // (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radAsbdTmult =
-    		Math.pow(radWAmult, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
+    		Math.pow(radWAmultsb, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
         // radAsbdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
         // (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
         final double radAsbdT =
@@ -661,12 +661,12 @@ public final class HGTRVHPMModelParameterised
 //System.out.println(String.format("  VardAsbdTmult = %.2f", VardAsbdTmult));
             final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
 			// Power output from rad in A room.
-            final double VradWAmult =
+            final double VradWAmultsb =
         		VardAsbdTmult * Math.pow(VardAsbdTmult, dtToWexp);
-//System.out.println(String.format("  VradWAmult = %.2f", VradWAmult));
+//System.out.println(String.format("  VradWAmultsb = %.2f", VradWAmult));
 			// Power output from rad in A room (with B set back).
 			final double VradWAsb =
-				VradWAmult * DradWnsb;
+				VradWAmultsb * DradWnsb;
 //System.out.println(String.format("  VradWAsb = %.1fW", VradWAsb));
             // When room is cooler than 'normal', radiator output must be higher.
 			assert((VradWAsb > DradWnsb) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :
