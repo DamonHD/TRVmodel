@@ -139,10 +139,10 @@ public final class HGTRVHPMModel
     public static final double INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W =
     		INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W + INTERNAL_DOOR_HEAT_LOSS_W;
 
-    /**radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W). */
+    /**radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W). */
     public static final double RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W =
 		RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W;
-    /**radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W). */
+    /**radWBsb: (Heat Loss 2.0) radiator output in each B room when B setback (W). */
     public static final double RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W =
 		(HOME_HEAT_LOSS_B_SETBACK_W - 2*RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W) / 2;
     /**radWAmultsb: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback. */
@@ -150,13 +150,13 @@ public final class HGTRVHPMModel
 		RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W / RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
  	/**MWATP2Dexp: (Heat Loss 2.2) exponent to go from power increase to delta-T increase. */
     public static final double RADIATOR_EXP_POWER_TO_DT = 0.77;
-    /**radAbsdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
+    /**radAdTmultsb: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */
     public static final double RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =
 		Math.pow(RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, RADIATOR_EXP_POWER_TO_DT);
-    /**radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */
+    /**radAdTsb: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */
     public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K =
 		RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER;
-    /**radAbsMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C). */
+    /**radAMWsb: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C). */
     public static final double RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C =
 		NORMAL_ROOM_TEMPERATURE_C + RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K;
 

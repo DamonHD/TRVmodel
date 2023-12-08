@@ -187,29 +187,26 @@ public final class HGTRVHPMModelParameterised
         final double radWAsb =
         	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
     		radWnsb + IWAabHLW;
-        // radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W).
+        // radWBsb: (Heat Loss 2.0) radiator output in each B room when B setback (W).
         // (Was: RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
-// TODO: why unused: radWBsb
-//        final double radWBsb =
-//    		(HHLsb - 2*radWAsb) / 2;
         // radWAmultsb: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
         // (RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
         final double radWAmultsb =
     		radWAsb / HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;
         // radAsbdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback.
         // (RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER)
-        final double radAsbdTmult =
+        final double radAdTmultsb =
     		Math.pow(radWAmultsb, HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT);
         // radAsbdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K).
         // (RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K)
         final double radAsbdT =
-    		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAsbdTmult;
+    		HGTRVHPMModel.RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * radAdTmultsb;
         // radAsbMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         // (RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C)
-        final double radAsbMW =
+        final double radAMWsb =
     		HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAsbdT;
-//System.out.println(String.format("radAbsMW = %.1f", radAbsMW));
-		return(radAsbMW);
+//System.out.println(String.format("radAMWsb = %.1f", radAMWsb));
+		return(radAMWsb);
 		}
 
     /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) with A at 'normal' temperature (W).     *
