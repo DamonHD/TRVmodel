@@ -44,3 +44,10 @@ Run in Eclipse 2.3.1300.v20230302-0300 on a MacBook Air M1 macOS Sonoma 14.1.2 w
 Thanks to Heat Geek for the clear worked example and the thought experiment!
 
 Thanks to https://www.degreedays.net/ for temperature data to support modelling!
+
+
+## Locations
+
+https://github.com/DamonHD/TRVmodel
+https://doi.org/10.5281/zenodo.10116280
+https://doi.org/10.15126/900901
