@@ -160,20 +160,24 @@ public final class HGTRVHPMModel
     public static final double RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C =
 		NORMAL_ROOM_TEMPERATURE_C + RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K;
 
-    /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP at 46.0C flow temperature. */
-    public static final double COP_AT_46p0C = 2.6;
-    /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP at 51.5C flow temperature. */
-    public static final double COP_AT_51p5C = 2.3;
+    /**CoPLt: lower CoP sample temperature (C).*/
+    public static final double CoPLt = 46.0;
+    /**CoPHt: higher CoP sample temperature (C).*/
+    public static final double CoPHt = 51.5;
+    /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP sample at lower flow temperature. */
+    public static final double CoPL = 2.6;
+    /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP sample at higher flow temperature. */
+    public static final double CoPH = 2.3;
     /**CoPDropPerK: (Heat Pump Efficiency) suggested approximate fall in CoP per K rise in flow temperature. */
     public static final double COP_DROP_pK = 0.025;
     /**HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
      * Note that flow and mean temperatures seem to be being mixed here.
      */
     public static final double HEAT_PUMP_POWER_IN_NO_SETBACK_W =
-		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / COP_AT_46p0C;
+		HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / CoPL;
     /**HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).
      * Note that flow and mean temperatures seem to be being mixed here.
      */
     public static final double HEAT_PUMP_POWER_IN_B_SETBACK_W =
-		HOME_HEAT_LOSS_B_SETBACK_W / COP_AT_51p5C;
+		HOME_HEAT_LOSS_B_SETBACK_W / CoPH;
  	}

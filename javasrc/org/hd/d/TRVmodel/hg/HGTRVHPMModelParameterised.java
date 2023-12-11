@@ -144,13 +144,11 @@ public final class HGTRVHPMModelParameterised
      */
     public static double computeFlowCoP(final double flowC)
 	    {
-    	final double lowerTempC = 46.0;
-    	final double upperTempC = 51.5;
-    	final double tempDeltaK = upperTempC - lowerTempC;
-    	final double CoPDelta = HGTRVHPMModel.COP_AT_51p5C - HGTRVHPMModel.COP_AT_46p0C;
+    	final double tempDeltaK = HGTRVHPMModel.CoPHt - HGTRVHPMModel.CoPLt;
+    	final double CoPDelta = HGTRVHPMModel.CoPH - HGTRVHPMModel.CoPL;
 
-    	final double CoP = HGTRVHPMModel.COP_AT_46p0C +
-    			((flowC - lowerTempC) * (CoPDelta / tempDeltaK));
+    	final double CoP = HGTRVHPMModel.CoPL +
+    			((flowC - HGTRVHPMModel.CoPLt) * (CoPDelta / tempDeltaK));
 
     	return(CoP);
 	    }
