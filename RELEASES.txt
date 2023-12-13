@@ -122,19 +122,6 @@ PENDING:
 	  [javadoc]                        ^
 	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/Main.java:28: warning: use of default constructor, which does not provide a comment
 	  [javadoc] public final class Main
-	  [javadoc]              ^
-	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/ShowComputations.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:20: warning: no description for @throws
-	  [javadoc]      * @throws IOException
-	  [javadoc]        ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:253: warning: no @param for stiff
-	  [javadoc] 	public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException
-	  [javadoc] 	                     ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:253: warning: no @return
-	  [javadoc] 	public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException
-	  [javadoc] 	                     ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:253: warning: no @throws for java.io.IOException
-	  [javadoc] 	public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException
 
    
 
