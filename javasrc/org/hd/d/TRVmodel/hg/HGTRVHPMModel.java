@@ -16,6 +16,7 @@ package org.hd.d.TRVmodel.hg;
  * <p>
  * In this model there are 4 rooms in house in a square in the pattern:
  * <table border="1">
+ * <caption>Room layout.</caption>
  * <tr><td>A</td><td>B</td></tr>
  * <tr><td>B</td><td>A</td></tr>
  * </table>
@@ -42,7 +43,6 @@ package org.hd.d.TRVmodel.hg;
  * to a heat pump to maintain the specified steady state,
  * taking into account implied flow water temperatures
  * and the heat-pump CoP to reach those flow temperatures.
- * <p>
  * <blockquote>
  * To keep the maths simple, each room has a 500 W heat loss at design outside temperature of -3&deg;C or 2 kW in total with a room temperature of 21&deg;C. They are also each fitted with a mean water-to-air temperature DT25 [MW-AT DT25] radiator, meaning that each radiator will output 500 W, when its average surface temperature is 25&deg;C above the room temperature.
  * </blockquote>
