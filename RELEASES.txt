@@ -18,98 +18,67 @@ PENDING:
     DHD20231213: purging Javadoc warnings
 
     Javadoc warnings to clean up:
-      [javadoc] Building tree for all the packages and classes...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/DDNTemperatureDataCSV.java:47: error: unknown tag: B0
-	  [javadoc] Datetime,Timezone,Date,Time,Temp (<B0>C),% Estimated
-	  [javadoc]                                   ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/DDNTemperatureDataCSV.java:54: warning: no @param for data
-	  [javadoc] public record DDNTemperatureDataCSV(List<List<String>> data)
-	  [javadoc]        ^
 	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModel.java:21: error: no caption for table
 	  [javadoc]  * </table>
 	  [javadoc]    ^
 	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModel.java:45: warning: empty <p> tag
 	  [javadoc]  * <p>
 	  [javadoc]    ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:130: warning: no @param for noSetback
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:132: warning: no @param for noSetback
 	  [javadoc]     public record DemandWithoutAndWithSetback(HeatAndElectricityDemand noSetback, HeatAndElectricityDemand withSetback)
 	  [javadoc]            ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:130: warning: no @param for withSetback
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:132: warning: no @param for withSetback
 	  [javadoc]     public record DemandWithoutAndWithSetback(HeatAndElectricityDemand noSetback, HeatAndElectricityDemand withSetback)
 	  [javadoc]            ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/data/DDNTemperatureDataCSV.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/DDNTemperatureDataCSV.java:56: warning: no comment
-	  [javadoc] 	public DDNTemperatureDataCSV { Objects.requireNonNull(data); }
-	  [javadoc] 	       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/DDNTemperatureDataCSV.java:171: warning: no @param for gzippedCSV
-	  [javadoc] 	public static DDNTemperatureDataCSV loadDDNTemperatureDataCSV(final File gzippedCSV)
-	  [javadoc] 	                                    ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/DDNTemperatureDataCSV.java:171: warning: no @return
-	  [javadoc] 	public static DDNTemperatureDataCSV loadDDNTemperatureDataCSV(final File gzippedCSV)
-	  [javadoc] 	                                    ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModel.html...
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelByHour.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelByHour.java:18: warning: no comment
-	  [javadoc] 	public HGTRVHPMModelByHour
-	  [javadoc] 	       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelByHour.java:53: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelByHour.java:55: warning: no @return
 	  [javadoc] 	public ScenarioResult runScenario(final boolean modelDetached,
 	  [javadoc] 	                      ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelByHour.ScenarioResult.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelByHour.java:35: warning: no comment
-	  [javadoc] 		public ScenarioResult
-	  [javadoc] 		       ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelExtensions.html...
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:145: warning: no @param for flowC
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:148: warning: no @param for flowC
 	  [javadoc]     public static double computeFlowCoP(final double flowC)
 	  [javadoc]                          ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:145: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:148: warning: no @return
 	  [javadoc]     public static double computeFlowCoP(final double flowC)
 	  [javadoc]                          ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:178: error: @param name not found
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:181: error: @param name not found
 	  [javadoc]      * @param IWFAabHLW  internal wall/floor heat loss/transfer per A room (W)
 	  [javadoc]               ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:181: warning: no @param for IWAabHLW
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:184: warning: no @param for IWAabHLW
 	  [javadoc] 	public static double sbAMW(final double HHLsb, final double radWnsb, final double IWAabHLW)
 	  [javadoc] 	                     ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:213: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:216: warning: no @return
 	  [javadoc] 	private static double iwHeatLossPerA(final ModelParameters params)
 	  [javadoc] 	                      ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:225: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:228: warning: no @return
 	  [javadoc] 	private static double iwHeatLossPerA(final ModelParameters params, final double tempA)
 	  [javadoc] 	                      ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:277: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:280: warning: no @return
 	  [javadoc] 	private static double ifHeatLossPerA2Storey(final ModelParameters params)
 	  [javadoc] 	                      ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:292: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:295: warning: no @return
 	  [javadoc] 	private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)
 	  [javadoc] 	                      ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.DemandWithoutAndWithSetback.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:132: warning: no comment
-	  [javadoc]     	public DemandWithoutAndWithSetback
-	  [javadoc]     	       ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.HeatAndElectricityDemand.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:119: warning: no comment
-	  [javadoc] 	    public HeatAndElectricityDemand
-	  [javadoc] 	           ^
 	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.ModelParameters.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:46: warning: no comment
-	  [javadoc]     	public ModelParameters
-	  [javadoc]     	       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:74: warning: no @param for newExternalTemperature
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:75: warning: no @param for newExternalTemperature
 	  [javadoc]     	public ModelParameters cloneWithAdjustedExternalTemperature(final double newExternalTemperature)
 	  [javadoc]     	                       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:74: warning: no @return
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:75: warning: no @return
 	  [javadoc]     	public ModelParameters cloneWithAdjustedExternalTemperature(final double newExternalTemperature)
 	  [javadoc]     	                       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:65: warning: no @param for doorsPerInternalWall
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:66: warning: no @param for doorsPerInternalWall
 	  [javadoc]     	public ModelParameters(final double doorsPerInternalWall, final boolean correctCoPForFlowVsMW)
 	  [javadoc]     	       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:65: warning: no @param for correctCoPForFlowVsMW
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:66: warning: no @param for correctCoPForFlowVsMW
 	  [javadoc]     	public ModelParameters(final double doorsPerInternalWall, final boolean correctCoPForFlowVsMW)
 	  [javadoc]     	       ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:69: warning: no @param for doorsPerInternalWall
+	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:70: warning: no @param for doorsPerInternalWall
 	  [javadoc]     	public ModelParameters(final double doorsPerInternalWall)
 	  [javadoc]     	       ^
 

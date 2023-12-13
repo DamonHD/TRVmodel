@@ -44,12 +44,14 @@ Accuracy:,"Estimates were made to account for missing data: the ""% Estimated"" 
 Station:,"London, GB (0.45W,51.48N)"
 Station ID:,EGLL
 
-Datetime,Timezone,Date,Time,Temp (<B0>C),% Estimated
+Datetime,Timezone,Date,Time,Temp (oC),% Estimated
 2018-01-01 00:00,GMT,2018-01-01,00:00,7,0
 2018-01-01 01:00,GMT,2018-01-01,01:00,7,0
 2018-01-01 02:00,GMT,2018-01-01,02:00,6.3,0
 2018-01-01 03:00,GMT,2018-01-01,03:00,6,0
 </pre>
+ *
+ * @param data  row-major fields from temperature CSV; non-null
  */
 public record DDNTemperatureDataCSV(List<List<String>> data)
     {
@@ -101,7 +103,7 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
 		}));
 
 	/**Parse degreedays.net hourly temperature CSV file/stream; never null but may be empty.
-     * Parses CSV as List (by row) of List (of String fields),
+     * Parses CSV as List (by row) of List (of String comma-separated fields),
      * omitting empty and comment (starting with '#') rows.
      * <p>
      * This <em>does not</em> validate the content.
@@ -113,7 +115,7 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
      * @param r  stream to read from, not closed by this routine; never null
      * @return a non-null but possibly-empty in-order immutable List of rows,
      *    each of which is a non-null but possibly-empty in-order List of fields
-     * @throws IOException  if there is an I/O problem or the data is malformed
+     * @throws IOException  if there is an I/O problem or the temperature data is malformed
      */
     public static DDNTemperatureDataCSV parseDDNTemperatureDataCSV(final Reader r)
         throws IOException
@@ -167,7 +169,9 @@ public record DDNTemperatureDataCSV(List<List<String>> data)
         }
 
 	/**Load from GZIPped file degreedays.net hourly temperature data; never null but may be empty.
-	 * @throws IOException  if file not present or unreadable/unparseable.
+	 * @param gzippedCSV  gzipped CSV degree-days file to read from; never null
+	 * @return (hourly) temperature data; non-null
+	 * @throws IOException  if file not present or unreadable/unparseable
 	 */
 	public static DDNTemperatureDataCSV loadDDNTemperatureDataCSV(final File gzippedCSV)
 	    throws IOException
