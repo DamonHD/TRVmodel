@@ -275,7 +275,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
             <header><![CDATA[
 <a href="http://d.hd.org/" target="_top">TRVmodel</a> V${app.version}<br />
                             ]]></header>
-            <footer>TRVmodel V${app.version}</footer>
+            <!-- footer>TRVmodel V${app.version}</footer -->
             <bottom>Copyright (c) 2023, Damon Hart-Davis.</bottom>
         </javadoc>
     </target>

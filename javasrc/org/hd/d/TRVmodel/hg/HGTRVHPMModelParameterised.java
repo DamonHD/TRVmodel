@@ -62,16 +62,24 @@ public final class HGTRVHPMModelParameterised
     			);
 	    	}
 
-    	/**Allow doors per internal wall to be set, all else defaults. */
+    	/**Allow doors per internal wall to be set, all else defaults.
+    	 * @param doorsPerInternalWall  mean number of doors per internal wall (non-negative)
+         * @param correctCoPForFlowVsMW  if true, correct for flow vs mean radiator issue
+    	 */
     	public ModelParameters(final double doorsPerInternalWall, final boolean correctCoPForFlowVsMW)
     	    { this(doorsPerInternalWall, correctCoPForFlowVsMW, DEFAULT_ARRANGEMENT_ABAB, DEFAULT_EXTERNAL_AIR_TEMPERATURE_C); }
 
-    	/**Allow doors per internal wall to be set, all else defaults. */
+    	/**Allow doors per internal wall to be set, all else defaults.
+    	 * @param doorsPerInternalWall  mean number of doors per internal wall (non-negative)
+    	 */
     	public ModelParameters(final double doorsPerInternalWall)
     	    { this(doorsPerInternalWall, DEFAULT_CORRECT_COP_FOR_FLOW_TEMPERATURE); }
 
 
-    	/**Clone but replace external temperature value; all other parameters unchanged. */
+    	/**Clone but replace external temperature value; all other parameters unchanged.
+    	 * @param newExternalTemperature  the temperature to use (C)
+    	 * @return adjusted model parameters; not null
+    	 */
     	public ModelParameters cloneWithAdjustedExternalTemperature(final double newExternalTemperature)
 	    	{
 	    	if(!Double.isFinite(newExternalTemperature)) { throw new IllegalArgumentException(); }
@@ -147,6 +155,9 @@ public final class HGTRVHPMModelParameterised
      * <p>
      * Note this is for flow temperature, given the sample manufacturer's data,
      * though the original text uses this interchangeably with mid temperature.
+     *
+     * @param flowC  flow temperature (from heat pump to radiator) in C
+     * @return CoP
      */
     public static double computeFlowCoP(final double flowC)
 	    {
@@ -168,7 +179,7 @@ public final class HGTRVHPMModelParameterised
      *
      * @param params  the variable model parameters
      * @param withBSetback  if true, with B rooms set back, else all at same temperature
-     * @return  demand in watts, finite and non-negative
+     * @return demand in watts, finite and non-negative
      */
     public static double computeBungalowHPElectricityDemandW(final ModelParameters params, final boolean withBSetback)
 	    {
@@ -184,13 +195,13 @@ public final class HGTRVHPMModelParameterised
      * @param IWFAabHLW  internal wall/floor heat loss/transfer per A room (W)
      * @return (radAMWsb) mean water temperature in each A room when B setback (C)
      */
-	public static double sbAMW(final double HHLsb, final double radWnsb, final double IWAabHLW)
+	public static double sbAMW(final double HHLsb, final double radWnsb, final double IWFAabHLW)
 		{
 		// radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W).
         // (RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W)
         final double radWAsb =
         	//HGTRVHPMModel.RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + IDWAabHLW;
-    		radWnsb + IWAabHLW;
+    		radWnsb + IWFAabHLW;
         // radWBsb: (Heat Loss 2.0) radiator output in each B room when B setback (W).
         // (Was: RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W)
         // radWAmultsb: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback.
@@ -215,6 +226,7 @@ public final class HGTRVHPMModelParameterised
 
     /**Internal wall heat loss/transfer per A room (HEAT LOSS 1) with A at 'normal' temperature (W).     *
      * @param params  the model parameters; never null
+     * @return heat loss power per A rooms (W)
      */
 	private static double iwHeatLossPerA(final ModelParameters params)
 		{
@@ -227,6 +239,7 @@ public final class HGTRVHPMModelParameterised
      *
      * @param params  the model parameters; never null
      * @param tempA  the A room temperature in C; no lower than B (and finite)
+     * @return heat loss power per A rooms (W)
      */
 	private static double iwHeatLossPerA(final ModelParameters params, final double tempA)
 	    {
@@ -279,6 +292,7 @@ public final class HGTRVHPMModelParameterised
      * Assumes that A room is at 'normal' temperature and B room is at setback temperature.
      *
      * @param params  model parameters; non-null
+     * @return heat loss power per A rooms (W)
      */
 	private static double ifHeatLossPerA2Storey(final ModelParameters params)
 		{
@@ -294,6 +308,7 @@ public final class HGTRVHPMModelParameterised
      *
      * @param params  model parameters; non-null
      * @param tempA  temperature of A room, must be no lower than B room setback.
+     * @return heat loss power per A rooms (W)
      */
 	private static double ifHeatLossPerA2Storey(final ModelParameters params, final double tempA)
 		{
@@ -360,7 +375,7 @@ public final class HGTRVHPMModelParameterised
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
-     * @return  demand in watts, finite and non-negative
+     * @return demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeBungalowDemandW(final ModelParameters params)
 	    {
@@ -426,7 +441,7 @@ public final class HGTRVHPMModelParameterised
      * substituting in parameters and new calculation where needed.
      *
      * @param params  the variable model parameters
-     * @return  demand in watts, finite and non-negative
+     * @return demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)
     	{ return(computeDetachedDemandW(params, false)); }
@@ -437,7 +452,7 @@ public final class HGTRVHPMModelParameterised
      *
      * @param params  the variable model parameters
      * @param asBungalow  if true, compute as 4-room bungalow to cross-check with original calculation
-     * @return  demand in watts, finite and non-negative
+     * @return demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params,
     		final boolean asBungalow)
@@ -544,7 +559,7 @@ public final class HGTRVHPMModelParameterised
      * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached
      * @param equilibriumTemperature  if not null and not zero length,
      *     used to return the A-room equilibrium temperature
-     * @return  demand in watts, finite and non-negative
+     * @return demand in watts, finite and non-negative
      */
     public static DemandWithoutAndWithSetback computeSoftATempDemandW(final ModelParameters params,
     		final boolean bungalow,
