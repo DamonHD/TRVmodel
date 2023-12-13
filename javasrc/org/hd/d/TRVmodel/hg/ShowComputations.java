@@ -249,6 +249,8 @@ public final class ShowComputations
 	 * Attempts to remain at least slightly human readable.
 	 * <p>
 	 * The table class at least should be fixed up manually.
+	 *
+	 * @param stiff  if true then in stiff (load comp) regulation mode, else soft (weather comp)
 	 */
 	public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException
 		{
@@ -336,94 +338,101 @@ public final class ShowComputations
 	 * Attempts to remain at least slightly human readable.
 	 * <p>
 	 * Some details may need to be fixed up manually, including the label.
+	 *
+	 * @param stiff  if true then in stiff (load comp) regulation mode, else soft (weather comp)
+	 * @return LaTeX table summary
 	 */
-	public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException
+	public static String generateLaTeXMainSummaryTable(final boolean stiff)
 		{
-		final StringBuilder result = new StringBuilder();
-		result.append("\\begin{table}[H]\n");
-	    result.append(String.format("""
-	        \\caption{\
-			%s mode: summary of mean power change with selected-room setback of\s\
-			(1) %s temperature regulation in A rooms\s\
-			(2) whole-home heat demand and of\s\
-			(3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\
-			(4) for 1- and 2- storey (bungalow and detached) archetypes, \s\
-			for %d UK locations.\s\
-			Based on hourly temperature data for the ten years 201X.\s\
-			When B rooms are set back overall home heat demand does fall,\s\
-			but in the ABAB layout that maximises internal losses,\s\
-			heat-pump electricity demand rises, in all scenarios,\s\
-			especially in the detached house cases.\
-			\\label{t-summary}}\
-			""",
-			    stiff ? "Stiff" : "Soft",
-			    stiff ? "stiff" : "soft",
-				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
-        result.append("\\begin{adjustwidth}{-\\extralength}{0cm}\n"
-        		+ "                \\newcolumntype{C}{>{\\centering\\arraybackslash}X}\n"
-        		+ "                \\begin{tabularx}{\\fulllength}{CCCCC}\n"
-        		+ "                        \\toprule\n"
-        		+ "");
-        result.append(""
-        		+ "\\textbf{Location (Weather Station)} & "
-        		+ "\\textbf{Archetype} & "
-        		+ "\\textbf{Home heat demand delta} & "
-        		+ "\\textbf{ABAB heat-pump demand delta} & "
-        		+ "\\textbf{AABB heat-pump demand delta}"
-        		+ "\\\\\n"
-        		+ "");
+		try {
+			final StringBuilder result = new StringBuilder();
+			result.append("\\begin{table}[H]\n");
+			result.append(String.format("""
+			    \\caption{\
+				%s mode: summary of mean power change with selected-room setback of\s\
+				(1) %s temperature regulation in A rooms\s\
+				(2) whole-home heat demand and of\s\
+				(3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\
+				(4) for 1- and 2- storey (bungalow and detached) archetypes, \s\
+				for %d UK locations.\s\
+				Based on hourly temperature data for the ten years 201X.\s\
+				When B rooms are set back overall home heat demand does fall,\s\
+				but in the ABAB layout that maximises internal losses,\s\
+				heat-pump electricity demand rises, in all scenarios,\s\
+				especially in the detached house cases.\
+				\\label{t-summary}}\
+				""",
+				    stiff ? "Stiff" : "Soft",
+				    stiff ? "stiff" : "soft",
+					DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
+			result.append("\\begin{adjustwidth}{-\\extralength}{0cm}\n"
+					+ "                \\newcolumntype{C}{>{\\centering\\arraybackslash}X}\n"
+					+ "                \\begin{tabularx}{\\fulllength}{CCCCC}\n"
+					+ "                        \\toprule\n"
+					+ "");
+			result.append(""
+					+ "\\textbf{Location (Weather Station)} & "
+					+ "\\textbf{Archetype} & "
+					+ "\\textbf{Home heat demand delta} & "
+					+ "\\textbf{ABAB heat-pump demand delta} & "
+					+ "\\textbf{AABB heat-pump demand delta}"
+					+ "\\\\\n"
+					+ "");
 
-		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
-			{
-	    	// Load temperature data for this station.
-			final DDNTemperatureDataCSV temperatures201X =
-				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
-					htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
-	        if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
-	        	{ throw new IOException("bad record count"); }
-			for(final boolean detached : new boolean[]{false, true})
+			for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 				{
-//				result.append("<tr>");
-				if(!detached)
-				    { result.append(String.format("\\midrule\\multirow[m]{2}{*}{%s (%s)}", htdd.conurbation(), htdd.station())); }
-				result.append(" & ");
-
-		        final String archetype = detached ? "detached" : "bungalow";
-		        result.append(String.format("%s & ", archetype));
-				for(final boolean abab : new boolean[]{true, false})
+				// Load temperature data for this station.
+				final DDNTemperatureDataCSV temperatures201X =
+					DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
+						htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
+			    if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
+			    	{ throw new IOException("bad record count"); }
+				for(final boolean detached : new boolean[]{false, true})
 					{
-			    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
-							ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
-							ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-							abab,
-							ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
-					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
-		    			modelParameters,
-		    			temperatures201X);
-			    	final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);
-			    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
-			    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
-			    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
-			    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
-			    	if(!detached && abab)
-			            { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%}", heatDelta201X)); }
+//				result.append("<tr>");
+					if(!detached)
+					    { result.append(String.format("\\midrule\\multirow[m]{2}{*}{%s (%s)}", htdd.conurbation(), htdd.station())); }
 					result.append(" & ");
-			    	// Heat-pump power demand delta.
-			    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
-			    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
-			    	final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);
-			    	result.append(String.format("%.1f\\%% ", powerDelta201X));
-					}
-				result.append("\\\\\n");
-				}
-			}
 
-        result.append("                        \\bottomrule\n"
-        		+ "                \\end{tabularx}\n"
-        		+ "        \\end{adjustwidth}\n"
-        		+ "");
-		result.append("\\end{table}");
-		return(result.toString());
+			        final String archetype = detached ? "detached" : "bungalow";
+			        result.append(String.format("%s & ", archetype));
+					for(final boolean abab : new boolean[]{true, false})
+						{
+				    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
+								ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+								ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+								abab,
+								ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
+						final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
+			    			modelParameters,
+			    			temperatures201X);
+				    	final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);
+				    	final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();
+				    	final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();
+				    	// Overall home heat demand is not affected by archetype or room setback layout, so only show once.
+				    	final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);
+				    	if(!detached && abab)
+				            { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%}", heatDelta201X)); }
+						result.append(" & ");
+				    	// Heat-pump power demand delta.
+				    	final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();
+				    	final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();
+				    	final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);
+				    	result.append(String.format("%.1f\\%% ", powerDelta201X));
+						}
+					result.append("\\\\\n");
+					}
+				}
+
+			result.append("                        \\bottomrule\n"
+					+ "                \\end{tabularx}\n"
+					+ "        \\end{adjustwidth}\n"
+					+ "");
+			result.append("\\end{table}");
+			return(result.toString());
+		    }
+		catch(final IOException e)
+	        { throw new RuntimeException("should not happen", e); }
 		}
 
 
@@ -502,7 +511,7 @@ public final class ShowComputations
 			result.append("</table>");
 			return(result.toString());
 		    }
-		catch (final IOException e)
+		catch(final IOException e)
 		    { throw new RuntimeException("should not happen", e); }
 		}
 

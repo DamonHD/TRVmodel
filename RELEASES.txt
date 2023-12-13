@@ -135,16 +135,8 @@ PENDING:
 	  [javadoc] 	                     ^
 	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:253: warning: no @throws for java.io.IOException
 	  [javadoc] 	public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException
-	  [javadoc] 	                     ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:340: warning: no @param for stiff
-	  [javadoc] 	public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException
-	  [javadoc] 	                     ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:340: warning: no @return
-	  [javadoc] 	public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException
-	  [javadoc] 	                     ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/ShowComputations.java:340: warning: no @throws for java.io.IOException
-	  [javadoc] 	public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException
-    
+
+   
 
 
 
