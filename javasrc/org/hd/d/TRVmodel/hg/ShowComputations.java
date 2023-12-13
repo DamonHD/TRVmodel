@@ -431,73 +431,79 @@ public final class ShowComputations
 	 * Attempts to remain at least slightly human readable.
 	 * <p>
 	 * The table class at least should be fixed up manually.
+	 *
+	 * @return HTML table for sag data; non-null, non-empty
 	 */
-	public static String generateHTMLSagTable() throws IOException
+	public static String generateHTMLSagTable()
 		{
-		// Vertically split as location, ABAB sag, AABB sag.
-		// Each by bungalow/detached.
-		final StringBuilder result = new StringBuilder();
-		result.append("<table style=\"border:1px solid\" class=\"yourTableStyle\">\n");
-		result.append(String.format("""
-			<caption>\
-			Soft mode: summary of maximum A-room temperature sag with selected-room setback of\s\
-			(1) soft temperature regulation in A rooms\s\
-			(2) maximum (ie worst-case) temperature dip in high ABAB and low AABB internal loss room setback arrangements\s\
-			(4) for 1- and 2- storey (bungalow and detached) archetypes, \s\
-			for %d UK locations.\s\
-			Based on hourly temperature data for the ten years 201X.\s\
-			When B rooms are set back with soft-mode regulation overall home heat demand and heat-pump does fall,\s\
-			and the maximum temperature sag in A rooms is shown.\
-			</caption>
-			""",
-				DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
-		result.append("""
-			<thead><tr>\
-			<th>Location (Weather Station)</th><th>Archetype</th>\
-			<th>ABAB worst-case sag</th>\
-			<th>AABB worst-case sag</th>\
-			</tr></thead>
-			""");
+		try {
+			// Vertically split as location, ABAB sag, AABB sag.
+			// Each by bungalow/detached.
+			final StringBuilder result = new StringBuilder();
+			result.append("<table style=\"border:1px solid\" class=\"yourTableStyle\">\n");
+			result.append(String.format("""
+				<caption>\
+				Soft mode: summary of maximum A-room temperature sag with selected-room setback of\s\
+				(1) soft temperature regulation in A rooms\s\
+				(2) maximum (ie worst-case) temperature dip in high ABAB and low AABB internal loss room setback arrangements\s\
+				(4) for 1- and 2- storey (bungalow and detached) archetypes, \s\
+				for %d UK locations.\s\
+				Based on hourly temperature data for the ten years 201X.\s\
+				When B rooms are set back with soft-mode regulation overall home heat demand and heat-pump does fall,\s\
+				and the maximum temperature sag in A rooms is shown.\
+				</caption>
+				""",
+					DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));
+			result.append("""
+				<thead><tr>\
+				<th>Location (Weather Station)</th><th>Archetype</th>\
+				<th>ABAB worst-case sag</th>\
+				<th>AABB worst-case sag</th>\
+				</tr></thead>
+				""");
 
-		result.append("<tbody>\n");
-		for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
-			{
-	    	// Load temperature data for this station.
-			final DDNTemperatureDataCSV temperatures201X =
-				DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
-					htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
-	        if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
-	        	{ throw new IOException("bad record count"); }
-			for(final boolean detached : new boolean[]{false, true})
+			result.append("<tbody>\n");
+			for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)
 				{
-				result.append("<tr>");
-				if(!detached)
-			    	{ result.append(String.format("<td rowspan=\"2\">%s (%s)</td>", htdd.conurbation(), htdd.station())); }
-
-		        final String archetype = detached ? "detached" : "bungalow";
-		        result.append(String.format("<td>%s</td>", archetype));
-				for(final boolean abab : new boolean[]{true, false})
+				// Load temperature data for this station.
+				final DDNTemperatureDataCSV temperatures201X =
+					DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,
+						htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));
+			    if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())
+			    	{ throw new IOException("bad record count"); }
+				for(final boolean detached : new boolean[]{false, true})
 					{
-			        final String layout = abab ? "ABAB" : "AABB";
-			    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
-							ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
-							ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
-							abab,
-							ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
-					final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
-		    			modelParameters,
-		    			temperatures201X);
-					final double equilibriumTemperatureMin[] = new double[1];
-			    	final ScenarioResult result201X = scenario201X.runScenario(detached, true, equilibriumTemperatureMin);
-			    	final double sag = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - equilibriumTemperatureMin[0];
-			    	result.append(String.format("<td style=\"text-align:right\">%.1fK</td>", sag));
+					result.append("<tr>");
+					if(!detached)
+				    	{ result.append(String.format("<td rowspan=\"2\">%s (%s)</td>", htdd.conurbation(), htdd.station())); }
+
+			        final String archetype = detached ? "detached" : "bungalow";
+			        result.append(String.format("<td>%s</td>", archetype));
+					for(final boolean abab : new boolean[]{true, false})
+						{
+				        final String layout = abab ? "ABAB" : "AABB";
+				    	final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(
+								ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,
+								ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,
+								abab,
+								ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);
+						final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(
+			    			modelParameters,
+			    			temperatures201X);
+						final double equilibriumTemperatureMin[] = new double[1];
+				    	final ScenarioResult result201X = scenario201X.runScenario(detached, true, equilibriumTemperatureMin);
+				    	final double sag = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - equilibriumTemperatureMin[0];
+				    	result.append(String.format("<td style=\"text-align:right\">%.1fK</td>", sag));
+						}
+					result.append("</tr>\n");
 					}
-				result.append("</tr>\n");
 				}
-			}
-		result.append("</tbody>\n");
-		result.append("</table>");
-		return(result.toString());
+			result.append("</tbody>\n");
+			result.append("</table>");
+			return(result.toString());
+		    }
+		catch (final IOException e)
+		    { throw new RuntimeException("should not happen", e); }
 		}
 
 	}
