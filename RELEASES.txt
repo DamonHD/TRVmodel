@@ -116,12 +116,6 @@ PENDING:
 	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/HourlyTemperatureDataDescriptor.java:34: warning: no comment
 	  [javadoc] 	public HourlyTemperatureDataDescriptor
 	  [javadoc] 	       ^
-	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/Main.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/Main.java:55: warning: no @param for args
-	  [javadoc]     public static void main(final String[] args)
-	  [javadoc]                        ^
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/Main.java:28: warning: use of default constructor, which does not provide a comment
-	  [javadoc] public final class Main
 
    
 

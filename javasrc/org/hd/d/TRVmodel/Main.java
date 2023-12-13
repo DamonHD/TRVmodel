@@ -27,6 +27,9 @@ import org.hd.d.TRVmodel.hg.ShowComputations;
  */
 public final class Main
     {
+	/**Main (command-line) entry-point for the data handler. */
+	public Main() { }
+
     /**Print a summary of command options to stderr. */
     private static void printOptions()
         {
@@ -51,6 +54,8 @@ public final class Main
 
     /**Accepts command-line arguments.
      * See {@link #printOptions()}.
+     *
+     * @param args  command-line arguments, per {@link #printOptions()}
      */
     public static void main(final String[] args)
         {
