@@ -53,6 +53,7 @@ Datetime,Timezone,Date,Time,Temp (<B0>C),% Estimated
  */
 public record DDNTemperatureDataCSV(List<List<String>> data)
     {
+	/**Construct instance. */
 	public DDNTemperatureDataCSV { Objects.requireNonNull(data); }
 
 	/**If true, attempt to minimise memory consumption when parsing and loading EOUDATACSV data. */
