@@ -43,6 +43,7 @@ public final class HGTRVHPMModelParameterised
     		double externalAirTemperatureC
     		)
 	    {
+    	/**Construct instance. */
     	public ModelParameters
 			{
     		// Sanity-check parameters.
@@ -116,6 +117,7 @@ public final class HGTRVHPMModelParameterised
      */
     public record HeatAndElectricityDemand(double heatDemand, double heatPumpElectricity)
 	    {
+    	/**Construct instance. */
 	    public HeatAndElectricityDemand
 		    {
     		// Sanity-check parameters.
@@ -129,6 +131,7 @@ public final class HGTRVHPMModelParameterised
     /**Home heat and electricity demand with and without setback in B rooms; both non-null. */
     public record DemandWithoutAndWithSetback(HeatAndElectricityDemand noSetback, HeatAndElectricityDemand withSetback)
 	    {
+    	/**Construct instance. */
     	public DemandWithoutAndWithSetback
 	    	{
     		Objects.requireNonNull(noSetback);

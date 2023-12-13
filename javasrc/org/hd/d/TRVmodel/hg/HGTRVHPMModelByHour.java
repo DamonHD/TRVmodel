@@ -15,6 +15,7 @@ import org.hd.d.TRVmodel.hg.HGTRVHPMModelParameterised.HeatAndElectricityDemand;
  */
 public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters modelParameters, DDNTemperatureDataCSV temperatures)
  	{
+	/**Construct instance. */
 	public HGTRVHPMModelByHour
 		{
 		Objects.requireNonNull(modelParameters);
@@ -32,6 +33,7 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 	 */
 	public record ScenarioResult(double hoursFractionSetbackRaisesDemand, DemandWithoutAndWithSetback demand)
 		{
+		/**Construct instance. */
 		public ScenarioResult
 			{
 			if(!Double.isFinite(hoursFractionSetbackRaisesDemand)) { throw new IllegalArgumentException(); }
