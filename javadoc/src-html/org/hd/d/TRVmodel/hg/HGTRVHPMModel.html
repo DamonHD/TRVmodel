@@ -93,7 +93,7 @@
 <span class="source-line-no">080</span><span id="line-80"></span>
 <span class="source-line-no">081</span><span id="line-81">    /**tIntSetback: setback/unused room temperature (Celsius). */</span>
 <span class="source-line-no">082</span><span id="line-82">    public static final double SETBACK_ROOM_TEMPERATURE_C = 18;</span>
-<span class="source-line-no">083</span><span id="line-83">    /**tMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */</span>
+<span class="source-line-no">083</span><span id="line-83">    /**tIntMeanWhenSetback: (Flow Temperature, step 2) mean home temperature when B rooms setback (Celcius). */</span>
 <span class="source-line-no">084</span><span id="line-84">    public static final double MEAN_HOME_TEMPERATURE_WITH_SETBACK_C =</span>
 <span class="source-line-no">085</span><span id="line-85">                (NORMAL_ROOM_TEMPERATURE_C + SETBACK_ROOM_TEMPERATURE_C) / 2;</span>
 <span class="source-line-no">086</span><span id="line-86">    /**HLsbW: (Flow Temperature, step 3) heat loss with B rooms setback (W). */</span>
@@ -152,44 +152,48 @@
 <span class="source-line-no">139</span><span id="line-139">    public static final double INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W =</span>
 <span class="source-line-no">140</span><span id="line-140">                INTERNAL_WALL_MINUS_DOOR_HEAT_LOSS_W + INTERNAL_DOOR_HEAT_LOSS_W;</span>
 <span class="source-line-no">141</span><span id="line-141"></span>
-<span class="source-line-no">142</span><span id="line-142">    /**radWAbs: (Heat Loss 2.0) radiator output in each A room when B setback (W). */</span>
+<span class="source-line-no">142</span><span id="line-142">    /**radWAsb: (Heat Loss 2.0) radiator output in each A room when B setback (W). */</span>
 <span class="source-line-no">143</span><span id="line-143">    public static final double RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W =</span>
 <span class="source-line-no">144</span><span id="line-144">                RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W + INTERNAL_WALL_AND_DOOR_HEAT_LOSS_PER_A_ROOM_W;</span>
-<span class="source-line-no">145</span><span id="line-145">    /**radWBbs: (Heat Loss 2.0) radiator output in each B room when B setback (W). */</span>
+<span class="source-line-no">145</span><span id="line-145">    /**radWBsb: (Heat Loss 2.0) radiator output in each B room when B setback (W). */</span>
 <span class="source-line-no">146</span><span id="line-146">    public static final double RADIATOR_POWER_IN_B_ROOMS_WHEN_B_SETBACK_W =</span>
 <span class="source-line-no">147</span><span id="line-147">                (HOME_HEAT_LOSS_B_SETBACK_W - 2*RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W) / 2;</span>
-<span class="source-line-no">148</span><span id="line-148">    /**radWAmult: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback. */</span>
+<span class="source-line-no">148</span><span id="line-148">    /**radWAmultsb: (Heat Loss 2.1) radiator output increase multiplier in each A room when B setback. */</span>
 <span class="source-line-no">149</span><span id="line-149">    public static final double RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =</span>
 <span class="source-line-no">150</span><span id="line-150">                RADIATOR_POWER_IN_A_ROOMS_WHEN_B_SETBACK_W / RADIATOR_POWER_WITH_HOME_AT_NORMAL_ROOM_TEMPERATURE_W;</span>
 <span class="source-line-no">151</span><span id="line-151">        /**MWATP2Dexp: (Heat Loss 2.2) exponent to go from power increase to delta-T increase. */</span>
 <span class="source-line-no">152</span><span id="line-152">    public static final double RADIATOR_EXP_POWER_TO_DT = 0.77;</span>
-<span class="source-line-no">153</span><span id="line-153">    /**radAbsdTmult: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */</span>
+<span class="source-line-no">153</span><span id="line-153">    /**radAdTmultsb: (Heat Loss 2.3) radiator MW-AT delta-T increase multiplier in each A room when B setback. */</span>
 <span class="source-line-no">154</span><span id="line-154">    public static final double RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER =</span>
 <span class="source-line-no">155</span><span id="line-155">                Math.pow(RADIATOR_POWER_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER, RADIATOR_EXP_POWER_TO_DT);</span>
-<span class="source-line-no">156</span><span id="line-156">    /**radAbsdT: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */</span>
+<span class="source-line-no">156</span><span id="line-156">    /**radAdTsb: (Heat Loss 2.4) radiator MW-AT delta-T in each A room when B setback (K). */</span>
 <span class="source-line-no">157</span><span id="line-157">    public static final double RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K =</span>
 <span class="source-line-no">158</span><span id="line-158">                RADIATOR_MWATDT_AT_NORMAL_ROOM_TEMPERATURE_K * RADIATOR_DT_UPLIFT_IN_A_ROOMS_WHEN_B_SETBACK_MULTIPLIER;</span>
-<span class="source-line-no">159</span><span id="line-159">    /**radAbsMW: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C). */</span>
+<span class="source-line-no">159</span><span id="line-159">    /**radAMWsb: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C). */</span>
 <span class="source-line-no">160</span><span id="line-160">    public static final double RADIATOR_MW_IN_A_ROOMS_WHEN_B_SETBACK_C =</span>
 <span class="source-line-no">161</span><span id="line-161">                NORMAL_ROOM_TEMPERATURE_C + RADIATOR_DT_IN_A_ROOMS_WHEN_B_SETBACK_K;</span>
 <span class="source-line-no">162</span><span id="line-162"></span>
-<span class="source-line-no">163</span><span id="line-163">    /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP at 46.0C flow temperature. */</span>
-<span class="source-line-no">164</span><span id="line-164">    public static final double COP_AT_46p0C = 2.6;</span>
-<span class="source-line-no">165</span><span id="line-165">    /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP at 51.5C flow temperature. */</span>
-<span class="source-line-no">166</span><span id="line-166">    public static final double COP_AT_51p5C = 2.3;</span>
-<span class="source-line-no">167</span><span id="line-167">    /**CoPDropPerK: (Heat Pump Efficiency) suggested approximate fall in CoP per K rise in flow temperature. */</span>
-<span class="source-line-no">168</span><span id="line-168">    public static final double COP_DROP_pK = 0.025;</span>
-<span class="source-line-no">169</span><span id="line-169">    /**HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
-<span class="source-line-no">170</span><span id="line-170">     * Note that flow and mean temperatures seem to be being mixed here.</span>
-<span class="source-line-no">171</span><span id="line-171">     */</span>
-<span class="source-line-no">172</span><span id="line-172">    public static final double HEAT_PUMP_POWER_IN_NO_SETBACK_W =</span>
-<span class="source-line-no">173</span><span id="line-173">                HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / COP_AT_46p0C;</span>
-<span class="source-line-no">174</span><span id="line-174">    /**HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).</span>
-<span class="source-line-no">175</span><span id="line-175">     * Note that flow and mean temperatures seem to be being mixed here.</span>
-<span class="source-line-no">176</span><span id="line-176">     */</span>
-<span class="source-line-no">177</span><span id="line-177">    public static final double HEAT_PUMP_POWER_IN_B_SETBACK_W =</span>
-<span class="source-line-no">178</span><span id="line-178">                HOME_HEAT_LOSS_B_SETBACK_W / COP_AT_51p5C;</span>
-<span class="source-line-no">179</span><span id="line-179">        }</span>
+<span class="source-line-no">163</span><span id="line-163">    /**CoPLt: lower CoP sample temperature (C).*/</span>
+<span class="source-line-no">164</span><span id="line-164">    public static final double CoPLt = 46.0;</span>
+<span class="source-line-no">165</span><span id="line-165">    /**CoPHt: higher CoP sample temperature (C).*/</span>
+<span class="source-line-no">166</span><span id="line-166">    public static final double CoPHt = 51.5;</span>
+<span class="source-line-no">167</span><span id="line-167">    /**CoPA2W46p0: (Heat Pump Efficiency) suggested HP CoP sample at lower flow temperature. */</span>
+<span class="source-line-no">168</span><span id="line-168">    public static final double CoPL = 2.6;</span>
+<span class="source-line-no">169</span><span id="line-169">    /**CoPA2W51p5: (Heat Pump Efficiency) suggested HP CoP sample at higher flow temperature. */</span>
+<span class="source-line-no">170</span><span id="line-170">    public static final double CoPH = 2.3;</span>
+<span class="source-line-no">171</span><span id="line-171">    /**CoPDropPerK: (Heat Pump Efficiency) suggested approximate fall in CoP per K rise in flow temperature. */</span>
+<span class="source-line-no">172</span><span id="line-172">    public static final double COP_DROP_pK = 0.025;</span>
+<span class="source-line-no">173</span><span id="line-173">    /**HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).</span>
+<span class="source-line-no">174</span><span id="line-174">     * Note that flow and mean temperatures seem to be being mixed here.</span>
+<span class="source-line-no">175</span><span id="line-175">     */</span>
+<span class="source-line-no">176</span><span id="line-176">    public static final double HEAT_PUMP_POWER_IN_NO_SETBACK_W =</span>
+<span class="source-line-no">177</span><span id="line-177">                HOME_HEAT_LOSS_AT_NORMAL_ROOM_TEMPERATURE_W / CoPL;</span>
+<span class="source-line-no">178</span><span id="line-178">    /**HPinWsb: (Heat Pump Efficiency) heat-pump electrical power in when B is setback (W).</span>
+<span class="source-line-no">179</span><span id="line-179">     * Note that flow and mean temperatures seem to be being mixed here.</span>
+<span class="source-line-no">180</span><span id="line-180">     */</span>
+<span class="source-line-no">181</span><span id="line-181">    public static final double HEAT_PUMP_POWER_IN_B_SETBACK_W =</span>
+<span class="source-line-no">182</span><span id="line-182">                HOME_HEAT_LOSS_B_SETBACK_W / CoPH;</span>
+<span class="source-line-no">183</span><span id="line-183">        }</span>
 
 
 
