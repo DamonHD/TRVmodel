@@ -31,6 +31,7 @@ import java.util.Objects;
  */
 public record HourlyTemperatureDataDescriptor(String station, String conurbation, int records)
 	{
+	/**Construct instance. */
 	public HourlyTemperatureDataDescriptor
 	    {
 		Objects.requireNonNull(station);

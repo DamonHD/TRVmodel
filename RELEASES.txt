@@ -112,10 +112,6 @@ PENDING:
 	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/hg/HGTRVHPMModelParameterised.java:69: warning: no @param for doorsPerInternalWall
 	  [javadoc]     	public ModelParameters(final double doorsPerInternalWall)
 	  [javadoc]     	       ^
-	  [javadoc] Generating /Users/dhd/git/out_C/javadoc/org/hd/d/TRVmodel/data/HourlyTemperatureDataDescriptor.html...
-	  [javadoc] /Users/dhd/git/TRVmodel/javasrc/org/hd/d/TRVmodel/data/HourlyTemperatureDataDescriptor.java:34: warning: no comment
-	  [javadoc] 	public HourlyTemperatureDataDescriptor
-	  [javadoc] 	       ^
 
    
 
