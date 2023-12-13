@@ -51,6 +51,7 @@ public record HGTRVHPMModelByHour(HGTRVHPMModelParameterised.ModelParameters mod
 	 *     else run with original 'still' regulation
      * @param equilibriumTemperatureMin  if not null and not zero length,
      *     used to return the minimum A-room equilibrium temperature
+     * @return results of run; never null
 	 */
 	public ScenarioResult runScenario(final boolean modelDetached,
 			final boolean softATemp,

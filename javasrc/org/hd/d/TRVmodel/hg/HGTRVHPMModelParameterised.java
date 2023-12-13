@@ -128,7 +128,10 @@ public final class HGTRVHPMModelParameterised
 		    }
 	    }
 
-    /**Home heat and electricity demand with and without setback in B rooms; both non-null. */
+    /**Home heat and electricity demand with and without setback in B rooms; both non-null.
+     * @param noSetback  non-set-back values; non-null
+     * @param withSetback  set-back values; non-null
+     */
     public record DemandWithoutAndWithSetback(HeatAndElectricityDemand noSetback, HeatAndElectricityDemand withSetback)
 	    {
     	/**Construct instance. */
