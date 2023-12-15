@@ -15,7 +15,6 @@ SIGNIFICANT CHANGES SINCE LAST RELEASE
 
 
 PENDING:
-    DHD20231213: purging Javadoc warnings
 
    
 
@@ -31,6 +30,16 @@ PENDING:
 
 SIGNIFICANT RELEASES (newest first)
 ===================================
+
+20231213:
+    freezepoint name: V0.9.7
+    branch name: HEAD
+    Deployed where: (pre-release only)
+    Changes since last freezepoint (developer/mgr initials and brief description):
+    Previous significant freezepoint: V0.9.6
+    DHD20231213: purging Javadoc warnings
+    DHD20231215: code review with DE.
+
 
 20231213:
     freezepoint name: V0.9.6
