@@ -328,7 +328,7 @@ public final class HGTRVHPMModelParameterised
 		return(IFAabHLW);
 		}
 
-	/**Compute radiator mean water temperature in each A room when B is NOT set back (C).
+	/**Compute radiator mean water temperature in each A room when B is NOT set back (C) for 'stiff' regulation.
 	 * Extension to heat loss 2 to allow for varying external temperatures.
 	 * <p>
 	 * This is in fact the MW temperature for all room radiators when there are no setbacks.
@@ -366,7 +366,7 @@ public final class HGTRVHPMModelParameterised
 		// radAnsbMW: radiator mean water temperature in each A room when B NOT setback (C).
 		final double radAnsbMW =
 			HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C + radAnsbdT;
-//System.out.println(String.format("radAnbsMW = %.1f", radAnbsMW));
+//System.out.println(String.format("radAnsbMW = %.1f", radAnsbMW));
 		return(radAnsbMW);
 		}
 
@@ -407,7 +407,7 @@ public final class HGTRVHPMModelParameterised
         // radAMWsb: (Heat Loss 2.5) radiator mean water temperature in each A room when B setback (C).
         final double radAMWsb = sbAMW(HHLsb, radWnsb, IDWAabHLW);
 		// Extension to heat loss 2 to allow for varying external temperatures.
-        final double radMWnsb = nsbAMW(radWnsb);
+        final double radAMWnsb = nsbAMW(radWnsb);
 
 
         final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
@@ -415,7 +415,7 @@ public final class HGTRVHPMModelParameterised
 		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
         // Note that flow and mean temperatures seem to be being mixed here in the HG page.
-        final double CoPnsb = computeFlowCoP(radMWnsb + CoPCorrectionK);
+        final double CoPnsb = computeFlowCoP(radAMWnsb + CoPCorrectionK);
 //System.out.println(String.format("CoPnsb = %f", CoPnsb));
         final double HPinWnsb =
     		HHLnsb / CoPnsb;
