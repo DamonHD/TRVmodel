@@ -189,7 +189,7 @@ public final class HGTRVHPMModelParameterised
     			computeBungalowDemandW(params).noSetback.heatPumpElectricity);
 	    }
 
-    /**Radiator mean water temperature in each A room when B setback (C).
+    /**Radiator mean water temperature in each A room when B setback (C) for 'stiff' regulation.
      * @param HHLsb  whole home heat loss with B rooms setback and given external air temperature (W)
      * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
      * @param IWFAabHLW  internal wall/floor heat loss/transfer per A room (W)
