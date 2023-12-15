@@ -37,7 +37,7 @@ SIGNIFICANT RELEASES (newest first)
     Deployed where: (pre-release only)
     Changes since last freezepoint (developer/mgr initials and brief description):
     Previous significant freezepoint: V0.9.6
-    DHD20231213: purging Javadoc warnings
+    DHD20231213: purging Javadoc warnings.
     DHD20231215: code review with DE.
 
 
