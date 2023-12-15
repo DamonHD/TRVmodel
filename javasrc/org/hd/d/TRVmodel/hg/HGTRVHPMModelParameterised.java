@@ -370,7 +370,7 @@ public final class HGTRVHPMModelParameterised
 		return(radAnsbMW);
 		}
 
-    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W).
+    /**Compute the original HG 4-room 'bungalow' raw heat and heat-pump electricity demand with and without B-room setback (W) with 'stiff' regulation.
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
@@ -409,8 +409,8 @@ public final class HGTRVHPMModelParameterised
 		// Extension to heat loss 2 to allow for varying external temperatures.
         final double radAMWnsb = nsbAMW(radWnsb);
 
-
-        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
+        // Compute correction for across-radiator delta-T if needed.
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW() ? flowMWDelta_K : 0;
 
 		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
