@@ -282,7 +282,7 @@ public final class HGTRVHPMModelParameterised
 		return(IDWAabHLW);
 	    }
 
-    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached.
+    /**Internal floor/ceiling heat loss/transfer per A room (W) for 2-storey detached with stiff regulation.
      * Only applies when a B room is directly above or below.
      * <p>
      * This is only for a 2-storey detached, so in an ABAB arrangement (with BABA below)
@@ -436,7 +436,7 @@ public final class HGTRVHPMModelParameterised
     	return(new DemandWithoutAndWithSetback(noSetback, withSetback));
 	    }
 
-    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).
+    /**Compute 8-room detached 2-storey house raw heat and heat-pump electricity demand with and without B-room setback with stiff regulation (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
@@ -446,7 +446,7 @@ public final class HGTRVHPMModelParameterised
     public static DemandWithoutAndWithSetback computeDetachedDemandW(final ModelParameters params)
     	{ return(computeDetachedDemandW(params, false)); }
 
-    /**Compute 8-room 'detached' raw heat and heat-pump electricity demand with and without B-room setback (W).
+    /**Compute 8-room detached 2-storey house raw heat and heat-pump electricity demand with and without B-room setback with stiff regulation (W).
      * The calculation uses constants from HGTRVHPMModel as far as possible,
      * substituting in parameters and new calculation where needed.
      *
@@ -509,8 +509,8 @@ public final class HGTRVHPMModelParameterised
 		// MW temperature for all room radiators with no setbacks.
         final double DradAMWnsb = nsbAMW(DradWnsb);
 
-
-        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
+        // Compute correction for across-radiator delta-T if needed.
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW() ? flowMWDelta_K : 0;
 
 		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
