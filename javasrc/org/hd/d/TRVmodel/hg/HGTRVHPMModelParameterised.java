@@ -328,10 +328,11 @@ public final class HGTRVHPMModelParameterised
 		return(IFAabHLW);
 		}
 
-	/**Compute radiator mean water temperature in each A room when B is NOT set back (C) for 'stiff' regulation.
+	/**Compute radiator mean water temperature in each A room when B is NOT set back (C).
 	 * Extension to heat loss 2 to allow for varying external temperatures.
 	 * <p>
 	 * This is in fact the MW temperature for all room radiators when there are no setbacks.
+	 * This works for stiff and soft regulation cases therefore.
 	 *
 	 * @param radWnsb  pre-setback radiator output based on variable external air temperature (W)
 	 * @return (radAnsbMW) radiator mean water temperature in each A room when B is NOT set back (C)
@@ -554,9 +555,12 @@ public final class HGTRVHPMModelParameterised
      * Note: this does not allow for the temperature delta across the radiator rising,
      * and thus the mean water (MW) temperature dropping further from the flow temperature,
      * as more heat is drawn by an A room below 'normal' temperature.
+     * <p>
+     * This shows the change in heat and electrical demand from a house with no rooms set back
+     * to when B rooms are set back.
      *
      * @param params  the variable model parameters
-     * @param bungalow  if true, compute as 4-room bungalow, else as 8-room detached
+     * @param bungalow  if true, compute as 4-room bungalow, else as 2-storey 8-room detached
      * @param equilibriumTemperature  if not null and not zero length,
      *     used to return the A-room equilibrium temperature
      * @return demand in watts, finite and non-negative
@@ -599,11 +603,12 @@ public final class HGTRVHPMModelParameterised
 		// MW temperature for all room radiators with no setbacks.
         final double DradAMWnsb = nsbAMW(DradWnsb);
 //System.out.println(String.format("DradAnsbMW = %.1f", DradAnsbMW));
-        // Delta between radiator mean water (MW) and A room air.
-		final double DradAdTsb = DradAMWnsb - HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C;
+        // Delta between radiator mean water (MW) and A room air with no setbacks.
+		final double DradAdTnsb = DradAMWnsb - HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C;
 //System.out.println(String.format("DradAdTsb = %.1fK", DradAdTsb));
 
-        final double CoPCorrectionK = params.correctCoPForFlowVsMW ? flowMWDelta_K : 0;
+        // Compute correction for across-radiator delta-T if needed.
+        final double CoPCorrectionK = params.correctCoPForFlowVsMW() ? flowMWDelta_K : 0;
 
 		// HPinWnsb: (Heat Pump Efficiency) heat-pump electrical power in when B not setback (W).
         // (HEAT_PUMP_POWER_IN_NO_SETBACK_W)
@@ -669,11 +674,11 @@ public final class HGTRVHPMModelParameterised
             //
             // Delta between radiator mean water (MW) and A room air.
 			final double VradAdTsb = DradAMWnsb - tempA;
-			assert((VradAdTsb > DradAdTsb) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :
+			assert((VradAdTsb > DradAdTnsb) || (tempA >= HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C)) :
 				"When room is cooler than 'normal', delta must be higher.";
 //System.out.println(String.format("  VradAdTsb = %.1fK", VradAdT));
             // Ratio to original non-setback delta.
-            final double VradAdTmultsb = VradAdTsb / DradAdTsb;
+            final double VradAdTmultsb = VradAdTsb / DradAdTnsb;
 //System.out.println(String.format("  VradAdTmultsb = %.2f", VradAdTmultsb));
             final double dtToWexp = 1 / HGTRVHPMModel.RADIATOR_EXP_POWER_TO_DT;
 			// Power output from rad in A room.
@@ -693,9 +698,12 @@ public final class HGTRVHPMModelParameterised
         		VradWAsb - VAHLW;
 //System.out.println(String.format("  VAHLerrW = %.1fW", VAHLerrW));
 
-            // Stop when A-room gains exceed losses,
+            // Stop when A-room losses exceed gains
 			// thus returning (conservative, near) equilibrium values
             // from the previous step.
+            //
+            // As the A room trial temperature rises with each loop iteration,
+            // losses will rise.
 			if(VAHLerrW < 0)
 				{ break; }
 
