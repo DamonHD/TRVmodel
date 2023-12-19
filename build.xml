@@ -32,9 +32,9 @@ Licensed under the Apache License, Version 2.0 (the "License");
 <project name="TRVmodel" default="init" basedir=".">
 
     <property name="app.name" value="TRVmodel"/>
-    <property name="app.version.major" value="0"/>
-    <property name="app.version.minor" value="9"/>
-    <property name="app.version.micro" value="7"/>
+    <property name="app.version.major" value="1"/>
+    <property name="app.version.minor" value="0"/>
+    <property name="app.version.micro" value="0"/>
     <property name="app.version" value="${app.version.major}.${app.version.minor}.${app.version.micro}"/>
     <!-- Version excluding the "micro" portion, thus reflecting only significant API/functionality changes. -->
     <property name="app.version.notmicro" value="${app.version.major}.${app.version.minor}"/>

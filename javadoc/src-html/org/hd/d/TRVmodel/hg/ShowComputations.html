@@ -30,7 +30,7 @@
 <span class="source-line-no">017</span><span id="line-17">    private ShowComputations() { }</span>
 <span class="source-line-no">018</span><span id="line-18"></span>
 <span class="source-line-no">019</span><span id="line-19">    /**Print key computations/results on stdout.</span>
-<span class="source-line-no">020</span><span id="line-20">     * @throws IOException</span>
+<span class="source-line-no">020</span><span id="line-20">         * @throws IOException in case of missing or corrupt temperature data</span>
 <span class="source-line-no">021</span><span id="line-21">     */</span>
 <span class="source-line-no">022</span><span id="line-22">        public static void showCalcs() throws IOException</span>
 <span class="source-line-no">023</span><span id="line-23">                {</span>
@@ -262,258 +262,267 @@
 <span class="source-line-no">249</span><span id="line-249">         * Attempts to remain at least slightly human readable.</span>
 <span class="source-line-no">250</span><span id="line-250">         * &lt;p&gt;</span>
 <span class="source-line-no">251</span><span id="line-251">         * The table class at least should be fixed up manually.</span>
-<span class="source-line-no">252</span><span id="line-252">         */</span>
-<span class="source-line-no">253</span><span id="line-253">        public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException</span>
-<span class="source-line-no">254</span><span id="line-254">                {</span>
-<span class="source-line-no">255</span><span id="line-255">                // Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.</span>
-<span class="source-line-no">256</span><span id="line-256">                // Each by bungalow/detached.</span>
-<span class="source-line-no">257</span><span id="line-257">                final StringBuilder result = new StringBuilder();</span>
-<span class="source-line-no">258</span><span id="line-258">                result.append("&lt;table style=\"border:1px solid\" class=\"yourTableStyle\"&gt;\n");</span>
-<span class="source-line-no">259</span><span id="line-259">                result.append(String.format("""</span>
-<span class="source-line-no">260</span><span id="line-260">                        &lt;caption&gt;\</span>
-<span class="source-line-no">261</span><span id="line-261">                        %s mode: summary of mean power change with selected-room setback of\s\</span>
-<span class="source-line-no">262</span><span id="line-262">                        (1) %s temperature regulation in A rooms\s\</span>
-<span class="source-line-no">263</span><span id="line-263">                        (2) whole-home heat demand and of\s\</span>
-<span class="source-line-no">264</span><span id="line-264">                        (3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\</span>
-<span class="source-line-no">265</span><span id="line-265">                        (4) for 1- and 2- storey (bungalow and detached) archetypes, \s\</span>
-<span class="source-line-no">266</span><span id="line-266">                        for %d UK locations.\s\</span>
-<span class="source-line-no">267</span><span id="line-267">                        Based on hourly temperature data for the ten years 201X.\s\</span>
-<span class="source-line-no">268</span><span id="line-268">                        When B rooms are set back overall home heat demand does fall,\s\</span>
-<span class="source-line-no">269</span><span id="line-269">                        but in the ABAB layout that maximises internal losses,\s\</span>
-<span class="source-line-no">270</span><span id="line-270">                        heat-pump electricity demand rises, in all scenarios,\s\</span>
-<span class="source-line-no">271</span><span id="line-271">                        especially in the detached house cases.\</span>
-<span class="source-line-no">272</span><span id="line-272">                        &lt;/caption&gt;</span>
-<span class="source-line-no">273</span><span id="line-273">                        """,</span>
-<span class="source-line-no">274</span><span id="line-274">                            stiff ? "Stiff" : "Soft",</span>
-<span class="source-line-no">275</span><span id="line-275">                            stiff ? "stiff" : "soft",</span>
-<span class="source-line-no">276</span><span id="line-276">                                DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));</span>
-<span class="source-line-no">277</span><span id="line-277">                result.append("""</span>
-<span class="source-line-no">278</span><span id="line-278">                        &lt;thead&gt;&lt;tr&gt;\</span>
-<span class="source-line-no">279</span><span id="line-279">                        &lt;th&gt;Location (Weather Station)&lt;/th&gt;\</span>
-<span class="source-line-no">280</span><span id="line-280">                        &lt;th&gt;Archetype&lt;/th&gt;\</span>
-<span class="source-line-no">281</span><span id="line-281">                        &lt;th&gt;Home heat demand delta&lt;/th&gt;\</span>
-<span class="source-line-no">282</span><span id="line-282">                        &lt;th&gt;ABAB heat-pump demand delta&lt;/th&gt;\</span>
-<span class="source-line-no">283</span><span id="line-283">                        &lt;th&gt;AABB heat-pump demand delta&lt;/th&gt;\</span>
-<span class="source-line-no">284</span><span id="line-284">                        &lt;/tr&gt;&lt;/thead&gt;</span>
-<span class="source-line-no">285</span><span id="line-285">                        """);</span>
-<span class="source-line-no">286</span><span id="line-286"></span>
-<span class="source-line-no">287</span><span id="line-287">                result.append("&lt;tbody&gt;\n");</span>
-<span class="source-line-no">288</span><span id="line-288">                for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)</span>
-<span class="source-line-no">289</span><span id="line-289">                        {</span>
-<span class="source-line-no">290</span><span id="line-290">                // Load temperature data for this station.</span>
-<span class="source-line-no">291</span><span id="line-291">                        final DDNTemperatureDataCSV temperatures201X =</span>
-<span class="source-line-no">292</span><span id="line-292">                                DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,</span>
-<span class="source-line-no">293</span><span id="line-293">                                        htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));</span>
-<span class="source-line-no">294</span><span id="line-294">                if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())</span>
-<span class="source-line-no">295</span><span id="line-295">                        { throw new IOException("bad record count"); }</span>
-<span class="source-line-no">296</span><span id="line-296">                        for(final boolean detached : new boolean[]{false, true})</span>
-<span class="source-line-no">297</span><span id="line-297">                                {</span>
-<span class="source-line-no">298</span><span id="line-298">                                result.append("&lt;tr&gt;");</span>
-<span class="source-line-no">299</span><span id="line-299">                                if(!detached)</span>
-<span class="source-line-no">300</span><span id="line-300">                                    { result.append(String.format("&lt;td rowspan=\"2\"&gt;%s (%s)&lt;/td&gt;", htdd.conurbation(), htdd.station())); }</span>
-<span class="source-line-no">301</span><span id="line-301"></span>
-<span class="source-line-no">302</span><span id="line-302">                        final String archetype = detached ? "detached" : "bungalow";</span>
-<span class="source-line-no">303</span><span id="line-303">                        result.append(String.format("&lt;td&gt;%s&lt;/td&gt;", archetype));</span>
-<span class="source-line-no">304</span><span id="line-304">                                for(final boolean abab : new boolean[]{true, false})</span>
-<span class="source-line-no">305</span><span id="line-305">                                        {</span>
-<span class="source-line-no">306</span><span id="line-306">                                final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(</span>
-<span class="source-line-no">307</span><span id="line-307">                                                        ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,</span>
-<span class="source-line-no">308</span><span id="line-308">                                                        ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,</span>
-<span class="source-line-no">309</span><span id="line-309">                                                        abab,</span>
-<span class="source-line-no">310</span><span id="line-310">                                                        ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);</span>
-<span class="source-line-no">311</span><span id="line-311">                                        final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(</span>
-<span class="source-line-no">312</span><span id="line-312">                                        modelParameters,</span>
-<span class="source-line-no">313</span><span id="line-313">                                        temperatures201X);</span>
-<span class="source-line-no">314</span><span id="line-314">                                final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);</span>
-<span class="source-line-no">315</span><span id="line-315">                                final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();</span>
-<span class="source-line-no">316</span><span id="line-316">                                final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();</span>
-<span class="source-line-no">317</span><span id="line-317">                                // Overall home heat demand is not affected by archetype or room setback layout, so only show once.</span>
-<span class="source-line-no">318</span><span id="line-318">                                final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);</span>
-<span class="source-line-no">319</span><span id="line-319">                                if(!detached &amp;&amp; abab)</span>
-<span class="source-line-no">320</span><span id="line-320">                                    { result.append(String.format("&lt;td rowspan=\"2\" style=\"text-align:right\"&gt;%.1f%%&lt;/td&gt;", heatDelta201X)); }</span>
-<span class="source-line-no">321</span><span id="line-321">                                // Heat-pump power demand delta.</span>
-<span class="source-line-no">322</span><span id="line-322">                                final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();</span>
-<span class="source-line-no">323</span><span id="line-323">                                final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();</span>
-<span class="source-line-no">324</span><span id="line-324">                                final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);</span>
-<span class="source-line-no">325</span><span id="line-325">                                result.append(String.format("&lt;td style=\"text-align:right\"&gt;%.1f%%&lt;/td&gt;", powerDelta201X));</span>
-<span class="source-line-no">326</span><span id="line-326">                                        }</span>
-<span class="source-line-no">327</span><span id="line-327">                                result.append("&lt;/tr&gt;\n");</span>
-<span class="source-line-no">328</span><span id="line-328">                                }</span>
-<span class="source-line-no">329</span><span id="line-329">                        }</span>
-<span class="source-line-no">330</span><span id="line-330">                result.append("&lt;/tbody&gt;\n");</span>
-<span class="source-line-no">331</span><span id="line-331">                result.append("&lt;/table&gt;");</span>
-<span class="source-line-no">332</span><span id="line-332">                return(result.toString());</span>
-<span class="source-line-no">333</span><span id="line-333">                }</span>
-<span class="source-line-no">334</span><span id="line-334"></span>
-<span class="source-line-no">335</span><span id="line-335">        /**Generate the main summary model results table for 7 places, 10 years, in LaTeX non-null.</span>
-<span class="source-line-no">336</span><span id="line-336">         * Attempts to remain at least slightly human readable.</span>
-<span class="source-line-no">337</span><span id="line-337">         * &lt;p&gt;</span>
-<span class="source-line-no">338</span><span id="line-338">         * Some details may need to be fixed up manually, including the label.</span>
-<span class="source-line-no">339</span><span id="line-339">         */</span>
-<span class="source-line-no">340</span><span id="line-340">        public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException</span>
-<span class="source-line-no">341</span><span id="line-341">                {</span>
-<span class="source-line-no">342</span><span id="line-342">                final StringBuilder result = new StringBuilder();</span>
-<span class="source-line-no">343</span><span id="line-343">                result.append("\\begin{table}[H]\n");</span>
-<span class="source-line-no">344</span><span id="line-344">            result.append(String.format("""</span>
-<span class="source-line-no">345</span><span id="line-345">                \\caption{\</span>
-<span class="source-line-no">346</span><span id="line-346">                        %s mode: summary of mean power change with selected-room setback of\s\</span>
-<span class="source-line-no">347</span><span id="line-347">                        (1) %s temperature regulation in A rooms\s\</span>
-<span class="source-line-no">348</span><span id="line-348">                        (2) whole-home heat demand and of\s\</span>
-<span class="source-line-no">349</span><span id="line-349">                        (3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\</span>
-<span class="source-line-no">350</span><span id="line-350">                        (4) for 1- and 2- storey (bungalow and detached) archetypes, \s\</span>
-<span class="source-line-no">351</span><span id="line-351">                        for %d UK locations.\s\</span>
-<span class="source-line-no">352</span><span id="line-352">                        Based on hourly temperature data for the ten years 201X.\s\</span>
-<span class="source-line-no">353</span><span id="line-353">                        When B rooms are set back overall home heat demand does fall,\s\</span>
-<span class="source-line-no">354</span><span id="line-354">                        but in the ABAB layout that maximises internal losses,\s\</span>
-<span class="source-line-no">355</span><span id="line-355">                        heat-pump electricity demand rises, in all scenarios,\s\</span>
-<span class="source-line-no">356</span><span id="line-356">                        especially in the detached house cases.\</span>
-<span class="source-line-no">357</span><span id="line-357">                        \\label{t-summary}}\</span>
-<span class="source-line-no">358</span><span id="line-358">                        """,</span>
-<span class="source-line-no">359</span><span id="line-359">                            stiff ? "Stiff" : "Soft",</span>
-<span class="source-line-no">360</span><span id="line-360">                            stiff ? "stiff" : "soft",</span>
-<span class="source-line-no">361</span><span id="line-361">                                DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));</span>
-<span class="source-line-no">362</span><span id="line-362">        result.append("\\begin{adjustwidth}{-\\extralength}{0cm}\n"</span>
-<span class="source-line-no">363</span><span id="line-363">                        + "                \\newcolumntype{C}{&gt;{\\centering\\arraybackslash}X}\n"</span>
-<span class="source-line-no">364</span><span id="line-364">                        + "                \\begin{tabularx}{\\fulllength}{CCCCC}\n"</span>
-<span class="source-line-no">365</span><span id="line-365">                        + "                        \\toprule\n"</span>
-<span class="source-line-no">366</span><span id="line-366">                        + "");</span>
-<span class="source-line-no">367</span><span id="line-367">        result.append(""</span>
-<span class="source-line-no">368</span><span id="line-368">                        + "\\textbf{Location (Weather Station)} &amp; "</span>
-<span class="source-line-no">369</span><span id="line-369">                        + "\\textbf{Archetype} &amp; "</span>
-<span class="source-line-no">370</span><span id="line-370">                        + "\\textbf{Home heat demand delta} &amp; "</span>
-<span class="source-line-no">371</span><span id="line-371">                        + "\\textbf{ABAB heat-pump demand delta} &amp; "</span>
-<span class="source-line-no">372</span><span id="line-372">                        + "\\textbf{AABB heat-pump demand delta}"</span>
-<span class="source-line-no">373</span><span id="line-373">                        + "\\\\\n"</span>
+<span class="source-line-no">252</span><span id="line-252">         *</span>
+<span class="source-line-no">253</span><span id="line-253">         * @param stiff  if true then in stiff (load comp) regulation mode, else soft (weather comp)</span>
+<span class="source-line-no">254</span><span id="line-254">         * @return HTML table summary; non-empty, non-null</span>
+<span class="source-line-no">255</span><span id="line-255">         * @throws IOException in case of missing or corrupt temperature data</span>
+<span class="source-line-no">256</span><span id="line-256">         */</span>
+<span class="source-line-no">257</span><span id="line-257">        public static String generateHTMLMainSummaryTable(final boolean stiff) throws IOException</span>
+<span class="source-line-no">258</span><span id="line-258">                {</span>
+<span class="source-line-no">259</span><span id="line-259">                // Vertically split as location, heat demand delta on setback, ABAB hp demand change, AABB demand change.</span>
+<span class="source-line-no">260</span><span id="line-260">                // Each by bungalow/detached.</span>
+<span class="source-line-no">261</span><span id="line-261">                final StringBuilder result = new StringBuilder();</span>
+<span class="source-line-no">262</span><span id="line-262">                result.append("&lt;table style=\"border:1px solid\" class=\"yourTableStyle\"&gt;\n");</span>
+<span class="source-line-no">263</span><span id="line-263">                result.append(String.format("""</span>
+<span class="source-line-no">264</span><span id="line-264">                        &lt;caption&gt;\</span>
+<span class="source-line-no">265</span><span id="line-265">                        %s mode: summary of mean power change with selected-room setback of\s\</span>
+<span class="source-line-no">266</span><span id="line-266">                        (1) %s temperature regulation in A rooms\s\</span>
+<span class="source-line-no">267</span><span id="line-267">                        (2) whole-home heat demand and of\s\</span>
+<span class="source-line-no">268</span><span id="line-268">                        (3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\</span>
+<span class="source-line-no">269</span><span id="line-269">                        (4) for 1- and 2- storey (bungalow and detached) archetypes, \s\</span>
+<span class="source-line-no">270</span><span id="line-270">                        for %d UK locations.\s\</span>
+<span class="source-line-no">271</span><span id="line-271">                        Based on hourly temperature data for the ten years 201X.\s\</span>
+<span class="source-line-no">272</span><span id="line-272">                        When B rooms are set back overall home heat demand does fall,\s\</span>
+<span class="source-line-no">273</span><span id="line-273">                        but in the ABAB layout that maximises internal losses,\s\</span>
+<span class="source-line-no">274</span><span id="line-274">                        heat-pump electricity demand rises, in all scenarios,\s\</span>
+<span class="source-line-no">275</span><span id="line-275">                        especially in the detached house cases.\</span>
+<span class="source-line-no">276</span><span id="line-276">                        &lt;/caption&gt;</span>
+<span class="source-line-no">277</span><span id="line-277">                        """,</span>
+<span class="source-line-no">278</span><span id="line-278">                            stiff ? "Stiff" : "Soft",</span>
+<span class="source-line-no">279</span><span id="line-279">                            stiff ? "stiff" : "soft",</span>
+<span class="source-line-no">280</span><span id="line-280">                                DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));</span>
+<span class="source-line-no">281</span><span id="line-281">                result.append("""</span>
+<span class="source-line-no">282</span><span id="line-282">                        &lt;thead&gt;&lt;tr&gt;\</span>
+<span class="source-line-no">283</span><span id="line-283">                        &lt;th&gt;Location (Weather Station)&lt;/th&gt;\</span>
+<span class="source-line-no">284</span><span id="line-284">                        &lt;th&gt;Archetype&lt;/th&gt;\</span>
+<span class="source-line-no">285</span><span id="line-285">                        &lt;th&gt;Home heat demand delta&lt;/th&gt;\</span>
+<span class="source-line-no">286</span><span id="line-286">                        &lt;th&gt;ABAB heat-pump demand delta&lt;/th&gt;\</span>
+<span class="source-line-no">287</span><span id="line-287">                        &lt;th&gt;AABB heat-pump demand delta&lt;/th&gt;\</span>
+<span class="source-line-no">288</span><span id="line-288">                        &lt;/tr&gt;&lt;/thead&gt;</span>
+<span class="source-line-no">289</span><span id="line-289">                        """);</span>
+<span class="source-line-no">290</span><span id="line-290"></span>
+<span class="source-line-no">291</span><span id="line-291">                result.append("&lt;tbody&gt;\n");</span>
+<span class="source-line-no">292</span><span id="line-292">                for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)</span>
+<span class="source-line-no">293</span><span id="line-293">                        {</span>
+<span class="source-line-no">294</span><span id="line-294">                // Load temperature data for this station.</span>
+<span class="source-line-no">295</span><span id="line-295">                        final DDNTemperatureDataCSV temperatures201X =</span>
+<span class="source-line-no">296</span><span id="line-296">                                DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,</span>
+<span class="source-line-no">297</span><span id="line-297">                                        htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));</span>
+<span class="source-line-no">298</span><span id="line-298">                if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())</span>
+<span class="source-line-no">299</span><span id="line-299">                        { throw new IOException("bad record count"); }</span>
+<span class="source-line-no">300</span><span id="line-300">                        for(final boolean detached : new boolean[]{false, true})</span>
+<span class="source-line-no">301</span><span id="line-301">                                {</span>
+<span class="source-line-no">302</span><span id="line-302">                                result.append("&lt;tr&gt;");</span>
+<span class="source-line-no">303</span><span id="line-303">                                if(!detached)</span>
+<span class="source-line-no">304</span><span id="line-304">                                    { result.append(String.format("&lt;td rowspan=\"2\"&gt;%s (%s)&lt;/td&gt;", htdd.conurbation(), htdd.station())); }</span>
+<span class="source-line-no">305</span><span id="line-305"></span>
+<span class="source-line-no">306</span><span id="line-306">                        final String archetype = detached ? "detached" : "bungalow";</span>
+<span class="source-line-no">307</span><span id="line-307">                        result.append(String.format("&lt;td&gt;%s&lt;/td&gt;", archetype));</span>
+<span class="source-line-no">308</span><span id="line-308">                                for(final boolean abab : new boolean[]{true, false})</span>
+<span class="source-line-no">309</span><span id="line-309">                                        {</span>
+<span class="source-line-no">310</span><span id="line-310">                                final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(</span>
+<span class="source-line-no">311</span><span id="line-311">                                                        ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,</span>
+<span class="source-line-no">312</span><span id="line-312">                                                        ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,</span>
+<span class="source-line-no">313</span><span id="line-313">                                                        abab,</span>
+<span class="source-line-no">314</span><span id="line-314">                                                        ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);</span>
+<span class="source-line-no">315</span><span id="line-315">                                        final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(</span>
+<span class="source-line-no">316</span><span id="line-316">                                        modelParameters,</span>
+<span class="source-line-no">317</span><span id="line-317">                                        temperatures201X);</span>
+<span class="source-line-no">318</span><span id="line-318">                                final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);</span>
+<span class="source-line-no">319</span><span id="line-319">                                final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();</span>
+<span class="source-line-no">320</span><span id="line-320">                                final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();</span>
+<span class="source-line-no">321</span><span id="line-321">                                // Overall home heat demand is not affected by archetype or room setback layout, so only show once.</span>
+<span class="source-line-no">322</span><span id="line-322">                                final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);</span>
+<span class="source-line-no">323</span><span id="line-323">                                if(!detached &amp;&amp; abab)</span>
+<span class="source-line-no">324</span><span id="line-324">                                    { result.append(String.format("&lt;td rowspan=\"2\" style=\"text-align:right\"&gt;%.1f%%&lt;/td&gt;", heatDelta201X)); }</span>
+<span class="source-line-no">325</span><span id="line-325">                                // Heat-pump power demand delta.</span>
+<span class="source-line-no">326</span><span id="line-326">                                final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();</span>
+<span class="source-line-no">327</span><span id="line-327">                                final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();</span>
+<span class="source-line-no">328</span><span id="line-328">                                final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);</span>
+<span class="source-line-no">329</span><span id="line-329">                                result.append(String.format("&lt;td style=\"text-align:right\"&gt;%.1f%%&lt;/td&gt;", powerDelta201X));</span>
+<span class="source-line-no">330</span><span id="line-330">                                        }</span>
+<span class="source-line-no">331</span><span id="line-331">                                result.append("&lt;/tr&gt;\n");</span>
+<span class="source-line-no">332</span><span id="line-332">                                }</span>
+<span class="source-line-no">333</span><span id="line-333">                        }</span>
+<span class="source-line-no">334</span><span id="line-334">                result.append("&lt;/tbody&gt;\n");</span>
+<span class="source-line-no">335</span><span id="line-335">                result.append("&lt;/table&gt;");</span>
+<span class="source-line-no">336</span><span id="line-336">                return(result.toString());</span>
+<span class="source-line-no">337</span><span id="line-337">                }</span>
+<span class="source-line-no">338</span><span id="line-338"></span>
+<span class="source-line-no">339</span><span id="line-339">        /**Generate the main summary model results table for 7 places, 10 years, in LaTeX; non-null.</span>
+<span class="source-line-no">340</span><span id="line-340">         * Attempts to remain at least slightly human readable.</span>
+<span class="source-line-no">341</span><span id="line-341">         * &lt;p&gt;</span>
+<span class="source-line-no">342</span><span id="line-342">         * Some details may need to be fixed up manually, including the label.</span>
+<span class="source-line-no">343</span><span id="line-343">         *</span>
+<span class="source-line-no">344</span><span id="line-344">         * @param stiff  if true then in stiff (load comp) regulation mode, else soft (weather comp)</span>
+<span class="source-line-no">345</span><span id="line-345">         * @return LaTeX table summary; non-null, non-empty</span>
+<span class="source-line-no">346</span><span id="line-346">         * @throws IOException in case of missing or corrupt temperature data</span>
+<span class="source-line-no">347</span><span id="line-347">         */</span>
+<span class="source-line-no">348</span><span id="line-348">        public static String generateLaTeXMainSummaryTable(final boolean stiff) throws IOException</span>
+<span class="source-line-no">349</span><span id="line-349">                {</span>
+<span class="source-line-no">350</span><span id="line-350">                final StringBuilder result = new StringBuilder();</span>
+<span class="source-line-no">351</span><span id="line-351">                result.append("\\begin{table}[H]\n");</span>
+<span class="source-line-no">352</span><span id="line-352">            result.append(String.format("""</span>
+<span class="source-line-no">353</span><span id="line-353">                \\caption{\</span>
+<span class="source-line-no">354</span><span id="line-354">                        %s mode: summary of mean power change with selected-room setback of\s\</span>
+<span class="source-line-no">355</span><span id="line-355">                        (1) %s temperature regulation in A rooms\s\</span>
+<span class="source-line-no">356</span><span id="line-356">                        (2) whole-home heat demand and of\s\</span>
+<span class="source-line-no">357</span><span id="line-357">                        (3) heat-pump electrical demand in high ABAB and low AABB internal loss room setback arrangements\s\</span>
+<span class="source-line-no">358</span><span id="line-358">                        (4) for 1- and 2- storey (bungalow and detached) archetypes, \s\</span>
+<span class="source-line-no">359</span><span id="line-359">                        for %d UK locations.\s\</span>
+<span class="source-line-no">360</span><span id="line-360">                        Based on hourly temperature data for the ten years 201X.\s\</span>
+<span class="source-line-no">361</span><span id="line-361">                        When B rooms are set back overall home heat demand does fall,\s\</span>
+<span class="source-line-no">362</span><span id="line-362">                        but in the ABAB layout that maximises internal losses,\s\</span>
+<span class="source-line-no">363</span><span id="line-363">                        heat-pump electricity demand rises, in all scenarios,\s\</span>
+<span class="source-line-no">364</span><span id="line-364">                        especially in the detached house cases.\</span>
+<span class="source-line-no">365</span><span id="line-365">                        \\label{t-summary}}\</span>
+<span class="source-line-no">366</span><span id="line-366">                        """,</span>
+<span class="source-line-no">367</span><span id="line-367">                            stiff ? "Stiff" : "Soft",</span>
+<span class="source-line-no">368</span><span id="line-368">                            stiff ? "stiff" : "soft",</span>
+<span class="source-line-no">369</span><span id="line-369">                                DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));</span>
+<span class="source-line-no">370</span><span id="line-370">        result.append("\\begin{adjustwidth}{-\\extralength}{0cm}\n"</span>
+<span class="source-line-no">371</span><span id="line-371">                        + "                \\newcolumntype{C}{&gt;{\\centering\\arraybackslash}X}\n"</span>
+<span class="source-line-no">372</span><span id="line-372">                        + "                \\begin{tabularx}{\\fulllength}{CCCCC}\n"</span>
+<span class="source-line-no">373</span><span id="line-373">                        + "                        \\toprule\n"</span>
 <span class="source-line-no">374</span><span id="line-374">                        + "");</span>
-<span class="source-line-no">375</span><span id="line-375"></span>
-<span class="source-line-no">376</span><span id="line-376">                for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)</span>
-<span class="source-line-no">377</span><span id="line-377">                        {</span>
-<span class="source-line-no">378</span><span id="line-378">                // Load temperature data for this station.</span>
-<span class="source-line-no">379</span><span id="line-379">                        final DDNTemperatureDataCSV temperatures201X =</span>
-<span class="source-line-no">380</span><span id="line-380">                                DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,</span>
-<span class="source-line-no">381</span><span id="line-381">                                        htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));</span>
-<span class="source-line-no">382</span><span id="line-382">                if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())</span>
-<span class="source-line-no">383</span><span id="line-383">                        { throw new IOException("bad record count"); }</span>
-<span class="source-line-no">384</span><span id="line-384">                        for(final boolean detached : new boolean[]{false, true})</span>
-<span class="source-line-no">385</span><span id="line-385">                                {</span>
-<span class="source-line-no">386</span><span id="line-386">//                              result.append("&lt;tr&gt;");</span>
-<span class="source-line-no">387</span><span id="line-387">                                if(!detached)</span>
-<span class="source-line-no">388</span><span id="line-388">                                    { result.append(String.format("\\midrule\\multirow[m]{2}{*}{%s (%s)}", htdd.conurbation(), htdd.station())); }</span>
-<span class="source-line-no">389</span><span id="line-389">                                result.append(" &amp; ");</span>
-<span class="source-line-no">390</span><span id="line-390"></span>
-<span class="source-line-no">391</span><span id="line-391">                        final String archetype = detached ? "detached" : "bungalow";</span>
-<span class="source-line-no">392</span><span id="line-392">                        result.append(String.format("%s &amp; ", archetype));</span>
-<span class="source-line-no">393</span><span id="line-393">                                for(final boolean abab : new boolean[]{true, false})</span>
-<span class="source-line-no">394</span><span id="line-394">                                        {</span>
-<span class="source-line-no">395</span><span id="line-395">                                final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(</span>
-<span class="source-line-no">396</span><span id="line-396">                                                        ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,</span>
-<span class="source-line-no">397</span><span id="line-397">                                                        ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,</span>
-<span class="source-line-no">398</span><span id="line-398">                                                        abab,</span>
-<span class="source-line-no">399</span><span id="line-399">                                                        ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);</span>
-<span class="source-line-no">400</span><span id="line-400">                                        final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(</span>
-<span class="source-line-no">401</span><span id="line-401">                                        modelParameters,</span>
-<span class="source-line-no">402</span><span id="line-402">                                        temperatures201X);</span>
-<span class="source-line-no">403</span><span id="line-403">                                final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);</span>
-<span class="source-line-no">404</span><span id="line-404">                                final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();</span>
-<span class="source-line-no">405</span><span id="line-405">                                final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();</span>
-<span class="source-line-no">406</span><span id="line-406">                                // Overall home heat demand is not affected by archetype or room setback layout, so only show once.</span>
-<span class="source-line-no">407</span><span id="line-407">                                final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);</span>
-<span class="source-line-no">408</span><span id="line-408">                                if(!detached &amp;&amp; abab)</span>
-<span class="source-line-no">409</span><span id="line-409">                                    { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%}", heatDelta201X)); }</span>
-<span class="source-line-no">410</span><span id="line-410">                                        result.append(" &amp; ");</span>
-<span class="source-line-no">411</span><span id="line-411">                                // Heat-pump power demand delta.</span>
-<span class="source-line-no">412</span><span id="line-412">                                final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();</span>
-<span class="source-line-no">413</span><span id="line-413">                                final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();</span>
-<span class="source-line-no">414</span><span id="line-414">                                final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);</span>
-<span class="source-line-no">415</span><span id="line-415">                                result.append(String.format("%.1f\\%% ", powerDelta201X));</span>
-<span class="source-line-no">416</span><span id="line-416">                                        }</span>
-<span class="source-line-no">417</span><span id="line-417">                                result.append("\\\\\n");</span>
-<span class="source-line-no">418</span><span id="line-418">                                }</span>
-<span class="source-line-no">419</span><span id="line-419">                        }</span>
-<span class="source-line-no">420</span><span id="line-420"></span>
-<span class="source-line-no">421</span><span id="line-421">        result.append("                        \\bottomrule\n"</span>
-<span class="source-line-no">422</span><span id="line-422">                        + "                \\end{tabularx}\n"</span>
-<span class="source-line-no">423</span><span id="line-423">                        + "        \\end{adjustwidth}\n"</span>
-<span class="source-line-no">424</span><span id="line-424">                        + "");</span>
-<span class="source-line-no">425</span><span id="line-425">                result.append("\\end{table}");</span>
-<span class="source-line-no">426</span><span id="line-426">                return(result.toString());</span>
-<span class="source-line-no">427</span><span id="line-427">                }</span>
-<span class="source-line-no">428</span><span id="line-428"></span>
-<span class="source-line-no">429</span><span id="line-429"></span>
-<span class="source-line-no">430</span><span id="line-430">        /**Generate the temperature sag model results table for 7 places, 10 years, in (X)HTML5; non-null.</span>
-<span class="source-line-no">431</span><span id="line-431">         * Attempts to remain at least slightly human readable.</span>
-<span class="source-line-no">432</span><span id="line-432">         * &lt;p&gt;</span>
-<span class="source-line-no">433</span><span id="line-433">         * The table class at least should be fixed up manually.</span>
-<span class="source-line-no">434</span><span id="line-434">         */</span>
-<span class="source-line-no">435</span><span id="line-435">        public static String generateHTMLSagTable() throws IOException</span>
-<span class="source-line-no">436</span><span id="line-436">                {</span>
-<span class="source-line-no">437</span><span id="line-437">                // Vertically split as location, ABAB sag, AABB sag.</span>
-<span class="source-line-no">438</span><span id="line-438">                // Each by bungalow/detached.</span>
-<span class="source-line-no">439</span><span id="line-439">                final StringBuilder result = new StringBuilder();</span>
-<span class="source-line-no">440</span><span id="line-440">                result.append("&lt;table style=\"border:1px solid\" class=\"yourTableStyle\"&gt;\n");</span>
-<span class="source-line-no">441</span><span id="line-441">                result.append(String.format("""</span>
-<span class="source-line-no">442</span><span id="line-442">                        &lt;caption&gt;\</span>
-<span class="source-line-no">443</span><span id="line-443">                        Soft mode: summary of maximum A-room temperature sag with selected-room setback of\s\</span>
-<span class="source-line-no">444</span><span id="line-444">                        (1) soft temperature regulation in A rooms\s\</span>
-<span class="source-line-no">445</span><span id="line-445">                        (2) maximum (ie worst-case) temperature dip in high ABAB and low AABB internal loss room setback arrangements\s\</span>
-<span class="source-line-no">446</span><span id="line-446">                        (4) for 1- and 2- storey (bungalow and detached) archetypes, \s\</span>
-<span class="source-line-no">447</span><span id="line-447">                        for %d UK locations.\s\</span>
-<span class="source-line-no">448</span><span id="line-448">                        Based on hourly temperature data for the ten years 201X.\s\</span>
-<span class="source-line-no">449</span><span id="line-449">                        When B rooms are set back with soft-mode regulation overall home heat demand and heat-pump does fall,\s\</span>
-<span class="source-line-no">450</span><span id="line-450">                        and the maximum temperature sag in A rooms is shown.\</span>
-<span class="source-line-no">451</span><span id="line-451">                        &lt;/caption&gt;</span>
-<span class="source-line-no">452</span><span id="line-452">                        """,</span>
-<span class="source-line-no">453</span><span id="line-453">                                DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));</span>
-<span class="source-line-no">454</span><span id="line-454">                result.append("""</span>
-<span class="source-line-no">455</span><span id="line-455">                        &lt;thead&gt;&lt;tr&gt;\</span>
-<span class="source-line-no">456</span><span id="line-456">                        &lt;th&gt;Location (Weather Station)&lt;/th&gt;&lt;th&gt;Archetype&lt;/th&gt;\</span>
-<span class="source-line-no">457</span><span id="line-457">                        &lt;th&gt;ABAB worst-case sag&lt;/th&gt;\</span>
-<span class="source-line-no">458</span><span id="line-458">                        &lt;th&gt;AABB worst-case sag&lt;/th&gt;\</span>
-<span class="source-line-no">459</span><span id="line-459">                        &lt;/tr&gt;&lt;/thead&gt;</span>
-<span class="source-line-no">460</span><span id="line-460">                        """);</span>
-<span class="source-line-no">461</span><span id="line-461"></span>
-<span class="source-line-no">462</span><span id="line-462">                result.append("&lt;tbody&gt;\n");</span>
-<span class="source-line-no">463</span><span id="line-463">                for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)</span>
-<span class="source-line-no">464</span><span id="line-464">                        {</span>
-<span class="source-line-no">465</span><span id="line-465">                // Load temperature data for this station.</span>
-<span class="source-line-no">466</span><span id="line-466">                        final DDNTemperatureDataCSV temperatures201X =</span>
-<span class="source-line-no">467</span><span id="line-467">                                DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,</span>
-<span class="source-line-no">468</span><span id="line-468">                                        htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));</span>
-<span class="source-line-no">469</span><span id="line-469">                if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())</span>
-<span class="source-line-no">470</span><span id="line-470">                        { throw new IOException("bad record count"); }</span>
-<span class="source-line-no">471</span><span id="line-471">                        for(final boolean detached : new boolean[]{false, true})</span>
-<span class="source-line-no">472</span><span id="line-472">                                {</span>
-<span class="source-line-no">473</span><span id="line-473">                                result.append("&lt;tr&gt;");</span>
-<span class="source-line-no">474</span><span id="line-474">                                if(!detached)</span>
-<span class="source-line-no">475</span><span id="line-475">                                { result.append(String.format("&lt;td rowspan=\"2\"&gt;%s (%s)&lt;/td&gt;", htdd.conurbation(), htdd.station())); }</span>
-<span class="source-line-no">476</span><span id="line-476"></span>
-<span class="source-line-no">477</span><span id="line-477">                        final String archetype = detached ? "detached" : "bungalow";</span>
-<span class="source-line-no">478</span><span id="line-478">                        result.append(String.format("&lt;td&gt;%s&lt;/td&gt;", archetype));</span>
-<span class="source-line-no">479</span><span id="line-479">                                for(final boolean abab : new boolean[]{true, false})</span>
-<span class="source-line-no">480</span><span id="line-480">                                        {</span>
-<span class="source-line-no">481</span><span id="line-481">                                final String layout = abab ? "ABAB" : "AABB";</span>
-<span class="source-line-no">482</span><span id="line-482">                                final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(</span>
-<span class="source-line-no">483</span><span id="line-483">                                                        ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,</span>
-<span class="source-line-no">484</span><span id="line-484">                                                        ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,</span>
-<span class="source-line-no">485</span><span id="line-485">                                                        abab,</span>
-<span class="source-line-no">486</span><span id="line-486">                                                        ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);</span>
-<span class="source-line-no">487</span><span id="line-487">                                        final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(</span>
-<span class="source-line-no">488</span><span id="line-488">                                        modelParameters,</span>
-<span class="source-line-no">489</span><span id="line-489">                                        temperatures201X);</span>
-<span class="source-line-no">490</span><span id="line-490">                                        final double equilibriumTemperatureMin[] = new double[1];</span>
-<span class="source-line-no">491</span><span id="line-491">                                final ScenarioResult result201X = scenario201X.runScenario(detached, true, equilibriumTemperatureMin);</span>
-<span class="source-line-no">492</span><span id="line-492">                                final double sag = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - equilibriumTemperatureMin[0];</span>
-<span class="source-line-no">493</span><span id="line-493">                                result.append(String.format("&lt;td style=\"text-align:right\"&gt;%.1fK&lt;/td&gt;", sag));</span>
-<span class="source-line-no">494</span><span id="line-494">                                        }</span>
-<span class="source-line-no">495</span><span id="line-495">                                result.append("&lt;/tr&gt;\n");</span>
-<span class="source-line-no">496</span><span id="line-496">                                }</span>
-<span class="source-line-no">497</span><span id="line-497">                        }</span>
-<span class="source-line-no">498</span><span id="line-498">                result.append("&lt;/tbody&gt;\n");</span>
-<span class="source-line-no">499</span><span id="line-499">                result.append("&lt;/table&gt;");</span>
-<span class="source-line-no">500</span><span id="line-500">                return(result.toString());</span>
-<span class="source-line-no">501</span><span id="line-501">                }</span>
-<span class="source-line-no">502</span><span id="line-502"></span>
-<span class="source-line-no">503</span><span id="line-503">        }</span>
+<span class="source-line-no">375</span><span id="line-375">        result.append(""</span>
+<span class="source-line-no">376</span><span id="line-376">                        + "\\textbf{Location (Weather Station)} &amp; "</span>
+<span class="source-line-no">377</span><span id="line-377">                        + "\\textbf{Archetype} &amp; "</span>
+<span class="source-line-no">378</span><span id="line-378">                        + "\\textbf{Home heat demand delta} &amp; "</span>
+<span class="source-line-no">379</span><span id="line-379">                        + "\\textbf{ABAB heat-pump demand delta} &amp; "</span>
+<span class="source-line-no">380</span><span id="line-380">                        + "\\textbf{AABB heat-pump demand delta}"</span>
+<span class="source-line-no">381</span><span id="line-381">                        + "\\\\\n"</span>
+<span class="source-line-no">382</span><span id="line-382">                        + "");</span>
+<span class="source-line-no">383</span><span id="line-383"></span>
+<span class="source-line-no">384</span><span id="line-384">                for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)</span>
+<span class="source-line-no">385</span><span id="line-385">                        {</span>
+<span class="source-line-no">386</span><span id="line-386">                // Load temperature data for this station.</span>
+<span class="source-line-no">387</span><span id="line-387">                        final DDNTemperatureDataCSV temperatures201X =</span>
+<span class="source-line-no">388</span><span id="line-388">                                DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,</span>
+<span class="source-line-no">389</span><span id="line-389">                                        htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));</span>
+<span class="source-line-no">390</span><span id="line-390">                if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())</span>
+<span class="source-line-no">391</span><span id="line-391">                        { throw new IOException("bad record count"); }</span>
+<span class="source-line-no">392</span><span id="line-392">                        for(final boolean detached : new boolean[]{false, true})</span>
+<span class="source-line-no">393</span><span id="line-393">                                {</span>
+<span class="source-line-no">394</span><span id="line-394">                                if(!detached)</span>
+<span class="source-line-no">395</span><span id="line-395">                                    { result.append(String.format("\\midrule\\multirow[m]{2}{*}{%s (%s)}", htdd.conurbation(), htdd.station())); }</span>
+<span class="source-line-no">396</span><span id="line-396">                                result.append(" &amp; ");</span>
+<span class="source-line-no">397</span><span id="line-397"></span>
+<span class="source-line-no">398</span><span id="line-398">                        final String archetype = detached ? "detached" : "bungalow";</span>
+<span class="source-line-no">399</span><span id="line-399">                        result.append(String.format("%s &amp; ", archetype));</span>
+<span class="source-line-no">400</span><span id="line-400">                                for(final boolean abab : new boolean[]{true, false})</span>
+<span class="source-line-no">401</span><span id="line-401">                                        {</span>
+<span class="source-line-no">402</span><span id="line-402">                                final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(</span>
+<span class="source-line-no">403</span><span id="line-403">                                                        ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,</span>
+<span class="source-line-no">404</span><span id="line-404">                                                        ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,</span>
+<span class="source-line-no">405</span><span id="line-405">                                                        abab,</span>
+<span class="source-line-no">406</span><span id="line-406">                                                        ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);</span>
+<span class="source-line-no">407</span><span id="line-407">                                        final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(</span>
+<span class="source-line-no">408</span><span id="line-408">                                        modelParameters,</span>
+<span class="source-line-no">409</span><span id="line-409">                                        temperatures201X);</span>
+<span class="source-line-no">410</span><span id="line-410">                                final ScenarioResult result201X = scenario201X.runScenario(detached, !stiff, null);</span>
+<span class="source-line-no">411</span><span id="line-411">                                final double heatNoSetback201X = result201X.demand().noSetback().heatDemand();</span>
+<span class="source-line-no">412</span><span id="line-412">                                final double heatWithSetback201X = result201X.demand().withSetback().heatDemand();</span>
+<span class="source-line-no">413</span><span id="line-413">                                // Overall home heat demand is not affected by archetype or room setback layout, so only show once.</span>
+<span class="source-line-no">414</span><span id="line-414">                                final double heatDelta201X = 100*((heatWithSetback201X/heatNoSetback201X)-1);</span>
+<span class="source-line-no">415</span><span id="line-415">                                if(!detached &amp;&amp; abab)</span>
+<span class="source-line-no">416</span><span id="line-416">                                    { result.append(String.format("\\multirow[m]{2}{*}{%.1f\\%%}", heatDelta201X)); }</span>
+<span class="source-line-no">417</span><span id="line-417">                                        result.append(" &amp; ");</span>
+<span class="source-line-no">418</span><span id="line-418">                                // Heat-pump power demand delta.</span>
+<span class="source-line-no">419</span><span id="line-419">                                final double powerNoSetback201X = result201X.demand().noSetback().heatPumpElectricity();</span>
+<span class="source-line-no">420</span><span id="line-420">                                final double powerWithSetback201X = result201X.demand().withSetback().heatPumpElectricity();</span>
+<span class="source-line-no">421</span><span id="line-421">                                final double powerDelta201X = 100*((powerWithSetback201X/powerNoSetback201X)-1);</span>
+<span class="source-line-no">422</span><span id="line-422">                                result.append(String.format("%.1f\\%% ", powerDelta201X));</span>
+<span class="source-line-no">423</span><span id="line-423">                                        }</span>
+<span class="source-line-no">424</span><span id="line-424">                                result.append("\\\\\n");</span>
+<span class="source-line-no">425</span><span id="line-425">                                }</span>
+<span class="source-line-no">426</span><span id="line-426">                        }</span>
+<span class="source-line-no">427</span><span id="line-427"></span>
+<span class="source-line-no">428</span><span id="line-428">        result.append("                        \\bottomrule\n"</span>
+<span class="source-line-no">429</span><span id="line-429">                        + "                \\end{tabularx}\n"</span>
+<span class="source-line-no">430</span><span id="line-430">                        + "        \\end{adjustwidth}\n"</span>
+<span class="source-line-no">431</span><span id="line-431">                        + "");</span>
+<span class="source-line-no">432</span><span id="line-432">                result.append("\\end{table}");</span>
+<span class="source-line-no">433</span><span id="line-433">                return(result.toString());</span>
+<span class="source-line-no">434</span><span id="line-434">                }</span>
+<span class="source-line-no">435</span><span id="line-435"></span>
+<span class="source-line-no">436</span><span id="line-436"></span>
+<span class="source-line-no">437</span><span id="line-437">        /**Generate the temperature sag model results table for 7 places, 10 years, in (X)HTML5; non-null.</span>
+<span class="source-line-no">438</span><span id="line-438">         * Attempts to remain at least slightly human readable.</span>
+<span class="source-line-no">439</span><span id="line-439">         * &lt;p&gt;</span>
+<span class="source-line-no">440</span><span id="line-440">         * The table class at least should be fixed up manually.</span>
+<span class="source-line-no">441</span><span id="line-441">         *</span>
+<span class="source-line-no">442</span><span id="line-442">         * @return HTML table for sag data; non-null, non-empty</span>
+<span class="source-line-no">443</span><span id="line-443">         * @throws IOException in case of missing or corrupt temperature data</span>
+<span class="source-line-no">444</span><span id="line-444">         */</span>
+<span class="source-line-no">445</span><span id="line-445">        public static String generateHTMLSagTable() throws IOException</span>
+<span class="source-line-no">446</span><span id="line-446">                {</span>
+<span class="source-line-no">447</span><span id="line-447">                // Vertically split as location, ABAB sag, AABB sag.</span>
+<span class="source-line-no">448</span><span id="line-448">                // Each by bungalow/detached.</span>
+<span class="source-line-no">449</span><span id="line-449">                final StringBuilder result = new StringBuilder();</span>
+<span class="source-line-no">450</span><span id="line-450">                result.append("&lt;table style=\"border:1px solid\" class=\"yourTableStyle\"&gt;\n");</span>
+<span class="source-line-no">451</span><span id="line-451">                result.append(String.format("""</span>
+<span class="source-line-no">452</span><span id="line-452">                        &lt;caption&gt;\</span>
+<span class="source-line-no">453</span><span id="line-453">                        Soft mode: summary of maximum A-room temperature sag with selected-room setback of\s\</span>
+<span class="source-line-no">454</span><span id="line-454">                        (1) soft temperature regulation in A rooms\s\</span>
+<span class="source-line-no">455</span><span id="line-455">                        (2) maximum (ie worst-case) temperature dip in high ABAB and low AABB internal loss room setback arrangements\s\</span>
+<span class="source-line-no">456</span><span id="line-456">                        (4) for 1- and 2- storey (bungalow and detached) archetypes, \s\</span>
+<span class="source-line-no">457</span><span id="line-457">                        for %d UK locations.\s\</span>
+<span class="source-line-no">458</span><span id="line-458">                        Based on hourly temperature data for the ten years 201X.\s\</span>
+<span class="source-line-no">459</span><span id="line-459">                        When B rooms are set back with soft-mode regulation overall home heat demand and heat-pump does fall,\s\</span>
+<span class="source-line-no">460</span><span id="line-460">                        and the maximum temperature sag in A rooms is shown.\</span>
+<span class="source-line-no">461</span><span id="line-461">                        &lt;/caption&gt;</span>
+<span class="source-line-no">462</span><span id="line-462">                        """,</span>
+<span class="source-line-no">463</span><span id="line-463">                                DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET.size()));</span>
+<span class="source-line-no">464</span><span id="line-464">                result.append("""</span>
+<span class="source-line-no">465</span><span id="line-465">                        &lt;thead&gt;&lt;tr&gt;\</span>
+<span class="source-line-no">466</span><span id="line-466">                        &lt;th&gt;Location (Weather Station)&lt;/th&gt;&lt;th&gt;Archetype&lt;/th&gt;\</span>
+<span class="source-line-no">467</span><span id="line-467">                        &lt;th&gt;ABAB worst-case sag&lt;/th&gt;\</span>
+<span class="source-line-no">468</span><span id="line-468">                        &lt;th&gt;AABB worst-case sag&lt;/th&gt;\</span>
+<span class="source-line-no">469</span><span id="line-469">                        &lt;/tr&gt;&lt;/thead&gt;</span>
+<span class="source-line-no">470</span><span id="line-470">                        """);</span>
+<span class="source-line-no">471</span><span id="line-471"></span>
+<span class="source-line-no">472</span><span id="line-472">                result.append("&lt;tbody&gt;\n");</span>
+<span class="source-line-no">473</span><span id="line-473">                for(final HourlyTemperatureDataDescriptor htdd : DDNTemperatureDataCSV.DESCRIPTORS_201X_DATASET)</span>
+<span class="source-line-no">474</span><span id="line-474">                        {</span>
+<span class="source-line-no">475</span><span id="line-475">                // Load temperature data for this station.</span>
+<span class="source-line-no">476</span><span id="line-476">                        final DDNTemperatureDataCSV temperatures201X =</span>
+<span class="source-line-no">477</span><span id="line-477">                                DDNTemperatureDataCSV.loadDDNTemperatureDataCSV(new File(DDNTemperatureDataCSV.PATH_TO_201X_TEMPERATURE_DATA,</span>
+<span class="source-line-no">478</span><span id="line-478">                                        htdd.station() + DDNTemperatureDataCSV.FILE_TAIL_FOR_201X_TEMPERATURE_FILE));</span>
+<span class="source-line-no">479</span><span id="line-479">                if(DDNTemperatureDataCSV.RECORD_COUNT_201X_TEMPERATURE_DATA != temperatures201X.data().size())</span>
+<span class="source-line-no">480</span><span id="line-480">                        { throw new IOException("bad record count"); }</span>
+<span class="source-line-no">481</span><span id="line-481">                        for(final boolean detached : new boolean[]{false, true})</span>
+<span class="source-line-no">482</span><span id="line-482">                                {</span>
+<span class="source-line-no">483</span><span id="line-483">                                result.append("&lt;tr&gt;");</span>
+<span class="source-line-no">484</span><span id="line-484">                                if(!detached)</span>
+<span class="source-line-no">485</span><span id="line-485">                                { result.append(String.format("&lt;td rowspan=\"2\"&gt;%s (%s)&lt;/td&gt;", htdd.conurbation(), htdd.station())); }</span>
+<span class="source-line-no">486</span><span id="line-486"></span>
+<span class="source-line-no">487</span><span id="line-487">                        final String archetype = detached ? "detached" : "bungalow";</span>
+<span class="source-line-no">488</span><span id="line-488">                        result.append(String.format("&lt;td&gt;%s&lt;/td&gt;", archetype));</span>
+<span class="source-line-no">489</span><span id="line-489">                                for(final boolean abab : new boolean[]{true, false})</span>
+<span class="source-line-no">490</span><span id="line-490">                                        {</span>
+<span class="source-line-no">491</span><span id="line-491">                                final String layout = abab ? "ABAB" : "AABB";</span>
+<span class="source-line-no">492</span><span id="line-492">                                final HGTRVHPMModelParameterised.ModelParameters modelParameters = new HGTRVHPMModelParameterised.ModelParameters(</span>
+<span class="source-line-no">493</span><span id="line-493">                                                        ModelParameters.FIXED_DOORS_PER_INTERNAL_WALL,</span>
+<span class="source-line-no">494</span><span id="line-494">                                                        ModelParameters.FIXED_CORRECT_COP_FOR_FLOW_TEMPERATURE,</span>
+<span class="source-line-no">495</span><span id="line-495">                                                        abab,</span>
+<span class="source-line-no">496</span><span id="line-496">                                                        ModelParameters.DEFAULT_EXTERNAL_AIR_TEMPERATURE_C);</span>
+<span class="source-line-no">497</span><span id="line-497">                                        final HGTRVHPMModelByHour scenario201X = new HGTRVHPMModelByHour(</span>
+<span class="source-line-no">498</span><span id="line-498">                                        modelParameters,</span>
+<span class="source-line-no">499</span><span id="line-499">                                        temperatures201X);</span>
+<span class="source-line-no">500</span><span id="line-500">                                        final double equilibriumTemperatureMin[] = new double[1];</span>
+<span class="source-line-no">501</span><span id="line-501">                                final ScenarioResult result201X = scenario201X.runScenario(detached, true, equilibriumTemperatureMin);</span>
+<span class="source-line-no">502</span><span id="line-502">                                final double sag = HGTRVHPMModel.NORMAL_ROOM_TEMPERATURE_C - equilibriumTemperatureMin[0];</span>
+<span class="source-line-no">503</span><span id="line-503">                                result.append(String.format("&lt;td style=\"text-align:right\"&gt;%.1fK&lt;/td&gt;", sag));</span>
+<span class="source-line-no">504</span><span id="line-504">                                        }</span>
+<span class="source-line-no">505</span><span id="line-505">                                result.append("&lt;/tr&gt;\n");</span>
+<span class="source-line-no">506</span><span id="line-506">                                }</span>
+<span class="source-line-no">507</span><span id="line-507">                        }</span>
+<span class="source-line-no">508</span><span id="line-508">                result.append("&lt;/tbody&gt;\n");</span>
+<span class="source-line-no">509</span><span id="line-509">                result.append("&lt;/table&gt;");</span>
+<span class="source-line-no">510</span><span id="line-510">                return(result.toString());</span>
+<span class="source-line-no">511</span><span id="line-511">                }</span>
+<span class="source-line-no">512</span><span id="line-512">        }</span>
 
 
 

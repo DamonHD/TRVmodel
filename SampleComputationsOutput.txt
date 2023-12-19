@@ -1,5 +1,5 @@
 Show HG TRV/HP model computations.
-Date/time: Sun Dec 03 15:45:14 GMT 2023
+Date/time: Tue Dec 19 12:34:54 GMT 2023
 
 Hardwired model, electricity demand normal / setback: 769W / 815W
 Parameterised model, all default parameters, electricity demand normal / setback: 769W / 815W

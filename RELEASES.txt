@@ -31,6 +31,16 @@ PENDING:
 SIGNIFICANT RELEASES (newest first)
 ===================================
 
+20231219:
+    freezepoint name: V1.0.0
+    branch name: HEAD
+    Deployed where: possible release with paper
+    Changes since last freezepoint (developer/mgr initials and brief description):
+    Previous significant freezepoint: V0.9.7
+    DHD20231219: updated javadoc.
+    DHD20231219: updated SampleComputationsOutput.txt.
+
+
 20231213:
     freezepoint name: V0.9.7
     branch name: HEAD

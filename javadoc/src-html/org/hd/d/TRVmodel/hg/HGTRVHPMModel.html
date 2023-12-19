@@ -29,33 +29,33 @@
 <span class="source-line-no">016</span><span id="line-16"> * &lt;p&gt;</span>
 <span class="source-line-no">017</span><span id="line-17"> * In this model there are 4 rooms in house in a square in the pattern:</span>
 <span class="source-line-no">018</span><span id="line-18"> * &lt;table border="1"&gt;</span>
-<span class="source-line-no">019</span><span id="line-19"> * &lt;tr&gt;&lt;td&gt;A&lt;/td&gt;&lt;td&gt;B&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="source-line-no">020</span><span id="line-20"> * &lt;tr&gt;&lt;td&gt;B&lt;/td&gt;&lt;td&gt;A&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="source-line-no">021</span><span id="line-21"> * &lt;/table&gt;</span>
-<span class="source-line-no">022</span><span id="line-22"> * &lt;p&gt;</span>
-<span class="source-line-no">023</span><span id="line-23"> * Where the &lt;em&gt;A&lt;/em&gt; rooms are kept at the 'normal' 21&amp;deg;C living temperature,</span>
-<span class="source-line-no">024</span><span id="line-24"> * and the &lt;em&gt;B&lt;/em&gt; rooms are kept at the same temperature as A or at a lower 18&amp;deg;C setback.</span>
-<span class="source-line-no">025</span><span id="line-25"> * These temperatures (especially those in the B rooms) are regulated by TRVs</span>
-<span class="source-line-no">026</span><span id="line-26"> * controlling the radiator heat emitters in each room.</span>
-<span class="source-line-no">027</span><span id="line-27"> * &lt;p&gt;</span>
-<span class="source-line-no">028</span><span id="line-28"> * (Note that this arrangement maximises internal heat transfers between rooms</span>
-<span class="source-line-no">029</span><span id="line-29"> * when Bs are at setback temperature.</span>
-<span class="source-line-no">030</span><span id="line-30"> * Swap any horizontal or vertical pair to minimise instead.)</span>
-<span class="source-line-no">031</span><span id="line-31"> * &lt;p&gt;</span>
-<span class="source-line-no">032</span><span id="line-32"> * The rooms can be considered to be in a horizontal plane,</span>
-<span class="source-line-no">033</span><span id="line-33"> * with the area outside the rooms being at exterior temperature.</span>
-<span class="source-line-no">034</span><span id="line-34"> * &lt;p&gt;</span>
-<span class="source-line-no">035</span><span id="line-35"> * The external walls are of different construction to</span>
-<span class="source-line-no">036</span><span id="line-36"> * the internal walls between the A and B rooms.</span>
-<span class="source-line-no">037</span><span id="line-37"> * Heat flow through internal walls is modelled.</span>
-<span class="source-line-no">038</span><span id="line-38"> * &lt;p&gt;</span>
-<span class="source-line-no">039</span><span id="line-39"> * Heat loss through ceilings and floors and all other routes is ignored.</span>
-<span class="source-line-no">040</span><span id="line-40"> * &lt;p&gt;</span>
-<span class="source-line-no">041</span><span id="line-41"> * This model looks to the total input electric energy input demand</span>
-<span class="source-line-no">042</span><span id="line-42"> * to a heat pump to maintain the specified steady state,</span>
-<span class="source-line-no">043</span><span id="line-43"> * taking into account implied flow water temperatures</span>
-<span class="source-line-no">044</span><span id="line-44"> * and the heat-pump CoP to reach those flow temperatures.</span>
-<span class="source-line-no">045</span><span id="line-45"> * &lt;p&gt;</span>
+<span class="source-line-no">019</span><span id="line-19"> * &lt;caption&gt;Room layout.&lt;/caption&gt;</span>
+<span class="source-line-no">020</span><span id="line-20"> * &lt;tr&gt;&lt;td&gt;A&lt;/td&gt;&lt;td&gt;B&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="source-line-no">021</span><span id="line-21"> * &lt;tr&gt;&lt;td&gt;B&lt;/td&gt;&lt;td&gt;A&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="source-line-no">022</span><span id="line-22"> * &lt;/table&gt;</span>
+<span class="source-line-no">023</span><span id="line-23"> * &lt;p&gt;</span>
+<span class="source-line-no">024</span><span id="line-24"> * Where the &lt;em&gt;A&lt;/em&gt; rooms are kept at the 'normal' 21&amp;deg;C living temperature,</span>
+<span class="source-line-no">025</span><span id="line-25"> * and the &lt;em&gt;B&lt;/em&gt; rooms are kept at the same temperature as A or at a lower 18&amp;deg;C setback.</span>
+<span class="source-line-no">026</span><span id="line-26"> * These temperatures (especially those in the B rooms) are regulated by TRVs</span>
+<span class="source-line-no">027</span><span id="line-27"> * controlling the radiator heat emitters in each room.</span>
+<span class="source-line-no">028</span><span id="line-28"> * &lt;p&gt;</span>
+<span class="source-line-no">029</span><span id="line-29"> * (Note that this arrangement maximises internal heat transfers between rooms</span>
+<span class="source-line-no">030</span><span id="line-30"> * when Bs are at setback temperature.</span>
+<span class="source-line-no">031</span><span id="line-31"> * Swap any horizontal or vertical pair to minimise instead.)</span>
+<span class="source-line-no">032</span><span id="line-32"> * &lt;p&gt;</span>
+<span class="source-line-no">033</span><span id="line-33"> * The rooms can be considered to be in a horizontal plane,</span>
+<span class="source-line-no">034</span><span id="line-34"> * with the area outside the rooms being at exterior temperature.</span>
+<span class="source-line-no">035</span><span id="line-35"> * &lt;p&gt;</span>
+<span class="source-line-no">036</span><span id="line-36"> * The external walls are of different construction to</span>
+<span class="source-line-no">037</span><span id="line-37"> * the internal walls between the A and B rooms.</span>
+<span class="source-line-no">038</span><span id="line-38"> * Heat flow through internal walls is modelled.</span>
+<span class="source-line-no">039</span><span id="line-39"> * &lt;p&gt;</span>
+<span class="source-line-no">040</span><span id="line-40"> * Heat loss through ceilings and floors and all other routes is ignored.</span>
+<span class="source-line-no">041</span><span id="line-41"> * &lt;p&gt;</span>
+<span class="source-line-no">042</span><span id="line-42"> * This model looks to the total input electric energy input demand</span>
+<span class="source-line-no">043</span><span id="line-43"> * to a heat pump to maintain the specified steady state,</span>
+<span class="source-line-no">044</span><span id="line-44"> * taking into account implied flow water temperatures</span>
+<span class="source-line-no">045</span><span id="line-45"> * and the heat-pump CoP to reach those flow temperatures.</span>
 <span class="source-line-no">046</span><span id="line-46"> * &lt;blockquote&gt;</span>
 <span class="source-line-no">047</span><span id="line-47"> * To keep the maths simple, each room has a 500 W heat loss at design outside temperature of -3&amp;deg;C or 2 kW in total with a room temperature of 21&amp;deg;C. They are also each fitted with a mean water-to-air temperature DT25 [MW-AT DT25] radiator, meaning that each radiator will output 500 W, when its average surface temperature is 25&amp;deg;C above the room temperature.</span>
 <span class="source-line-no">048</span><span id="line-48"> * &lt;/blockquote&gt;</span>
