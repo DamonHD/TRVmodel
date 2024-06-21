@@ -4,7 +4,9 @@ TRV energy modelling in home heating.
 
 [![DOI](https://zenodo.org/badge/653210925.svg)](https://zenodo.org/doi/10.5281/zenodo.10116280)
 
-Work in progress!
+[Also DOI:10.15126/900901](https://doi.org/10.15126/900901)
+
+[Used for paper DOI:10.3390/su16114710 "To Zone or Not to Zone When Upgrading a Wet Heating System from Gas to Heat Pump for Maximum Climate Impact: A {UK} View"](https://www.mdpi.com/2071-1050/16/11/4710)
 
 
 ## Abstract

@@ -16,7 +16,8 @@ SIGNIFICANT CHANGES SINCE LAST RELEASE
 
 PENDING:
 
-   
+    DHD20240621: Added BibTeX entries at top level.
+    DHD20240621: Added links to official Surrey DOI for model, and to paper.   
 
 
 
