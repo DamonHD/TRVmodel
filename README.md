@@ -6,7 +6,7 @@ TRV energy modelling in home heating.
 
 [Also DOI:10.15126/900901](https://doi.org/10.15126/900901)
 
-[Used for paper DOI:10.3390/su16114710 "To Zone or Not to Zone When Upgrading a Wet Heating System from Gas to Heat Pump for Maximum Climate Impact: A UK View"](https://www.mdpi.com/2071-1050/16/11/4710)
+[Supporting MDPI Sustainability paper DOI:10.3390/su16114710 "To Zone or Not to Zone When Upgrading a Wet Heating System from Gas to Heat Pump for Maximum Climate Impact: A UK View"](https://www.mdpi.com/2071-1050/16/11/4710)
 
 
 ## Abstract
