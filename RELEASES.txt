@@ -16,8 +16,6 @@ SIGNIFICANT CHANGES SINCE LAST RELEASE
 
 PENDING:
 
-    DHD20240621: Added BibTeX entries at top level.
-    DHD20240621: Added links to official Surrey DOI for model, and to paper.   
 
 
 
@@ -31,6 +29,16 @@ PENDING:
 
 SIGNIFICANT RELEASES (newest first)
 ===================================
+
+20240621:
+    freezepoint name: V1.0.1
+    branch name: HEAD
+    Deployed where:
+    Changes since last freezepoint (developer/mgr initials and brief description):
+    Previous significant freezepoint: V1.0.1
+    DHD20240621: Added BibTeX entries at top level.
+    DHD20240621: Added links to official Surrey DOI for model, and to paper.   
+
 
 20231219:
     freezepoint name: V1.0.0
