@@ -16,6 +16,7 @@ SIGNIFICANT CHANGES SINCE LAST RELEASE
 
 PENDING:
 
+    DHD20260508: note: detached heat demand computation does not allow for higher heat loss from upstairs through the roof.
 
 
 

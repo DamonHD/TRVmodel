@@ -596,6 +596,7 @@ public final class HGTRVHPMModelParameterised
 //System.out.println(String.format("DHHLnsb = %.1f", DHHLnsb));
 
         // DradWnsb: pre-setback radiator output based on variable external air temperature (W).
+        // DHD20260508: does not allow for higher heat loss from upstairs through the roof.
 		final double DradWnsb = DHHLnsb / numRooms;
 //System.out.println(String.format("DradWnsb = %f", DradWnsb));
 
